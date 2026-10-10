@@ -1,12 +1,15 @@
 ---
 import Logo from './Logo.astro';
 import Arrow from './Arrow.astro';
-import { SITE, NAV, CONTACT_HREF } from '../data/site';
+import { SITE, NAV, CONTACT_HREF, whatsappHref } from '../data/site';
 
 const social = SITE.social.filter((s) => s.url);
 const year = new Date().getFullYear();
+// The floating WhatsApp button sits bottom right; leave room so it never
+// covers "Back to top" when scrolled to the very end.
+const hasWhatsApp = !!whatsappHref();
 ---
-<footer class="footer section-dark">
+<footer class:list={['footer section-dark', { 'footer--wa': hasWhatsApp }]}>
   <div class="footer__inner wrap">
     <div class="footer__brand">
       <Logo variant="mono" />
@@ -53,6 +56,8 @@ const year = new Date().getFullYear();
     margin-top: -1px;
     padding: clamp(20px, 4vh, 50px) 0 clamp(20px, 3vh, 32px);
   }
+  /* Button height (52px) + its offset from the edge + breathing room */
+  .footer--wa { padding-bottom: calc(52px + clamp(16px, 2vw, 28px) + 24px); }
   .footer__inner {
     display: grid;
     grid-template-columns: 2fr 1fr 1.3fr;
