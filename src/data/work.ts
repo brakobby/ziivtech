@@ -5,10 +5,10 @@ import workPage from '../cms/work.json';
 import home from '../cms/home.json';
 import { resolveImage } from './images';
 
-export type ProjectStatus = 'Company product' | 'Earlier product' | 'Client project' | 'Experience';
-export type ProjectCategory = 'client' | 'products' | 'earlier' | 'experience';
+export type ProjectStatus = 'Company product' | 'Client project' | 'Experience';
+export type ProjectCategory = 'client' | 'products' | 'experience';
 /** Built-in illustrations used when a project has no screenshots. */
-export type Illustration = 'none' | 'ziivos' | 'tradr' | 'schools' | 'corapos' | 'xbyt';
+export type Illustration = 'none' | 'ziivos' | 'tradr' | 'schools' | 'pos' | 'xbyt';
 
 export interface Project {
   slug: string;
@@ -102,7 +102,6 @@ export const WORK_FILTERS: { id: 'all' | ProjectCategory; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'client', label: 'Client work' },
   { id: 'products', label: 'Our products' },
-  { id: 'earlier', label: 'Earlier products' },
   { id: 'experience', label: 'Experience' },
 ];
 

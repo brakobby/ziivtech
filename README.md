@@ -85,4 +85,4 @@ src/
 - **Budget ranges.** The project brief's budget options (CMS: Contact, Step 3) are a starting point; adjust them to match ZIIV's pricing.
 - **Social links.** Add profile links in the CMS (Site settings). A link appears in the footer only once its URL is set.
 - **Contact form.** There is no backend yet. Submitting validates the form and opens the visitor's email app with the message pre-filled. To receive submissions directly, point the handler in `scripts/main.ts` (`initContactForm`) at a form service or API endpoint.
-- **Project visuals.** TRADR, CoraPOS and School systems use built-in illustrations because they have no screenshots. Upload real screenshots in the CMS when available.
+- **Project visuals.** TRADR and School systems use built-in illustrations because they have no screenshots. Upload real screenshots in the CMS when available.

@@ -323,7 +323,6 @@ export default config({
           options: [
             { label: 'Client project', value: 'Client project' },
             { label: 'Company product', value: 'Company product' },
-            { label: 'Earlier product', value: 'Earlier product' },
             { label: 'Experience', value: 'Experience' },
           ],
           defaultValue: 'Client project',
@@ -335,7 +334,6 @@ export default config({
           options: [
             { label: 'Client work', value: 'client' },
             { label: 'Our products', value: 'products' },
-            { label: 'Earlier products', value: 'earlier' },
             { label: 'Experience', value: 'experience' },
           ],
           defaultValue: 'client',
@@ -359,7 +357,7 @@ export default config({
             { label: 'Invoicing', value: 'ziivos' },
             { label: 'Marketplace network', value: 'tradr' },
             { label: 'School dashboard', value: 'schools' },
-            { label: 'Point of sale', value: 'corapos' },
+            { label: 'Point of sale', value: 'pos' },
             { label: 'Device store', value: 'xbyt' },
           ],
           defaultValue: 'none',
