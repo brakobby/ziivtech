@@ -1,0 +1,48 @@
+{
+  "name": "Crown Multimedia",
+  "order": 30,
+  "title": "Stories of Greater Accra, online",
+  "status": "Client project",
+  "statusNote": "Live",
+  "category": "client",
+  "featured": true,
+  "url": "https://www.crownmultimedia.co",
+  "page": "",
+  "illustration": "none",
+  "shots": {
+    "desktop": "/src/assets/work/crown-multimedia/shots/desktop.png",
+    "tall": "/src/assets/work/crown-multimedia/shots/tall.png",
+    "mobile": "/src/assets/work/crown-multimedia/shots/mobile.png"
+  },
+  "description": "A media production company and 24-hour radio station in Ashaiman, Greater Accra, with its services, portfolio and bookings in one place.",
+  "areas": [
+    "Media",
+    "Radio",
+    "Bookings"
+  ],
+  "summary": "Recording, filming, design and broadcast for Ashaiman and Greater Accra.",
+  "overview": [
+    "Crown Multimedia records, films, designs and broadcasts the stories of Ashaiman and Greater Accra, and runs Crown Radio Gh, live 24 hours a day.",
+    "Its site brings the company’s services, portfolio, radio and TV together, and lets visitors book a service or get in touch directly."
+  ],
+  "scope": [
+    {
+      "name": "Services",
+      "text": "Radio and TV production, music recording, event coverage, film, design and social media."
+    },
+    {
+      "name": "Live radio",
+      "text": "Crown Radio Gh, broadcasting 24 hours a day."
+    },
+    {
+      "name": "Portfolio",
+      "text": "A showcase of productions and events."
+    },
+    {
+      "name": "Bookings",
+      "text": "Book a service, or reach the team by phone, email or WhatsApp."
+    }
+  ],
+  "standing": "Live at crownmultimedia.co.",
+  "ownership": "A client project. Crown Multimedia owns its brand and content."
+}

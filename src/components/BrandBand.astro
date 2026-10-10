@@ -1,0 +1,81 @@
+---
+// Light interlude (the reference's centred title + wide image band).
+// The "image" is a field of ZIIV marks, so no stock photography is needed.
+import { SITE } from '../data/site';
+import ZField from './ZField.astro';
+
+// Split the meaning so the initials Z-I-I-V can be emphasised; hyphenated
+// words ("Zero-Interface") carry an initial in each part.
+const words = SITE.meaning.split(' ').map((word) =>
+  word.split(/(-)/).map((part) => (/^[A-Z]/.test(part) ? { initial: part[0], rest: part.slice(1) } : { initial: '', rest: part }))
+);
+---
+<section class="brand" aria-labelledby="brand-title">
+  <div class="brand__text wrap" data-reveal>
+    <span class="label">What ZIIV means</span>
+    <h2 class="brand__title" id="brand-title">
+      {words.map((parts) => (
+        <>
+          <span class="brand__word">
+            {parts.map((p) => (
+              <>
+                {p.initial && <span class="brand__initial">{p.initial}</span>}
+                {p.rest}
+              </>
+            ))}
+          </span>{' '}
+        </>
+      ))}
+    </h2>
+    <p class="brand__sub">Pronounced “{SITE.pronunciation}”. {SITE.tagline}</p>
+  </div>
+
+  <div class="brand__field" aria-hidden="true">
+    <ZField />
+  </div>
+</section>
+
+<style>
+  .brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(40px, 6vh, 80px);
+    padding: var(--section-y) 0 0;
+    background: var(--bg-muted);
+    color: var(--ink);
+    overflow: hidden;
+  }
+  .brand__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(14px, 2vh, 22px);
+    text-align: center;
+  }
+  .brand__text .label { color: var(--ink-soft); }
+  .brand__title {
+    max-width: 18ch;
+    color: var(--c-mid);
+    font-size: clamp(34px, 4.4vw, 76px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  .brand__word { white-space: nowrap; }
+  .brand__initial {
+    color: var(--c-deep);
+    font-weight: 700;
+  }
+  .brand__sub {
+    color: var(--ink-soft);
+    font-size: clamp(15px, 1.2vw, 19px);
+  }
+
+  .brand__field {
+    width: 100%;
+    aspect-ratio: 1920 / 560;
+    min-height: 260px;
+  }
+</style>

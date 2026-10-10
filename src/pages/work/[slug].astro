@@ -1,0 +1,268 @@
+---
+// Case study template, following the reference's project pages: wide hero
+// visual, kicker + title + tags + intro copy, then full-bleed content bands.
+// Copy comes from WORK.projects[].caseStudy in data/content.ts.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectMedia from '../../components/ProjectMedia.astro';
+import Button from '../../components/Button.astro';
+import GetInTouch from '../../components/GetInTouch.astro';
+import Arrow from '../../components/Arrow.astro';
+import { WORK, projectHref, type Project } from '../../data/content';
+
+// Projects with their own page (e.g. ZIIVOS) don't get a generic case study.
+export function getStaticPaths() {
+  const all = WORK.projects;
+  return all
+    .map((project, i) => ({ project, next: all[(i + 1) % all.length] }))
+    .filter(({ project }) => !project.page)
+    .map(({ project, next }) => ({ params: { slug: project.slug }, props: { project, next } }));
+}
+
+interface Props {
+  project: Project;
+  next: Project;
+}
+const { project: p, next } = Astro.props;
+const cs = p.caseStudy;
+---
+<BaseLayout title={p.name} description={cs.summary}>
+  <article class="cs">
+    <header class="cs__hero on-light">
+      <div class="cs__intro wrap">
+        <a class="cs__back" href="/work/" data-cursor="hover">
+          <Arrow class="cs__back-arrow" /> All work
+        </a>
+        <p class="label cs__kicker">Our work</p>
+        <h1 class="cs__title">{p.name}</h1>
+        <ul class="cs__tags" aria-label="Tags">
+          <li class:list={['cs__tag', { 'cs__tag--own': p.status === 'Company product' }]}>{p.status}</li>
+          {p.statusNote && <li class="cs__tag">{p.statusNote}</li>}
+        </ul>
+        <p class="cs__summary">{cs.summary}</p>
+        {p.url && (
+          <Button href={p.url} variant="dark" target="_blank" rel="noopener noreferrer" class="cs__visit">
+            Visit {new URL(p.url).hostname.replace(/^www\./, '')}
+            <span class="sr-only">(opens in a new tab)</span>
+          </Button>
+        )}
+      </div>
+      <figure class="cs__visual">
+        <ProjectMedia project={p} variant="showcase" sizes="(max-width: 768px) 92vw, 80vw" eager />
+        {!p.shots && <figcaption class="cs__caption">Illustration</figcaption>}
+      </figure>
+    </header>
+
+    <section class="cs__block wrap on-light" aria-labelledby="cs-overview">
+      <h2 class="label cs__label" id="cs-overview">Overview</h2>
+      <div class="cs__copy">
+        {cs.overview.map((para) => <p data-reveal>{para}</p>)}
+      </div>
+    </section>
+
+    <section class="cs__scope section-dark" aria-labelledby="cs-scope">
+      <div class="wrap">
+        <h2 class="cs__scope-title" id="cs-scope" data-reveal>What it covers</h2>
+        <ol class="cs__scope-list">
+          {cs.scope.map((s, i) => (
+            <li class="cs__scope-item" data-reveal style={`--reveal-delay: ${i * 0.07}s`}>
+              <span class="cs__scope-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="cs__scope-name">{s.name}</h3>
+              <p class="cs__scope-text">{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="cs__block wrap on-light" aria-labelledby="cs-standing">
+      <h2 class="label cs__label" id="cs-standing">Where it stands</h2>
+      <div class="cs__copy">
+        <p data-reveal>{cs.standing}</p>
+        <p class="cs__ownership" data-reveal>{cs.ownership}</p>
+      </div>
+    </section>
+
+    <nav class="cs__next on-light" aria-label="Next project">
+      <a class="cs__next-link wrap" href={projectHref(next)} data-cursor="pill" data-cursor-label="Next">
+        <span class="label cs__label">Next project</span>
+        <span class="cs__next-name">
+          {next.name}
+          <Arrow class="cs__next-arrow" />
+        </span>
+        <span class="cs__next-title">{next.title}</span>
+      </a>
+    </nav>
+  </article>
+  <GetInTouch />
+</BaseLayout>
+
+<style>
+  .cs__hero {
+    padding-top: calc(var(--header-h) + clamp(30px, 6vh, 70px));
+    background: var(--bg-light);
+  }
+  .cs__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(12px, 1.6vh, 18px);
+    padding-bottom: clamp(36px, 6vh, 70px);
+  }
+  .cs__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: clamp(10px, 2vh, 24px);
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .cs__back:hover { color: var(--ink); }
+  :global(.cs__back-arrow) { transform: rotate(180deg) !important; }
+  .cs__kicker { color: var(--ink-soft); }
+  .cs__title {
+    font-size: clamp(44px, 7vw, 120px);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+  .cs__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cs__tag {
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--bg-muted);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .cs__tag--own { background: var(--c-pale); }
+  :global(.cs__visit) { margin-top: 12px; }
+  .cs__summary {
+    max-width: 40ch;
+    color: var(--ink-soft);
+    font-size: clamp(18px, 1.6vw, 26px);
+    line-height: 1.4;
+  }
+
+  .cs__visual {
+    position: relative;
+    width: min(1800px, 100% - 2 * clamp(16px, 2.5vw, 48px));
+    margin: 0 auto;
+    aspect-ratio: 16 / 8;
+    max-height: 78vh;
+    overflow: hidden;
+    border-radius: var(--radius-media);
+  }
+  .cs__caption {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(5, 31, 32, 0.72);
+    color: var(--c-pale);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .cs__block {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: clamp(20px, 4vw, 80px);
+    padding: clamp(70px, 12vh, 150px) 0;
+  }
+  .cs__label { color: var(--ink-soft); padding-top: 0.6em; }
+  .cs__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1em;
+    max-width: 46ch;
+    font-size: clamp(19px, 1.75vw, 30px);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+  }
+  .cs__ownership {
+    color: var(--ink-soft);
+    font-size: clamp(15px, 1.2vw, 19px);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .cs__scope { padding: clamp(80px, 13vh, 160px) 0; }
+  .cs__scope-title {
+    margin-bottom: clamp(40px, 7vh, 80px);
+    font-size: var(--fs-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .cs__scope-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(24px, 3vw, 48px);
+  }
+  .cs__scope-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule-dark);
+  }
+  .cs__scope-num {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--c-soft);
+    font-size: clamp(40px, 4vw, 64px);
+    font-weight: 500;
+    line-height: 1;
+  }
+  .cs__scope-name {
+    margin-top: 6px;
+    font-size: clamp(19px, 1.6vw, 26px);
+    font-weight: 500;
+  }
+  .cs__scope-text {
+    color: var(--on-dark-soft);
+    font-size: clamp(14px, 1.05vw, 17px);
+    font-weight: 300;
+  }
+
+  .cs__next { border-top: 1px solid rgba(5, 31, 32, 0.15); }
+  .cs__next-link {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: clamp(60px, 10vh, 120px) 0;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .cs__next-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-size: clamp(40px, 6vw, 100px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  :global(.cs__next-arrow) {
+    width: 0.5em;
+    height: 0.5em;
+    transition: transform 0.4s var(--ease-out);
+  }
+  .cs__next-link:hover .cs__next-name { color: var(--c-mid); }
+  .cs__next-link:hover :global(.cs__next-arrow) { transform: translateX(0.15em) !important; }
+  .cs__next-title { color: var(--ink-soft); }
+
+  @media (max-width: 768px) {
+    .cs__block { grid-template-columns: 1fr; }
+    .cs__visual { aspect-ratio: 4 / 3; }
+  }
+</style>

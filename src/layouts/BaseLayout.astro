@@ -1,0 +1,87 @@
+---
+// Shared shell for every page: <head>, intro, cursor, header, page
+// transition, footer and the client script.
+import '@fontsource-variable/montserrat/wght.css';
+import '@fontsource-variable/montserrat/wght-italic.css';
+import '../styles/global.css';
+
+import Preloader from '../components/Preloader.astro';
+import Cursor from '../components/Cursor.astro';
+import Header from '../components/Header.astro';
+import PageTransition from '../components/PageTransition.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+  /** Page name; omitted on the home page, which uses the tagline instead. */
+  title?: string;
+  description?: string;
+}
+const { title, description = SITE.description } = Astro.props;
+
+const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} | ${SITE.tagline.replace(/\.$/, '')}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#051F20" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta name="twitter:card" content="summary" />
+    <script is:inline>
+      // Runs before first paint: flags JS for progressive enhancements, plays
+      // the intro once per session, and covers the page if we arrived via a
+      // page transition (the curtain then lifts on a CSS timer). Reduced-motion
+      // users get neither animation.
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        try {
+          if (sessionStorage.getItem('ziiv-transition')) {
+            sessionStorage.removeItem('ziiv-transition');
+            d.classList.add('is-entering');
+          } else if (!sessionStorage.getItem('ziiv-intro')) {
+            d.classList.add('show-preloader');
+          }
+          sessionStorage.setItem('ziiv-intro', '1');
+        } catch (e) {}
+      })();
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: SITE.name,
+      url: SITE.url,
+      slogan: SITE.tagline,
+      description: SITE.description,
+      email: SITE.email,
+    })} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Preloader />
+    <PageTransition />
+    <Cursor />
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppButton />
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

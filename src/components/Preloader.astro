@@ -1,0 +1,65 @@
+---
+// Brief brand intro: the ZIIV mark fills from the base, a pale wash expands,
+// then the overlay fades. Pure CSS so it can never block the page; shown
+// once per session and skipped for reduced-motion users (see BaseHead script).
+import { MARK_PARTS, MARK_TRANSFORM } from '../data/brand';
+---
+<div class="preloader" aria-hidden="true">
+  <svg class="preloader__mark" viewBox="0 0 100 100">
+    <defs>
+      <clipPath id="preloader-clip">
+        <rect class="preloader__level" x="0" y="0" width="100" height="100" />
+      </clipPath>
+    </defs>
+    <g class="preloader__ghost">
+      <g transform={MARK_TRANSFORM}>{MARK_PARTS.map((part) => <path d={part.d} />)}</g>
+    </g>
+    <g class="preloader__fill" clip-path="url(#preloader-clip)">
+      <g transform={MARK_TRANSFORM}>{MARK_PARTS.map((part) => <path d={part.d} />)}</g>
+    </g>
+  </svg>
+  <span class="preloader__wash"></span>
+</div>
+
+<style>
+  .preloader {
+    display: none;
+  }
+  :global(html.show-preloader) .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: var(--c-deep);
+    animation: preloader-out 0.6s var(--ease-out) 1.75s forwards;
+  }
+  .preloader__mark {
+    width: min(220px, 42vw);
+    height: auto;
+  }
+  .preloader__ghost { fill: rgba(218, 241, 222, 0.14); }
+  .preloader__fill { fill: var(--c-pale); }
+  .preloader__level {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    transform: scaleY(0);
+    animation: preloader-fill 1.15s cubic-bezier(0.65, 0, 0.35, 1) 0.15s forwards;
+  }
+  .preloader__wash {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 160vmax;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--c-white);
+    transform: translate(-50%, -50%) scale(0);
+    animation: preloader-wash 0.75s var(--ease-out) 1.3s forwards;
+  }
+
+  @keyframes preloader-fill { to { transform: scaleY(1); } }
+  @keyframes preloader-wash { to { transform: translate(-50%, -50%) scale(1); } }
+  @keyframes preloader-out { to { opacity: 0; visibility: hidden; } }
+</style>

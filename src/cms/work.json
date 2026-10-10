@@ -1,0 +1,26 @@
+{
+  "intro": {
+    "label": "Our work",
+    "title": "Explore the products and projects behind ZIIV."
+  },
+  "ecosystem": {
+    "label": "The ZIIV ecosystem",
+    "title": "Our own products, built deliberately.",
+    "intro": "Alongside client work, we build products of our own. Here is where each one stands.",
+    "products": [
+      {
+        "name": "ZIIVOS",
+        "what": "Business management: invoicing, payments, customers and AI insights.",
+        "status": "Our product",
+        "note": "Desktop and mobile"
+      },
+      {
+        "name": "CoraPOS",
+        "what": "Point-of-sale and inventory management.",
+        "status": "Earlier product",
+        "note": "Foundation for future tools"
+      }
+    ],
+    "footnote": "Client projects, including wiremee, XBYT, Crown Multimedia and TRADR, belong to their owners."
+  }
+}

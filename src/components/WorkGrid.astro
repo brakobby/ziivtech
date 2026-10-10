@@ -1,0 +1,98 @@
+---
+// Portfolio grid from the reference's Work page: large rounded cards, the
+// first visible card spanning the full width. Kept deliberately quiet: one
+// status pill, the project name and a single line of context.
+// Filtering (scripts/main.ts) hides cards whose category doesn't match.
+import ProjectMedia from './ProjectMedia.astro';
+import { WORK, projectHref } from '../data/content';
+---
+<section class="grid-work on-light" aria-label="Projects">
+  <ul class="grid-work__list wrap" data-filter-list>
+    {WORK.projects.map((p, i) => (
+      <li class:list={['card', { 'is-featured': i === 0 }]} data-category={p.category} data-reveal>
+        <a class="card__link" href={projectHref(p)} data-cursor="pill" data-cursor-label="View case">
+          <div class="card__media">
+            <ProjectMedia project={p} sizes={i === 0 ? '(max-width: 768px) 92vw, 85vw' : '(max-width: 768px) 92vw, 42vw'} />
+          </div>
+          <div class="card__text">
+            <div class="card__head">
+              <h2 class="card__name">{p.name}</h2>
+              <span class:list={['card__tag', { 'card__tag--own': p.status === 'Company product' }]}>{p.status}</span>
+            </div>
+            <p class="card__title">{p.title}</p>
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .grid-work {
+    padding: clamp(20px, 4vh, 40px) 0 clamp(90px, 14vh, 170px);
+    background: var(--bg-light);
+  }
+  .grid-work__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(56px, 8vh, 100px) clamp(20px, 2.4vw, 36px);
+  }
+  .card.is-featured { grid-column: 1 / -1; }
+  .card[hidden] { display: none; }
+  .card__link {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 2.4vh, 26px);
+    color: inherit;
+    text-decoration: none;
+    border-radius: var(--radius-media);
+  }
+  .card__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-media);
+  }
+  .card.is-featured .card__media { aspect-ratio: 16 / 7.5; }
+  .card__media :global(.pm__desktop),
+  .card__media :global(.visual) { transition: transform 1s var(--ease-out); }
+  .card__link:hover .card__media :global(.pm__desktop),
+  .card__link:focus-visible .card__media :global(.pm__desktop) { transform: translateY(-2%); }
+  .card__link:hover .card__media :global(.visual),
+  .card__link:focus-visible .card__media :global(.visual) { transform: scale(1.03); }
+
+  .card__text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .card__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+  }
+  .card__name {
+    font-size: clamp(22px, 2vw, 32px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .card__tag {
+    padding: 5px 12px;
+    border: 1px solid rgba(5, 31, 32, 0.2);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .card__tag--own { background: var(--c-pale); border-color: var(--c-pale); color: var(--c-deep); }
+  .card__title {
+    color: var(--ink-soft);
+    font-size: clamp(15px, 1.15vw, 18px);
+  }
+
+  @media (max-width: 768px) {
+    .grid-work__list { grid-template-columns: 1fr; }
+    .card.is-featured .card__media { aspect-ratio: 4 / 3; }
+  }
+</style>

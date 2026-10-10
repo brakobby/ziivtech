@@ -1,0 +1,110 @@
+---
+// The reference's values block: copy on the left, a loose cloud of outlined
+// pills on the right that invert on hover. Pills are decorative words, not
+// controls, so they are plain list items.
+import { VALUES } from '../data/content';
+
+// Hand-placed positions (percent of the cloud box) for an organic scatter.
+const spots: [number, number][] = [
+  [6, 4], [44, 12], [0, 34], [40, 42], [8, 64], [50, 70], [20, 92], [54, 98],
+];
+---
+<section class="values section-dark" aria-labelledby="values-title">
+  <div class="values__inner wrap">
+    <div class="values__text" data-reveal>
+      <p class="label">{VALUES.label}</p>
+      <h2 class="values__title" id="values-title">{VALUES.title}</h2>
+      <p class="values__copy">{VALUES.text}</p>
+    </div>
+    <ul class="values__cloud">
+      {VALUES.items.map((v, i) => (
+        <li class="value" style={`--x: ${spots[i % spots.length][0]}%; --y: ${spots[i % spots.length][1]}%; --d: ${i * 0.07}s`} data-reveal>
+          {v}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .values {
+    margin-top: -1px;
+    padding: var(--section-y) 0;
+  }
+  .values__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(30px, 4vw, 60px);
+  }
+  .values__text {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 1.5vh, 16px);
+    max-width: clamp(420px, 40vw, 680px);
+  }
+  .values__title {
+    margin-bottom: clamp(10px, 2vh, 24px);
+    color: var(--c-soft);
+    font-size: clamp(34px, 4vw, 68px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.06;
+  }
+  .values__copy {
+    color: var(--on-dark-soft);
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.75;
+  }
+
+  .values__cloud {
+    position: relative;
+    flex: 0 0 min(46%, 640px);
+    height: clamp(300px, 34vh, 380px);
+  }
+  .value {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    display: flex;
+    align-items: center;
+    height: clamp(48px, 5.5vh, 64px);
+    padding: 0 clamp(16px, 1.8vw, 24px);
+    border: 1px solid var(--c-pale);
+    border-radius: 50px;
+    background: var(--c-deep);
+    color: var(--c-white);
+    font-size: clamp(15px, 1.35vw, 20px);
+    font-weight: 500;
+    white-space: nowrap;
+    transform: translateY(-50%);
+    transition: background-color 0.3s, color 0.3s;
+    --reveal-delay: var(--d);
+  }
+  @media (hover: hover) {
+    .value:hover {
+      background: var(--c-pale);
+      color: var(--c-deep);
+    }
+  }
+  :global(.js) .value[data-reveal] { transform: translateY(calc(-50% + 20px)); }
+  :global(.js) .value[data-reveal].is-visible { transform: translateY(-50%); }
+
+  @media (max-width: 1024px) {
+    .values__inner { flex-direction: column; align-items: flex-start; }
+    .values__text { max-width: 100%; }
+    .values__cloud {
+      position: static;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      height: auto;
+    }
+    .value,
+    :global(.js) .value[data-reveal].is-visible {
+      position: static;
+      transform: none;
+    }
+    :global(.js) .value[data-reveal] { transform: translateY(16px); }
+  }
+</style>

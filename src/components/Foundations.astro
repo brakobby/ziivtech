@@ -1,0 +1,82 @@
+---
+// In place of the reference's "Digital Toolkit" (a list of named tools), ZIIV
+// lists the disciplines it works across, using the capabilities in the brief.
+// Named tools can be added to each row once the team confirms its stack.
+import { FOUNDATIONS } from '../data/content';
+
+const half = Math.ceil(FOUNDATIONS.rows.length / 2);
+const columns = [FOUNDATIONS.rows.slice(0, half), FOUNDATIONS.rows.slice(half)];
+---
+<section class="found on-light" aria-labelledby="found-title">
+  <div class="wrap">
+    <header class="found__head" data-reveal>
+      <p class="label found__label">{FOUNDATIONS.label}</p>
+      <h2 class="display" id="found-title">{FOUNDATIONS.title}</h2>
+      <p class="found__intro">{FOUNDATIONS.intro}</p>
+    </header>
+    <div class="found__cols">
+      {columns.map((col) => (
+        <dl class="found__col">
+          {col.map((row) => (
+            <div class="found__row" data-reveal>
+              <dt class="found__type">{row.type}</dt>
+              <dd class="found__text">{row.text}</dd>
+            </div>
+          ))}
+        </dl>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .found {
+    padding: var(--section-y) 0;
+    background: var(--bg-light);
+    color: var(--ink);
+  }
+  .found__head {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+    margin-bottom: clamp(40px, 7vh, 90px);
+  }
+  .found__head .display { max-width: 20ch; }
+  .found__label { color: var(--ink-soft); }
+  .found__intro {
+    max-width: 52ch;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+  .found__cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 clamp(30px, 5vw, 100px);
+  }
+  .found__col { margin: 0; }
+  .found__row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: clamp(20px, 3vh, 32px) 0;
+    border-top: 1px solid rgba(5, 31, 32, 0.15);
+  }
+  .found__type {
+    color: var(--ink-soft);
+    font-size: clamp(12px, 0.9vw, 14px);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .found__text {
+    margin: 0;
+    font-size: clamp(17px, 1.45vw, 24px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 768px) {
+    .found__cols { grid-template-columns: 1fr; }
+  }
+</style>

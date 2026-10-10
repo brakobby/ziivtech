@@ -1,0 +1,368 @@
+---
+// Contact page: a four-step project brief (needs, timeline, budget,
+// details). scripts/main.ts shows one step at a time; without JS every step
+// is visible as one long form. There is no backend yet: on submit the brief
+// opens the visitor's email app, pre-filled, addressed to SITE.email.
+// Replace that handler with a form service or API route when one is ready.
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { CONTACT } from '../data/content';
+import { SITE, whatsappHref } from '../data/site';
+
+const { needs, timeline, budget, details } = CONTACT.steps;
+const wa = whatsappHref();
+const TOTAL = 4;
+---
+<section class="cform on-light" aria-labelledby="page-title">
+  <div class="cform__inner wrap">
+    <header class="cform__head">
+      <h1 class="cform__title" id="page-title">{CONTACT.title}</h1>
+      <p class="cform__intro">{CONTACT.intro}</p>
+    </header>
+
+    <div class="cform__layout">
+      <form class="wiz" data-contact-form data-wizard data-email={SITE.email} novalidate>
+        <div class="wiz__progress" aria-hidden="true">
+          <span class="wiz__count">Step <span data-step-now>1</span> of {TOTAL}</span>
+          <span class="wiz__bar"><span class="wiz__fill" data-step-fill></span></span>
+        </div>
+        <p class="sr-only" role="status" data-step-status></p>
+
+        <fieldset class="wiz__step" data-step="1">
+          <legend class="wiz__legend" tabindex="-1">{needs.legend}</legend>
+          <p class="wiz__hint">{needs.hint}</p>
+          <div class="chips">
+            {needs.options.map((o) => (
+              <label class="chip">
+                <input type="checkbox" name="needs" value={o} class="chip__input" />
+                <span class="chip__label">{o}</span>
+              </label>
+            ))}
+          </div>
+          <p class="wiz__error" data-step-error aria-live="polite"></p>
+        </fieldset>
+
+        <fieldset class="wiz__step" data-step="2">
+          <legend class="wiz__legend" tabindex="-1">{timeline.legend}</legend>
+          <div class="chips">
+            {timeline.options.map((o) => (
+              <label class="chip">
+                <input type="radio" name="timeline" value={o} class="chip__input" />
+                <span class="chip__label">{o}</span>
+              </label>
+            ))}
+          </div>
+          <p class="wiz__error" data-step-error aria-live="polite"></p>
+        </fieldset>
+
+        <fieldset class="wiz__step" data-step="3">
+          <legend class="wiz__legend" tabindex="-1">{budget.legend}</legend>
+          <p class="wiz__hint">{budget.hint}</p>
+          <div class="chips">
+            {budget.options.map((o) => (
+              <label class="chip">
+                <input type="radio" name="budget" value={o} class="chip__input" />
+                <span class="chip__label">{o}</span>
+              </label>
+            ))}
+          </div>
+          <p class="wiz__error" data-step-error aria-live="polite"></p>
+        </fieldset>
+
+        <fieldset class="wiz__step" data-step="4">
+          <legend class="wiz__legend" tabindex="-1">{details.legend}</legend>
+          <div class="fields">
+            <div class="field">
+              <label class="field__label" for="f-name">Full name</label>
+              <input class="field__input" id="f-name" name="name" type="text" autocomplete="name" required />
+              <span class="field__error" id="f-name-error" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label class="field__label" for="f-email">Work email</label>
+              <input class="field__input" id="f-email" name="email" type="email" autocomplete="email" required />
+              <span class="field__error" id="f-email-error" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label class="field__label" for="f-company">Company or organisation <span class="field__opt">(optional)</span></label>
+              <input class="field__input" id="f-company" name="company" type="text" autocomplete="organization" />
+            </div>
+            <div class="field">
+              <label class="field__label" for="f-phone">Phone <span class="field__opt">(optional)</span></label>
+              <input class="field__input" id="f-phone" name="phone" type="tel" autocomplete="tel" />
+            </div>
+            <div class="field field--wide">
+              <label class="field__label" for="f-message">Tell us about the project</label>
+              <textarea class="field__input field__input--area" id="f-message" name="message" rows="4" required></textarea>
+              <span class="field__error" id="f-message-error" aria-live="polite"></span>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="wiz__nav">
+          <button type="button" class="wiz__back" data-step-back hidden>Back</button>
+          <Button type="button" variant="dark" class="wiz__next" data-step-next>Continue</Button>
+          <Button type="submit" variant="dark" class="wiz__submit" data-step-submit>Send Brief</Button>
+        </div>
+        <p class="wiz__status" role="status" data-contact-status></p>
+      </form>
+
+      <aside class="cform__aside" aria-label="Other ways to reach us">
+        <h2 class="cform__aside-title">Prefer to talk?</h2>
+        <ul class="ways">
+          {wa && (
+            <li>
+              <a class="way" href={wa} target="_blank" rel="noopener noreferrer">
+                <Icon name="chat" class="way__icon" />
+                <span class="way__text"><strong>Chat on WhatsApp</strong><span>Usually the fastest way to reach us.</span></span>
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+          )}
+          {SITE.bookingUrl && (
+            <li>
+              <a class="way" href={SITE.bookingUrl} target="_blank" rel="noopener noreferrer">
+                <Icon name="calendar" class="way__icon" />
+                <span class="way__text"><strong>Book a 30-minute call</strong><span>Pick a time that suits you.</span></span>
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+          )}
+          <li>
+            <a class="way" href={`mailto:${SITE.email}`}>
+              <Icon name="mail" class="way__icon" />
+              <span class="way__text"><strong>{SITE.email}</strong><span>Write to us directly.</span></span>
+            </a>
+          </li>
+          <li>
+            <div class="way way--static">
+              <Icon name="pin" class="way__icon" />
+              <span class="way__text"><strong>Ghana</strong><span>Serving Africa and international markets.</span></span>
+            </div>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cform {
+    padding: calc(var(--header-h) + clamp(60px, 11vh, 140px)) 0 var(--section-y);
+    background: var(--bg-light);
+    color: var(--ink);
+  }
+  .cform__inner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(50px, 8vh, 100px);
+  }
+  .cform__head { display: flex; flex-direction: column; gap: 18px; }
+  .cform__title {
+    max-width: 20ch;
+    font-size: clamp(36px, 4.6vw, 80px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    text-wrap: balance;
+  }
+  .cform__intro { color: var(--ink-soft); font-size: clamp(16px, 1.3vw, 20px); }
+  .cform__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: clamp(50px, 7vw, 140px);
+    align-items: start;
+  }
+
+  /* ---------- Wizard ---------- */
+  .wiz {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(36px, 5vh, 56px);
+  }
+  .wiz__progress { display: none; }
+  :global(html.js) .wiz__progress {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .wiz__count {
+    flex: none;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+  .wiz__bar {
+    position: relative;
+    flex: 1;
+    height: 2px;
+    background: rgba(5, 31, 32, 0.12);
+    overflow: hidden;
+  }
+  .wiz__fill {
+    position: absolute;
+    inset: 0;
+    background: var(--c-deep);
+    transform-origin: left;
+    transform: scaleX(0.25);
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .wiz__step {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  .wiz__step[hidden] { display: none; }
+  :global(html.js) .wiz__step:not([hidden]) { animation: step-in 0.5s var(--ease-out); }
+  @keyframes step-in {
+    from { opacity: 0; transform: translateY(12px); }
+  }
+  .wiz__legend {
+    padding: 0;
+    margin-bottom: 4px;
+    font-size: clamp(22px, 2vw, 32px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    outline: none;
+  }
+  .wiz__hint { color: var(--ink-soft); font-size: 14px; }
+  .wiz__error {
+    min-height: 1.2em;
+    color: #b42318;
+    font-size: 13px;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .chip { position: relative; cursor: pointer; }
+  .chip__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+  .chip__label {
+    display: inline-block;
+    padding: 13px 20px;
+    border: 1px solid rgba(5, 31, 32, 0.12);
+    border-radius: 24px;
+    background: var(--bg-light);
+    font-size: clamp(14px, 1.1vw, 16px);
+    font-weight: 500;
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .chip:hover .chip__label { border-color: var(--c-deep); }
+  .chip__input:checked + .chip__label {
+    background: var(--c-deep);
+    border-color: var(--c-deep);
+    color: var(--c-white);
+  }
+  .chip__input:focus-visible + .chip__label {
+    outline: 2px solid var(--c-mid);
+    outline-offset: 3px;
+  }
+
+  .fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(26px, 3.5vh, 40px) clamp(24px, 3vw, 48px);
+    margin-top: 8px;
+  }
+  .field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .field--wide { grid-column: 1 / -1; }
+  .field__label { color: var(--ink-soft); font-size: 13px; font-weight: 500; }
+  .field__opt { font-weight: 400; opacity: 0.75; }
+  .field__input {
+    width: 100%;
+    padding: 10px 2px;
+    border: none;
+    border-bottom: 1px solid rgba(5, 31, 32, 0.45);
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.6;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .field__input:hover { border-bottom-color: var(--ink); }
+  .field__input:focus { outline: none; border-bottom-color: var(--c-mid); box-shadow: 0 1px 0 var(--c-mid); }
+  .field__input--area { resize: vertical; min-height: 96px; }
+  .field__input[aria-invalid='true'] { border-bottom-color: #b42318; }
+  .field__error { min-height: 1.2em; color: #b42318; font-size: 12px; }
+
+  .wiz__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 20px;
+  }
+  /* Without JS there is only one long form, so only Send shows */
+  .wiz__nav :global(.wiz__next),
+  .wiz__back { display: none; }
+  :global(html.js) .wiz__nav :global(.wiz__next:not([hidden])) { display: inline-flex; }
+  :global(html.js) .wiz__back:not([hidden]) { display: inline-block; }
+  :global(html.js) .wiz__nav :global(.wiz__submit[hidden]) { display: none; }
+  .wiz__back {
+    padding: 12px 4px;
+    border: none;
+    background: none;
+    color: var(--ink-soft);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .wiz__back:hover { color: var(--ink); }
+  .wiz__status { color: var(--c-mid); font-size: 14px; }
+
+  /* ---------- Aside ---------- */
+  .cform__aside {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding-top: clamp(20px, 3vh, 30px);
+    border-top: 1px solid var(--rule-light);
+  }
+  .cform__aside-title {
+    color: var(--ink-soft);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .ways { display: flex; flex-direction: column; gap: 8px; }
+  .way {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(5, 31, 32, 0.08);
+  }
+  a.way:hover strong { color: var(--c-mid); }
+  :global(.way__icon) { flex: none; margin-top: 2px; color: var(--c-mid); }
+  .way__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .way__text strong {
+    font-size: 16px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+    transition: color 0.25s;
+  }
+  .way__text span { color: var(--ink-soft); font-size: 14px; }
+
+  @media (max-width: 1024px) {
+    .cform__layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .fields { grid-template-columns: 1fr; }
+  }
+</style>

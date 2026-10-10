@@ -1,0 +1,105 @@
+{
+  "intro": {
+    "label": "Our services",
+    "statement": "Turn complex operations into *software that simply works*, built around the way *your business* actually runs."
+  },
+  "card": {
+    "image": "/src/assets/cms/services/card/image.jpg",
+    "imageAlt": "An engineer working on a laptop in a data centre"
+  },
+  "audiences": {
+    "label": "Who we build for",
+    "title": "Built for organisations that refuse to stand still.",
+    "items": [
+      {
+        "name": "Business owners & SMEs",
+        "note": "Tools that bring order to sales, stock and billing."
+      },
+      {
+        "name": "Schools & institutions",
+        "note": "Administration, attendance and finances in one place."
+      },
+      {
+        "name": "Enterprises",
+        "note": "Custom systems that fit complex operations."
+      },
+      {
+        "name": "Fintech & commerce",
+        "note": "Payments, marketplaces and order flows."
+      },
+      {
+        "name": "Teams adopting AI",
+        "note": "Automation that removes repetitive work."
+      },
+      {
+        "name": "Partners & global clients",
+        "note": "Long-term engineering collaboration."
+      }
+    ]
+  },
+  "list": {
+    "label": "Our services",
+    "title": "Where business problems meet engineering that lasts."
+  },
+  "items": [
+    {
+      "headline": "Building systems that carry the business",
+      "category": "Software Engineering",
+      "description": "Custom applications engineered around how your organisation actually works.",
+      "details": [
+        "Custom web applications",
+        "Business management systems",
+        "APIs and third-party integrations",
+        "Enterprise software",
+        "Mobile and desktop applications",
+        "Software architecture and deployment"
+      ]
+    },
+    {
+      "headline": "Putting intelligence to work",
+      "category": "Artificial Intelligence & Automation",
+      "description": "Practical AI and automation that take repetitive work off your team and sharpen decisions.",
+      "details": [
+        "AI-powered business workflows",
+        "Intelligent assistants",
+        "Data analysis and reporting",
+        "Process automation",
+        "AI features inside your software"
+      ]
+    },
+    {
+      "headline": "Running operations with clarity",
+      "category": "Business Management Solutions",
+      "description": "Systems for sales, stock, people and billing that give you one clear view of the business.",
+      "details": [
+        "Point-of-sale and inventory management",
+        "School and institutional management",
+        "Workforce and attendance management",
+        "Billing, invoicing and operational reporting"
+      ]
+    },
+    {
+      "headline": "Connecting everyone in the transaction",
+      "category": "Digital Platforms & Marketplaces",
+      "description": "Commerce platforms that handle vendors, orders, payments and delivery end to end.",
+      "details": [
+        "E-commerce and marketplace platforms",
+        "Vendor and order management",
+        "Delivery and logistics coordination",
+        "Payment integrations"
+      ]
+    },
+    {
+      "headline": "Foundations that scale quietly",
+      "category": "Cloud & Digital Infrastructure",
+      "description": "Architecture, deployment and ongoing care that keep your software fast and available.",
+      "details": [
+        "SaaS application development",
+        "Multi-tenant architecture",
+        "Database design",
+        "Cloud deployment and integrations",
+        "Maintenance, monitoring and support"
+      ]
+    }
+  ]
+}

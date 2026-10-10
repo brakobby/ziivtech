@@ -1,0 +1,135 @@
+---
+// Home hero: one centred headline with a single morphing word (from the
+// reference), the two calls to action, then a wide photograph.
+import { Image } from 'astro:assets';
+import Button from './Button.astro';
+import { HERO } from '../data/content';
+
+const fullHeadline = `${HERO.lead} ${HERO.morphWords[0]} ${HERO.tail}`;
+const cycle = HERO.morphWords.length * 3; // seconds per full cycle
+---
+<section class="hero on-light" id="top" aria-labelledby="hero-title">
+  <div class="hero__text">
+    <p class="label hero__eyebrow">{HERO.eyebrow}</p>
+    <h1 class="hero__title" id="hero-title">
+      <span class="sr-only">{fullHeadline}</span>
+      <span aria-hidden="true">
+        {HERO.lead}
+        <span class="morph" style={`--cycle: ${cycle}s`}>
+          {HERO.morphWords.map((word, i) => (
+            <span class="morph__word" style={`--i: ${i}`}>{word}</span>
+          ))}
+        </span>
+        {HERO.tail}
+      </span>
+    </h1>
+    <div class="hero__actions">
+      <Button href="/contact/" variant="dark">Start a Project</Button>
+      <Button href="/work/" variant="dark">View Our Work</Button>
+    </div>
+  </div>
+
+  <div class="hero__media">
+    <Image
+      class="hero__img"
+      src={HERO.photo.src}
+      alt={HERO.photo.alt}
+      widths={[640, 1024, 1440, 1920, 2400]}
+      sizes="95vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: var(--bg-light);
+    padding: calc(var(--header-h) + clamp(70px, 14vh, 170px)) 0 clamp(16px, 2.5vw, 48px);
+  }
+  .hero__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(22px, 3vh, 36px);
+    padding: 0 16px;
+    text-align: center;
+  }
+  .hero__eyebrow { color: var(--ink-accent); }
+  .hero__title {
+    max-width: 16ch;
+    font-size: var(--fs-hero);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1.06;
+  }
+
+  /* Morphing word: all words share one grid cell, so the slot is as wide as
+     the longest word and the headline never reflows mid-animation. */
+  .morph {
+    display: inline-grid;
+    vertical-align: bottom;
+    color: var(--ink-accent);
+    font-weight: 400;
+    font-style: italic;
+  }
+  .morph__word {
+    grid-area: 1 / 1;
+    opacity: 0;
+    padding-right: 0.08em; /* room for the italic overhang */
+    animation: morph var(--cycle) ease-in-out infinite;
+    animation-delay: calc(var(--i) * 3s);
+  }
+  @keyframes morph {
+    0% { opacity: 0; filter: blur(14px); transform: translateY(0.12em); }
+    5%, 20% { opacity: 1; filter: blur(0); transform: none; }
+    25%, 100% { opacity: 0; filter: blur(14px); transform: translateY(-0.12em); }
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: clamp(10px, 2vh, 24px);
+  }
+
+  .hero__media {
+    position: relative;
+    width: min(1800px, 100% - 2 * clamp(16px, 2.5vw, 48px));
+    margin: clamp(70px, 12vh, 140px) auto 0;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    border-radius: var(--radius-media);
+    background: var(--c-dark);
+  }
+  .hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 35%;
+    animation: settle 1.8s var(--ease-out) both;
+  }
+  .hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5, 31, 32, 0) 45%, rgba(5, 31, 32, 0.4));
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  @keyframes settle {
+    from { transform: scale(1.06); }
+    to { transform: none; }
+  }
+
+  @media (max-width: 600px) {
+    .hero__title { max-width: 11ch; font-size: clamp(40px, 12vw, 60px); }
+    .hero__media { aspect-ratio: 4 / 3; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .morph__word { animation: none !important; opacity: 0; }
+    .morph__word:first-child { opacity: 1; }
+  }
+</style>

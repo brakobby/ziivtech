@@ -1,0 +1,62 @@
+---
+// Category pills from the reference's Work page. Each pill's hover fill
+// sweeps in from a different side. Shown only when JS is running, since
+// the filtering lives in scripts/main.ts.
+import { WORK_FILTERS } from '../data/content';
+const sweeps = ['top', 'bottom', 'right', 'left'];
+---
+<div class="filters" role="group" aria-label="Filter projects" data-filters>
+  {WORK_FILTERS.map((f, i) => (
+    <button
+      type="button"
+      class:list={['filter', `filter--${sweeps[i % sweeps.length]}`]}
+      aria-pressed={i === 0 ? 'true' : 'false'}
+      data-filter={f.id}
+    >
+      <span>{f.label}</span>
+    </button>
+  ))}
+</div>
+<p class="sr-only" role="status" data-filter-status></p>
+
+<style>
+  .filters { display: none; }
+  :global(html.js) .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(8px, 1vw, 14px);
+    margin-top: clamp(4px, 1vh, 12px);
+  }
+  .filter {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(9px, 1vw, 12px) clamp(14px, 1.5vw, 20px);
+    border: none;
+    border-radius: 22px;
+    background: var(--bg-muted);
+    color: var(--ink);
+    font-size: clamp(13px, 1.1vw, 16px);
+    font-weight: 500;
+    cursor: pointer;
+    isolation: isolate;
+    transition: color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  .filter::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    background: var(--c-deep);
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  .filter--top::before { top: 0; left: 0; width: 100%; height: 0; }
+  .filter--bottom::before { bottom: 0; left: 0; width: 100%; height: 0; }
+  .filter--right::before { top: 0; right: 0; width: 0; height: 100%; }
+  .filter--left::before { top: 0; left: 0; width: 0; height: 100%; }
+  .filter:hover,
+  .filter[aria-pressed='true'] { color: var(--c-white); }
+  .filter--top:hover::before,
+  .filter--bottom:hover::before { height: 100%; }
+  .filter--right:hover::before,
+  .filter--left:hover::before { width: 100%; }
+  .filter[aria-pressed='true']::before { width: 100%; height: 100%; }
+</style>

@@ -1,0 +1,201 @@
+---
+// Art-directed, illustrative interface compositions for each project.
+// They stand in for product screenshots and are labelled as illustrations
+// in the UI; they do not depict real product screens or data.
+// Replace with real screenshots when they are available.
+// Place inside an element with the global `.visual-frame` class, which draws
+// the background grid so the art can sit in a frame of any proportion.
+import type { Illustration } from '../data/content';
+import { MARK_PARTS, MARK_TRANSFORM } from '../data/brand';
+
+interface Props {
+  id: Illustration;
+  name: string;
+}
+const { id, name } = Astro.props;
+
+const C = {
+  deep: '#051F20',
+  dark: '#0B2B26',
+  forest: '#163832',
+  mid: '#235347',
+  soft: '#8EB69B',
+  pale: '#DAF1DE',
+  white: '#FFFFFF',
+};
+---
+<svg
+  class="visual"
+  viewBox="0 0 800 560"
+  preserveAspectRatio="xMidYMid meet"
+  role="img"
+  aria-label={`Illustration representing ${name}`}
+  font-family="inherit"
+>
+
+  {id === 'none' && (
+    <g>
+      <g transform="translate(330 150) scale(1.4)" fill={C.mid}>
+        <g transform={MARK_TRANSFORM}>{MARK_PARTS.map((part) => <path d={part.d} />)}</g>
+      </g>
+      <text x="400" y="420" text-anchor="middle" fill={C.pale} font-size="30" font-weight="600" letter-spacing="-0.5">{name}</text>
+    </g>
+  )}
+
+  {id === 'ziivos' && (
+    <g>
+      <rect x="60" y="60" width="680" height="440" rx="18" fill={C.forest} />
+      <rect x="60" y="60" width="150" height="440" rx="18" fill={C.deep} />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <rect x="86" y={120 + i * 44} width={i === 1 ? 98 : 74} height="10" rx="5" fill={i === 1 ? C.soft : C.mid} />
+      ))}
+      <g transform="translate(82 76) scale(0.4)" fill={C.pale}><g transform={MARK_TRANSFORM}>{MARK_PARTS.map((part) => <path d={part.d} />)}</g></g>
+      <rect x="250" y="96" width="290" height="372" rx="12" fill={C.pale} />
+      <text x="278" y="140" fill={C.deep} font-size="20" font-weight="700" letter-spacing="3">INVOICE</text>
+      <rect x="278" y="156" width="110" height="8" rx="4" fill={C.soft} />
+      {[0, 1, 2, 3].map((i) => (
+        <g>
+          <rect x="278" y={200 + i * 40} width="150" height="10" rx="5" fill={C.mid} opacity="0.55" />
+          <rect x="462" y={200 + i * 40} width="50" height="10" rx="5" fill={C.mid} opacity="0.85" />
+          <line x1="278" y1={224 + i * 40} x2="512" y2={224 + i * 40} stroke={C.soft} stroke-width="1" />
+        </g>
+      ))}
+      <rect x="278" y="378" width="234" height="58" rx="10" fill={C.deep} />
+      <rect x="296" y="402" width="70" height="10" rx="5" fill={C.soft} />
+      <rect x="440" y="398" width="56" height="18" rx="9" fill={C.pale} />
+      <g transform="translate(570 128)">
+        <path d="M0 10a10 10 0 0 1 10-10h120a10 10 0 0 1 10 10v262l-14-10-14 10-14-10-14 10-14-10-14 10-14-10-14 10-14-10-14 10z" fill={C.white} />
+        <rect x="20" y="26" width="64" height="9" rx="4.5" fill={C.deep} />
+        {[0, 1, 2, 3, 4].map((i) => (
+          <rect x="20" y={58 + i * 26} width={100 - (i % 2) * 30} height="7" rx="3.5" fill={C.soft} />
+        ))}
+        <rect x="20" y="206" width="100" height="30" rx="15" fill={C.soft} />
+        <text x="70" y="226" text-anchor="middle" fill={C.deep} font-size="12" font-weight="700" letter-spacing="1.5">PAID</text>
+      </g>
+    </g>
+  )}
+
+  {id === 'tradr' && (
+    <g>
+      <g stroke={C.soft} stroke-width="2" stroke-dasharray="6 8" fill="none" class="visual__flow">
+        <path d="M190 200C280 200 300 280 400 280" />
+        <path d="M610 200C520 200 500 280 400 280" />
+        <path d="M400 280V430" />
+        <path d="M190 200C190 340 300 430 400 430" opacity="0.4" />
+      </g>
+      <rect x="320" y="200" width="160" height="160" rx="28" fill={C.pale} />
+      <g transform="translate(350 230) scale(1)" fill={C.deep}><g transform={MARK_TRANSFORM}>{MARK_PARTS.map((part) => <path d={part.d} />)}</g></g>
+      <circle cx="480" cy="200" r="30" fill={C.soft} />
+      <text x="480" y="206" text-anchor="middle" fill={C.deep} font-size="17" font-weight="700">AI</text>
+      {[
+        { x: 190, y: 200, label: 'BUYERS' },
+        { x: 610, y: 200, label: 'SELLERS' },
+        { x: 400, y: 450, label: 'DELIVERY' },
+      ].map((n) => (
+        <g>
+          <circle cx={n.x} cy={n.y} r="54" fill={C.forest} stroke={C.mid} stroke-width="2" />
+          <circle cx={n.x} cy={n.y - 12} r="13" fill={C.soft} />
+          <rect x={n.x - 22} y={n.y + 8} width="44" height="16" rx="8" fill={C.soft} />
+          <text x={n.x} y={n.y + 82} text-anchor="middle" fill={C.pale} font-size="13" font-weight="600" letter-spacing="2.5">{n.label}</text>
+        </g>
+      ))}
+      <rect x="244" y="90" width="132" height="40" rx="20" fill={C.forest} stroke={C.mid} />
+      <text x="310" y="115" text-anchor="middle" fill={C.pale} font-size="13" font-weight="600" letter-spacing="2">PAYMENTS</text>
+    </g>
+  )}
+
+  {id === 'schools' && (
+    <g>
+      <rect x="60" y="60" width="680" height="440" rx="18" fill={C.forest} />
+      <text x="96" y="112" fill={C.pale} font-size="15" font-weight="600" letter-spacing="2.5">ATTENDANCE</text>
+      {Array.from({ length: 5 }, (_, r) =>
+        Array.from({ length: 8 }, (_, c) => {
+          const v = (r * 7 + c * 3) % 9;
+          const fill = v === 0 ? C.deep : v < 3 ? C.mid : v < 6 ? C.soft : C.pale;
+          return <rect x={96 + c * 42} y={140 + r * 42} width="32" height="32" rx="7" fill={fill} />;
+        })
+      )}
+      <text x="96" y="400" fill={C.soft} font-size="12" letter-spacing="1.5">MON TO FRI</text>
+      <line x1="470" y1="96" x2="470" y2="464" stroke={C.mid} />
+      <text x="506" y="112" fill={C.pale} font-size="15" font-weight="600" letter-spacing="2.5">FINANCE</text>
+      {[150, 210, 120, 250, 190].map((h, i) => (
+        <rect x={506 + i * 40} y={440 - h} width="26" height={h} rx="6" fill={i === 3 ? C.soft : C.mid} />
+      ))}
+      <line x1="506" y1="452" x2="704" y2="452" stroke={C.mid} />
+      <rect x="96" y="430" width="120" height="34" rx="17" fill={C.deep} />
+      <rect x="116" y="443" width="80" height="8" rx="4" fill={C.soft} />
+    </g>
+  )}
+
+  {id === 'corapos' && (
+    <g>
+      <rect x="60" y="60" width="680" height="440" rx="18" fill={C.forest} />
+      {Array.from({ length: 3 }, (_, r) =>
+        Array.from({ length: 3 }, (_, c) => (
+          <g>
+            <rect x={92 + c * 132} y={92 + r * 132} width="116" height="116" rx="14" fill={(r + c) % 4 === 0 ? C.mid : C.deep} />
+            <circle cx={150 + c * 132} cy={136 + r * 132} r="20" fill={(r + c) % 4 === 0 ? C.pale : C.mid} />
+            <rect x={122 + c * 132} y={172 + r * 132} width="56" height="8" rx="4" fill={C.soft} />
+          </g>
+        ))
+      )}
+      <rect x="500" y="92" width="208" height="380" rx="14" fill={C.pale} />
+      <text x="522" y="128" fill={C.deep} font-size="14" font-weight="700" letter-spacing="2.5">ORDER</text>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <g>
+          <rect x="522" y={152 + i * 34} width={90 - (i % 3) * 14} height="9" rx="4.5" fill={C.mid} opacity="0.6" />
+          <rect x="652" y={152 + i * 34} width="34" height="9" rx="4.5" fill={C.mid} />
+        </g>
+      ))}
+      <line x1="522" y1="334" x2="686" y2="334" stroke={C.soft} stroke-dasharray="4 4" />
+      <rect x="522" y="350" width="60" height="12" rx="6" fill={C.deep} />
+      <rect x="626" y="350" width="60" height="12" rx="6" fill={C.deep} />
+      <rect x="522" y="394" width="164" height="54" rx="12" fill={C.deep} />
+      <rect x="572" y="416" width="64" height="10" rx="5" fill={C.pale} />
+    </g>
+  )}
+
+  {id === 'xbyt' && (
+    <g>
+      {[0, 1, 2].map((i) => {
+        const x = 70 + i * 230;
+        const laptop = i !== 1;
+        return (
+          <g>
+            <rect x={x} y="100" width="200" height="340" rx="18" fill={i === 1 ? C.pale : C.forest} />
+            {laptop ? (
+              <g>
+                <rect x={x + 36} y="150" width="128" height="84" rx="8" fill={C.mid} />
+                <rect x={x + 44} y="158" width="112" height="68" rx="4" fill={C.deep} />
+                <path d={`M${x + 24} 240h152l-10 16H${x + 34}z`} fill={C.soft} />
+              </g>
+            ) : (
+              <g>
+                <rect x={x + 70} y="136" width="60" height="122" rx="12" fill={C.deep} />
+                <rect x={x + 77} y="146" width="46" height="94" rx="6" fill={C.mid} />
+                <rect x={x + 92} y="246" width="16" height="4" rx="2" fill={C.soft} />
+              </g>
+            )}
+            <rect x={x + 24} y="300" width="120" height="12" rx="6" fill={i === 1 ? C.deep : C.pale} />
+            <rect x={x + 24} y="326" width="80" height="9" rx="4.5" fill={i === 1 ? C.mid : C.soft} />
+            <rect x={x + 24} y="372" width="152" height="40" rx="20" fill={i === 1 ? C.deep : C.mid} />
+            <rect x={x + 76} y="388" width="48" height="8" rx="4" fill={C.pale} />
+          </g>
+        );
+      })}
+    </g>
+  )}
+</svg>
+
+<style>
+  .visual {
+    width: 100%;
+    height: 100%;
+  }
+  .visual__flow {
+    animation: flow 2.4s linear infinite;
+  }
+  @keyframes flow {
+    to { stroke-dashoffset: -28; }
+  }
+</style>

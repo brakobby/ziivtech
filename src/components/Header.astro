@@ -1,0 +1,264 @@
+---
+// Two headers, as in the reference: an in-flow header over the hero, and a
+// compact floating pill that slides down once the hero is scrolled past.
+// Both share one full-screen mobile menu.
+import Logo from './Logo.astro';
+import Button from './Button.astro';
+import { NAV, CONTACT_HREF } from '../data/site';
+
+// Highlight the section we're in (case studies count as Work).
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = (href: string) => {
+  const base = href.replace(/\/$/, '');
+  return path === base || path.startsWith(`${base}/`) ? 'page' : undefined;
+};
+---
+<header class="header on-light">
+  <div class="header__inner">
+    <Logo />
+    <nav class="header__nav" aria-label="Primary">
+      <ul class="header__links">
+        {NAV.map((item) => (
+          <li><a class="header__link" href={item.href} aria-current={current(item.href)} data-cursor="hover">{item.label}</a></li>
+        ))}
+      </ul>
+      <Button href={CONTACT_HREF} variant="dark" class="header__cta">Let’s Talk</Button>
+    </nav>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+      <span class="sr-only">Open menu</span>
+      <span class="menu-toggle__bars" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<div class="pill-header on-light" data-pill-header>
+  <Logo compact />
+  <nav class="pill-header__nav" aria-label="Quick">
+    {NAV.map((item) => (
+      <a class="pill-header__link" href={item.href} aria-current={current(item.href)} data-cursor="hover" tabindex="-1">{item.label}</a>
+    ))}
+  </nav>
+  <a class="pill-header__cta" href={CONTACT_HREF} data-cursor="hover" tabindex="-1">Let’s Talk</a>
+  <button class="menu-toggle menu-toggle--pill" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle tabindex="-1">
+    <span class="sr-only">Open menu</span>
+    <span class="menu-toggle__bars" aria-hidden="true"></span>
+  </button>
+</div>
+
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <button class="mobile-menu__close" type="button" data-menu-close>
+    <span class="sr-only">Close menu</span>
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg>
+  </button>
+  <nav aria-label="Mobile">
+    <ul class="mobile-menu__links">
+      {NAV.map((item) => (
+        <li><a class="mobile-menu__link" href={item.href} aria-current={current(item.href)}>{item.label}</a></li>
+      ))}
+      <li><a class="mobile-menu__link mobile-menu__link--accent" href={CONTACT_HREF}>Let’s Talk</a></li>
+    </ul>
+  </nav>
+</div>
+
+<style>
+  /* ---------- In-flow header ---------- */
+  .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    color: var(--ink);
+  }
+  .header__inner {
+    width: min(90%, 1800px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(20px, 2.5vw, 30px);
+  }
+  .header__links {
+    display: flex;
+    align-items: center;
+    gap: clamp(28px, 3.6vw, 50px);
+  }
+  .header__link {
+    position: relative;
+    font-size: clamp(15px, 1.15vw, 18px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .header__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--ease-out);
+  }
+  .header__link:hover { color: var(--c-mid); }
+  .header__link:hover::after,
+  .header__link[aria-current='page']::after { transform: scaleX(1); transform-origin: left; }
+
+  /* ---------- Menu toggle ---------- */
+  .menu-toggle {
+    display: none;
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 50%;
+    background: var(--c-deep);
+    color: var(--c-white);
+    cursor: pointer;
+    place-items: center;
+    transition: transform 0.3s var(--ease-out);
+  }
+  .menu-toggle:hover { transform: scale(1.06); }
+  .menu-toggle__bars,
+  .menu-toggle__bars::before {
+    display: block;
+    width: 18px;
+    height: 1.6px;
+    background: currentColor;
+    border-radius: 2px;
+  }
+  .menu-toggle__bars { position: relative; transform: translateY(-3px); }
+  .menu-toggle__bars::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    width: 12px;
+    right: 0;
+  }
+
+  /* ---------- Floating pill header ---------- */
+  .pill-header {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 2vw, 28px);
+    height: 52px;
+    padding: 0 8px 0 20px;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--ink);
+    box-shadow: 0 2px 4px rgba(5, 31, 32, 0.08), 0 14px 40px rgba(5, 31, 32, 0.12);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    opacity: 0;
+    transform: translate(-50%, -160%);
+    transition: transform 0.5s var(--ease-out), opacity 0.3s;
+  }
+  .pill-header.is-visible { opacity: 1; transform: translate(-50%, 0); }
+  .pill-header__nav {
+    display: flex;
+    gap: clamp(16px, 1.8vw, 26px);
+  }
+  .pill-header__link {
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .pill-header__link:hover,
+  .pill-header__link[aria-current='page'] { color: var(--c-mid); }
+  .pill-header__cta {
+    padding: 10px 16px;
+    border-radius: var(--radius-pill);
+    background: var(--c-deep);
+    color: var(--c-white);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  .pill-header__cta:hover { background: var(--c-mid); }
+  .menu-toggle--pill { width: 38px; height: 38px; }
+
+  /* ---------- Mobile menu ---------- */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 8000;
+    display: flex;
+    align-items: center;
+    padding: 0 clamp(24px, 7vw, 48px);
+    background: var(--c-deep);
+    color: var(--c-white);
+    transform: translateY(-100%);
+    transition: transform 0.55s var(--ease-out);
+  }
+  .mobile-menu[hidden] { display: none; }
+  .mobile-menu.is-open { transform: none; }
+  .mobile-menu__close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border: none;
+    border-radius: 50%;
+    background: var(--c-white);
+    color: var(--c-deep);
+    cursor: pointer;
+  }
+  .mobile-menu__links {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(22px, 5vw, 36px);
+  }
+  .mobile-menu__link {
+    display: inline-block;
+    font-size: clamp(30px, 8vw, 46px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.4s, transform 0.4s var(--ease-out), color 0.3s;
+  }
+  .mobile-menu__link:hover,
+  .mobile-menu__link[aria-current='page'] { color: var(--c-soft); }
+  .mobile-menu__link--accent { color: var(--c-soft); }
+  .mobile-menu.is-open .mobile-menu__link { opacity: 1; transform: none; }
+  .mobile-menu.is-open li:nth-child(1) .mobile-menu__link { transition-delay: 0.15s; }
+  .mobile-menu.is-open li:nth-child(2) .mobile-menu__link { transition-delay: 0.22s; }
+  .mobile-menu.is-open li:nth-child(3) .mobile-menu__link { transition-delay: 0.29s; }
+  .mobile-menu.is-open li:nth-child(4) .mobile-menu__link { transition-delay: 0.36s; }
+  .mobile-menu.is-open li:nth-child(5) .mobile-menu__link { transition-delay: 0.43s; }
+
+  @media (max-width: 1024px) {
+    .header__nav,
+    .pill-header__nav,
+    .pill-header__cta { display: none; }
+    .menu-toggle { display: grid; }
+    .pill-header {
+      left: auto;
+      right: 16px;
+      padding: 0 7px 0 16px;
+      transform: translateY(-160%);
+    }
+    .pill-header.is-visible { transform: none; }
+  }
+</style>

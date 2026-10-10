@@ -1,0 +1,61 @@
+---
+// Custom cursor from the reference: a small dot that swells over interactive
+// elements and turns into a labelled pill over project visuals.
+// Activated by scripts/main.ts only on fine pointers without reduced motion.
+---
+<div class="cursor" aria-hidden="true" data-variant="hidden">
+  <span class="cursor__dot"></span>
+  <span class="cursor__pill"><span class="cursor__label"></span></span>
+</div>
+
+<style>
+  .cursor {
+    display: none;
+  }
+  :global(html.has-cursor) .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9000;
+    display: block;
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
+  .cursor__dot,
+  .cursor__pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+    transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.18s;
+  }
+  .cursor__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--c-white);
+  }
+  .cursor__pill {
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: var(--c-white);
+    color: #000;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .cursor__label::after { content: ' ↗'; }
+
+  .cursor[data-variant='dot'] .cursor__dot { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  .cursor[data-variant='hover'] .cursor__dot { opacity: 1; transform: translate(-50%, -50%) scale(2.6); }
+  .cursor[data-variant='pill'] .cursor__pill { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+  :global(html.has-cursor),
+  :global(html.has-cursor a),
+  :global(html.has-cursor button),
+  :global(html.has-cursor label) { cursor: none; }
+  :global(html.has-cursor input),
+  :global(html.has-cursor textarea) { cursor: text; }
+</style>

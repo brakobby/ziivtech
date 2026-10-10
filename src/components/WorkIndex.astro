@@ -1,0 +1,105 @@
+---
+// Text index of projects, after the reference's Work page row list:
+// mark | name + description | tags. Each row opens the case study.
+import { WORK, projectHref } from '../data/content';
+---
+<section class="index on-light" aria-labelledby="index-title">
+  <h2 class="sr-only" id="index-title">Project index</h2>
+  <ul class="index__list" data-filter-list>
+    {WORK.projects.map((p) => (
+      <li class="index__item" data-category={p.category}>
+        <a class="index__row" href={projectHref(p)} data-cursor="hover">
+          <span class="index__content">
+            <span class="index__mark" aria-hidden="true">{p.name}</span>
+            <span class="index__info">
+              <span class="index__title">{p.title}</span>
+              <span class="index__desc">{p.description}</span>
+            </span>
+            <span class="index__tags">
+              <span class="index__tag">{p.status}</span>
+            </span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .index {
+    padding: 0 0 clamp(60px, 10vh, 120px);
+    background: var(--bg-light);
+    color: var(--ink);
+  }
+  .index__item[hidden] { display: none; }
+  .index__item { border-top: 1px solid rgba(5, 31, 32, 0.15); }
+  .index__item:last-child { border-bottom: 1px solid rgba(5, 31, 32, 0.15); }
+  .index__row {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  .index__row:hover { background: rgba(218, 241, 222, 0.45); }
+  .index__content {
+    display: flex;
+    align-items: center;
+    gap: clamp(20px, 3vw, 52px);
+    width: var(--wrap);
+    margin: 0 auto;
+    padding: clamp(24px, 4vh, 44px) 0;
+  }
+  .index__mark {
+    flex: 0 0 clamp(110px, 13vw, 210px);
+    color: var(--c-mid);
+    font-size: clamp(20px, 2.1vw, 34px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .index__info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+  .index__title {
+    font-size: clamp(17px, 1.7vw, 26px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .index__desc {
+    max-width: 70ch;
+    color: var(--ink-soft);
+    font-size: clamp(13px, 1vw, 15px);
+    line-height: 1.55;
+  }
+  .index__tags {
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+    max-width: 280px;
+  }
+  .index__tag {
+    padding: 5px 14px;
+    border: 1px solid rgba(5, 31, 32, 0.25);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: clamp(11px, 0.8vw, 13px);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .index__content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .index__mark { flex: none; }
+    .index__tags { justify-content: flex-start; max-width: none; }
+  }
+</style>

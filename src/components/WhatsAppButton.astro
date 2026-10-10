@@ -1,0 +1,44 @@
+---
+// Floating "Chat on WhatsApp" button, bottom right on every page.
+// Renders nothing until SITE.whatsapp is set.
+import Icon from './Icon.astro';
+import { whatsappHref } from '../data/site';
+
+const href = whatsappHref();
+---
+{href && (
+  <a class="wa" href={href} target="_blank" rel="noopener noreferrer" data-cursor="hover">
+    <Icon name="chat" size={22} class="wa__icon" />
+    <span class="wa__label">Chat on WhatsApp</span>
+    <span class="sr-only">(opens WhatsApp in a new tab)</span>
+  </a>
+)}
+
+<style>
+  .wa {
+    position: fixed;
+    right: clamp(16px, 2vw, 28px);
+    bottom: clamp(16px, 2vw, 28px);
+    z-index: 70;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 20px 0 16px;
+    border-radius: 26px;
+    background: var(--c-deep);
+    color: var(--c-white);
+    box-shadow: 0 0 0 1px rgba(218, 241, 222, 0.45), 0 14px 40px rgba(5, 31, 32, 0.3);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s var(--ease-out);
+  }
+  .wa:hover { background: var(--c-mid); transform: translateY(-2px); }
+  :global(.wa__icon) { color: var(--c-pale); }
+
+  @media (max-width: 768px) {
+    .wa { width: 52px; padding: 0; justify-content: center; }
+    .wa__label { display: none; }
+  }
+</style>

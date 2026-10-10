@@ -1,0 +1,38 @@
+{
+  "title": "Tell us what you’re building. We’ll help you make it real.",
+  "intro": "Four short steps. We reply to every enquiry.",
+  "needs": {
+    "legend": "What do you need help with?",
+    "hint": "Choose all that apply.",
+    "options": [
+      "Custom software",
+      "AI & automation",
+      "Business management system",
+      "Platform or marketplace",
+      "Cloud & infrastructure",
+      "ZIIVOS demo",
+      "Not sure yet"
+    ]
+  },
+  "timeline": {
+    "legend": "When would you like to start?",
+    "options": [
+      "As soon as possible",
+      "Within 1 to 3 months",
+      "In 3 to 6 months",
+      "Just exploring"
+    ]
+  },
+  "budget": {
+    "legend": "What budget are you working with?",
+    "hint": "A rough range helps us suggest the right approach.",
+    "options": [
+      "Under GHS 25,000",
+      "GHS 25,000 to 75,000",
+      "GHS 75,000 to 200,000",
+      "Over GHS 200,000",
+      "Not sure yet"
+    ]
+  },
+  "detailsLegend": "How can we reach you?"
+}

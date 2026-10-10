@@ -1,0 +1,72 @@
+{
+  "label": "ZIIVOS",
+  "title": "Run your whole business from one dashboard.",
+  "intro": "Point of sale, invoices, payments, stock and purchasing in one place, with DEDE, an AI assistant that tells you what needs attention.",
+  "modules": {
+    "label": "What’s inside",
+    "title": "Everything a growing business runs on.",
+    "items": [
+      {
+        "icon": "till",
+        "name": "Point of sale",
+        "text": "Quick sales at the counter, sales history and an end-of-day till summary."
+      },
+      {
+        "icon": "invoice",
+        "name": "Sales",
+        "text": "Customers, products, invoices, quotations and recurring billing."
+      },
+      {
+        "icon": "wallet",
+        "name": "Money",
+        "text": "Payments, receipts and expenses, with outstanding and overdue amounts tracked."
+      },
+      {
+        "icon": "truck",
+        "name": "Purchasing",
+        "text": "Suppliers and purchase orders for the stock and services you buy."
+      },
+      {
+        "icon": "box",
+        "name": "Stock",
+        "text": "Product levels with low-stock alerts before you run out."
+      },
+      {
+        "icon": "megaphone",
+        "name": "Marketing",
+        "text": "Reach customers by SMS and email without leaving the dashboard."
+      },
+      {
+        "icon": "chart",
+        "name": "Insights",
+        "text": "Reports, payment trends and activity, so you always know where you stand."
+      },
+      {
+        "icon": "users",
+        "name": "Admin",
+        "text": "Users, roles and settings, with each business’s data kept separate."
+      }
+    ]
+  },
+  "dede": {
+    "label": "Meet DEDE",
+    "title": "An AI assistant that reads the numbers for you.",
+    "text": "DEDE is your AI business analyst. It looks up your real numbers, calls out what stands out and recommends what to do next, so you spend less time digging through reports.",
+    "asksLabel": "Ask things like",
+    "asks": [
+      "How has revenue trended over the last 6 months?",
+      "What’s my best-selling product this month?",
+      "How healthy are my receivables right now?",
+      "Who are my top-performing staff this month?"
+    ]
+  },
+  "anywhere": {
+    "label": "Desktop and mobile",
+    "title": "At your desk or on the move.",
+    "text": "ZIIVOS works in the browser on desktop and on your phone, so the business is always within reach."
+  },
+  "cta": {
+    "title": "See ZIIVOS with your own numbers.",
+    "text": "Book a walkthrough and we’ll show you how it fits the way your business runs."
+  }
+}

@@ -1,0 +1,46 @@
+---
+// A photograph sitting quietly beneath a solid brand-colour section. The
+// image is desaturated and blended into the deep green, then washed with a
+// gradient so text above it keeps full contrast. Decorative only.
+// The parent section needs `position: relative; isolation: isolate`.
+import { Image } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata;
+  /** 0 to 1. How much of the photo shows through. */
+  strength?: number;
+  position?: string;
+}
+const { src, strength = 0.32, position = 'center' } = Astro.props;
+---
+<div class="backdrop" aria-hidden="true" style={`--strength: ${strength}; --pos: ${position}`}>
+  <Image class="backdrop__img" src={src} alt="" widths={[960, 1600, 2400]} sizes="100vw" />
+</div>
+
+<style>
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: var(--c-deep);
+  }
+  .backdrop__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--pos);
+    filter: grayscale(1) contrast(1.1);
+    mix-blend-mode: luminosity;
+    opacity: var(--strength);
+  }
+  /* Tint toward brand green and fade the edges into the solid colour */
+  .backdrop::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, var(--c-deep) 0%, rgba(5, 31, 32, 0.55) 30%, rgba(5, 31, 32, 0.55) 70%, var(--c-deep) 100%),
+      linear-gradient(120deg, rgba(35, 83, 71, 0.35), transparent 60%);
+  }
+</style>

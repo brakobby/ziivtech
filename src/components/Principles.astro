@@ -1,0 +1,68 @@
+---
+import { PRINCIPLES } from '../data/content';
+---
+<section class="principles on-light" aria-labelledby="principles-title">
+  <div class="wrap">
+    <header class="principles__head" data-reveal>
+      <p class="label principles__label">{PRINCIPLES.label}</p>
+      <h2 class="display" id="principles-title">{PRINCIPLES.title}</h2>
+    </header>
+    <ul class="principles__list">
+      {PRINCIPLES.items.map((item, i) => (
+        <li class="principle" data-reveal style={`--reveal-delay: ${i * 0.08}s`}>
+          <span class="principle__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="principle__name">{item.name}</h3>
+          <p class="principle__text">{item.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .principles {
+    padding: var(--section-y) 0;
+    background: var(--bg-light);
+    color: var(--ink);
+  }
+  .principles__head {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+    margin-bottom: clamp(40px, 7vh, 90px);
+  }
+  .principles__label { color: var(--ink-soft); }
+  .principles__list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(24px, 3vw, 48px);
+  }
+  .principle {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: clamp(18px, 2.4vh, 26px);
+    border-top: 1px solid var(--rule-light);
+  }
+  .principle__num {
+    color: var(--c-mid);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .principle__name {
+    font-size: clamp(19px, 1.6vw, 26px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .principle__text {
+    color: var(--ink-soft);
+    font-size: clamp(14px, 1.05vw, 17px);
+  }
+
+  @media (max-width: 1024px) {
+    .principles__list { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .principles__list { grid-template-columns: 1fr; }
+  }
+</style>

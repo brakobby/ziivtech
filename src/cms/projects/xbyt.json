@@ -1,0 +1,47 @@
+{
+  "name": "XBYT",
+  "order": 20,
+  "title": "A trusted marketplace for devices",
+  "status": "Client project",
+  "statusNote": "Live",
+  "category": "client",
+  "featured": true,
+  "url": "https://xbyt.shop",
+  "shots": {
+    "desktop": "/src/assets/work/xbyt/shots/desktop.png",
+    "tall": "/src/assets/work/xbyt/shots/tall.png",
+    "mobile": "/src/assets/work/xbyt/shots/mobile.png"
+  },
+  "illustration": "none",
+  "description": "A marketplace in Ghana for verified smartphones and laptops, with warranty on every purchase and iPhone trade-in.",
+  "areas": [
+    "Marketplace",
+    "E-commerce",
+    "Trade-in"
+  ],
+  "summary": "Verified smartphones and laptops, backed by warranty.",
+  "overview": [
+    "XBYT is an online marketplace in Ghana for smartphones and laptops. Every device is checked, graded by condition and backed by a warranty.",
+    "Buyers can shop new, refurbished and pre-owned devices, trade in an iPhone toward an upgrade, and confirm orders on WhatsApp with delivery to their door. Trusted suppliers can apply to sell on the platform."
+  ],
+  "scope": [
+    {
+      "name": "Verified devices",
+      "text": "IMEI-verified, diagnostically tested and graded by condition."
+    },
+    {
+      "name": "Warranty",
+      "text": "Every purchase includes a warranty and after-sales support."
+    },
+    {
+      "name": "iPhone trade-in",
+      "text": "Trade in an old iPhone toward an upgrade."
+    },
+    {
+      "name": "Sell on XBYT",
+      "text": "A seller programme for trusted suppliers."
+    }
+  ],
+  "standing": "Live at xbyt.shop.",
+  "ownership": "A client project. XBYT belongs to its owners."
+}

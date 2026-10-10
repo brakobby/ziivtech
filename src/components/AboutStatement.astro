@@ -1,0 +1,77 @@
+---
+// About statement with highlighted phrases (from the reference), filled
+// word by word as it scrolls into view. On the home page it links to /about.
+import Button from './Button.astro';
+import PhotoBackdrop from './PhotoBackdrop.astro';
+import teamPhoto from '../assets/photos/team-collaboration.jpg';
+import { ABOUT } from '../data/content';
+
+interface Props {
+  cta?: boolean;
+}
+const { cta = false } = Astro.props;
+
+// Split into words at build time so each can be lit individually.
+const words = ABOUT.statement.flatMap((seg) =>
+  seg.text
+    .split(/(\s+)/)
+    .filter((t) => t.length > 0)
+    .map((t) => ({ t, mark: !!seg.mark }))
+);
+const total = words.filter((w) => w.t.trim()).length;
+let n = 0;
+---
+<section class="about section-dark" aria-labelledby="about-title">
+  <PhotoBackdrop src={teamPhoto} strength={0.3} />
+  <div class="wrap">
+    <h2 class="label" id="about-title">{ABOUT.label}</h2>
+    <p class="about__statement" data-fill>
+      {words.map((w) =>
+        w.t.trim() ? (
+          <span class:list={['about__w', { accent: w.mark }]} style={`--w: ${(n++ / total).toFixed(3)}`}>{w.t}</span>
+        ) : (
+          w.t
+        )
+      )}
+    </p>
+    {cta && (
+      <div class="about__cta">
+        <Button href="/about/" variant="light">Learn More About Us</Button>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .about {
+    --fill: 1;
+    position: relative;
+    isolation: isolate;
+    padding: var(--section-y) 0;
+  }
+  .about .wrap {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 2.5vh, 28px);
+  }
+  .about__statement {
+    max-width: 30ch;
+    font-size: var(--fs-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+  }
+  .about__w {
+    opacity: clamp(0.18, (var(--fill) - var(--w)) * 10 + 0.18, 1);
+    transition: opacity 0.25s linear;
+  }
+  .about__cta {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: clamp(50px, 8vh, 110px);
+  }
+
+  @media (max-width: 600px) {
+    .about__cta { justify-content: center; }
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import AboutStatement from '../components/AboutStatement.astro';
+import Values from '../components/Values.astro';
+import BrandBand from '../components/BrandBand.astro';
+import Principles from '../components/Principles.astro';
+import Horizons from '../components/Horizons.astro';
+import GetInTouch from '../components/GetInTouch.astro';
+import { ABOUT_INTRO } from '../data/content';
+---
+<BaseLayout
+  title="About"
+  description="ZIIV Technologies builds intelligent software, automation and digital platforms. Learn what we stand for and where we are headed."
+>
+  <PageIntro
+    label={ABOUT_INTRO.label}
+    title={ABOUT_INTRO.title}
+    image={ABOUT_INTRO.photo.src}
+    imageAlt={ABOUT_INTRO.photo.alt}
+  />
+  <AboutStatement />
+  <Values />
+  <BrandBand />
+  <Principles />
+  <Horizons />
+  <GetInTouch />
+</BaseLayout>

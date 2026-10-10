@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import Foundations from '../components/Foundations.astro';
+import GetInTouch from '../components/GetInTouch.astro';
+import { PROCESS } from '../data/content';
+---
+<BaseLayout title="Process" description={PROCESS.intro}>
+  <PageIntro
+    label={PROCESS.label}
+    title={PROCESS.title}
+    image={PROCESS.photo.src}
+    imageAlt={PROCESS.photo.alt}
+  />
+  <ProcessSteps />
+  <Foundations />
+  <GetInTouch />
+</BaseLayout>

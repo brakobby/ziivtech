@@ -1,0 +1,115 @@
+---
+// Pill button with the reference's slowly rotating gradient border.
+// Renders an <a> when `href` is given, otherwise a <button>.
+import Arrow from './Arrow.astro';
+
+interface Props {
+  href?: string;
+  variant?: 'light' | 'dark';
+  type?: 'button' | 'submit';
+  class?: string;
+  arrow?: boolean;
+  [key: string]: unknown;
+}
+const { href, variant = 'dark', type = 'button', class: className, arrow = true, ...rest } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+<Tag
+  href={href}
+  type={href ? undefined : type}
+  class:list={['btn', `btn--${variant}`, className]}
+  data-cursor="hover"
+  {...rest}
+>
+  <span class="btn__content">
+    <slot />
+    {arrow && <Arrow class="btn__arrow" />}
+  </span>
+</Tag>
+
+<style>
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 11px 20px;
+    overflow: hidden;
+    border: none;
+    border-radius: var(--radius-pill);
+    font-size: clamp(15px, 1.1vw, 18px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    isolation: isolate;
+    transition: color 0.45s var(--ease-out), background-color 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+  }
+
+  /* Rotating gradient sits behind an inset fill, leaving a 1.5px animated border. */
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -2;
+    width: 200%;
+    aspect-ratio: 1;
+    animation: btn-spin 4s linear infinite;
+  }
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 1.5px;
+    z-index: -1;
+    border-radius: calc(var(--radius-pill) - 2px);
+    transition: background-color 0.45s var(--ease-out);
+  }
+
+  .btn__content {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn__arrow { transition: transform 0.35s var(--ease-out); }
+  .btn:hover .btn__arrow,
+  .btn:focus-visible .btn__arrow { transform: translateX(4px); }
+
+  /* Light: white pill, used on dark backgrounds */
+  .btn--light { color: var(--c-deep); background: var(--c-white); }
+  .btn--light::before { background: linear-gradient(var(--c-deep), var(--c-soft), var(--c-white)); }
+  .btn--light::after { background: var(--c-white); }
+  .btn--light:hover,
+  .btn--light:focus-visible {
+    color: var(--c-deep);
+    box-shadow: 0 0 0 1px var(--c-pale), 0 0 28px rgba(142, 182, 155, 0.55);
+  }
+  .btn--light:hover::after,
+  .btn--light:focus-visible::after { background: var(--c-pale); }
+
+  /* Dark: deep-green pill, used on light backgrounds */
+  .btn--dark { color: var(--c-white); background: var(--c-deep); }
+  .btn--dark::before { background: linear-gradient(var(--c-white), var(--c-soft), var(--c-deep)); }
+  .btn--dark::after { background: var(--c-deep); }
+  .btn--dark:hover,
+  .btn--dark:focus-visible {
+    color: var(--c-white);
+    box-shadow: 0 10px 30px rgba(5, 31, 32, 0.28);
+  }
+  .btn--dark:hover::after,
+  .btn--dark:focus-visible::after { background: var(--c-mid); }
+
+  .btn:hover::before,
+  .btn:focus-visible::before { animation-play-state: paused; opacity: 0; }
+
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  @keyframes btn-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+</style>

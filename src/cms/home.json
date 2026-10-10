@@ -1,0 +1,31 @@
+{
+  "hero": {
+    "eyebrow": "Intelligence Without Friction.",
+    "lead": "We build",
+    "morphWords": [
+      "intelligent",
+      "reliable",
+      "scalable",
+      "automated"
+    ],
+    "tail": "software for business.",
+    "image": "/src/assets/cms/home/hero/image.jpg",
+    "imageAlt": "Two engineers reviewing code together at a workstation"
+  },
+  "marquee": [
+    "Software",
+    "Artificial Intelligence",
+    "Automation",
+    "Platforms",
+    "Cloud",
+    "Business Systems"
+  ],
+  "work": {
+    "label": "Selected work",
+    "title": "Products we own and work we’ve delivered for clients."
+  },
+  "getInTouch": {
+    "title": "Ready to build what’s next?",
+    "cta": "Get In Touch"
+  }
+}

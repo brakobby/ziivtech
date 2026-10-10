@@ -1,0 +1,272 @@
+---
+// The reference's process stepper. Desktop: a pinned stage; the left column
+// shows the current step, and on the right a curve draws itself while each
+// step's pill appears along it (scripts/main.ts drives this from scroll).
+// Below 1025px: a static vertical rail with every step visible. On desktop
+// that rail stays in the page for screen readers (visually hidden), and the
+// animated stage is hidden from assistive tech.
+import { PROCESS } from '../data/content';
+
+const steps = PROCESS.steps;
+const n = steps.length;
+
+// Pill positions on a 100 × 70 board, rising from bottom-left to top-right.
+const points: [number, number][] = [
+  [8, 60], [25, 44], [43, 52], [60, 31], [77, 37], [92, 10],
+];
+
+// Smooth curve through the points (Catmull-Rom converted to cubic Béziers).
+const curve = points
+  .map(([x, y], i) => {
+    if (i === 0) return `M${x} ${y}`;
+    const p0 = points[Math.max(0, i - 2)];
+    const p1 = points[i - 1];
+    const p3 = points[Math.min(n - 1, i + 1)];
+    const c1 = [p1[0] + (x - p0[0]) / 6, p1[1] + (y - p0[1]) / 6];
+    const c2 = [x - (p3[0] - p1[0]) / 6, y - (p3[1] - p1[1]) / 6];
+    return `C${c1.map((v) => v.toFixed(2)).join(' ')} ${c2.map((v) => v.toFixed(2)).join(' ')} ${x} ${y}`;
+  })
+  .join(' ');
+const pad = (i: number) => String(i + 1).padStart(2, '0');
+---
+<section class="psteps" aria-labelledby="psteps-title">
+  <h2 class="sr-only" id="psteps-title">How we work, step by step</h2>
+
+  <div class="psteps__scroller" style={`--count: ${n}`} data-steps>
+    <div class="psteps__stage wrap" aria-hidden="true">
+      <div class="psteps__left">
+        <div class="psteps__current">
+          {steps.map((s, i) => (
+            <div class:list={['pstep', { 'is-active': i === 0 }]} data-step-panel={i}>
+              <p class="pstep__label">Step {pad(i)}</p>
+              <h3 class="pstep__title">{s.name}</h3>
+              <p class="pstep__text">{s.text}</p>
+            </div>
+          ))}
+        </div>
+        <p class="psteps__count" aria-hidden="true"><span data-step-count>01</span> / {pad(n - 1)}</p>
+      </div>
+
+      <div class="psteps__right">
+        <div class="psteps__board">
+          <svg class="psteps__curve" viewBox="0 0 100 70" aria-hidden="true">
+            <path class="psteps__track" d={curve} />
+            <path class="psteps__line" d={curve} pathLength="1" />
+          </svg>
+          {steps.map((s, i) => (
+            <button
+              type="button"
+              class:list={['ppill', { 'is-reached': i === 0, 'is-active': i === 0 }]}
+              style={`left: ${points[i][0]}%; top: ${(points[i][1] / 70) * 100}%`}
+              data-step-pill={i}
+              tabindex="-1"
+            >
+              {s.name}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ol class="prail wrap">
+    {steps.map((s, i) => (
+      <li class="prail__step">
+        <span class="prail__node" aria-hidden="true">{pad(i)}</span>
+        <div class="prail__body">
+          <p class="pstep__label">Step {pad(i)}</p>
+          <h3 class="pstep__title">{s.name}</h3>
+          <p class="pstep__text">{s.text}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .psteps {
+    --draw: 0;
+    position: relative;
+    background: var(--bg-dark);
+    color: var(--on-dark);
+  }
+
+  /* ---------- Desktop: pinned stage ---------- */
+  .psteps__scroller {
+    position: relative;
+    height: calc(100vh + var(--count) * 55vh);
+  }
+  .psteps__stage {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    gap: clamp(40px, 5vw, 90px);
+    height: 100vh;
+    padding-top: 60px;
+  }
+  .psteps__left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(30px, 6vh, 60px);
+  }
+  .psteps__current { display: grid; }
+  .pstep {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 24px);
+    opacity: 0;
+    transform: translateY(18px);
+    visibility: hidden;
+    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out), visibility 0s 0.5s;
+  }
+  .pstep.is-active {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    transition-delay: 0.1s, 0.1s, 0s;
+  }
+  .pstep__label {
+    color: var(--c-soft);
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .pstep__title {
+    font-size: clamp(32px, 3.6vw, 60px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+  }
+  .pstep__text {
+    max-width: 44ch;
+    color: var(--on-dark-soft);
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.8;
+  }
+  .psteps__count {
+    color: var(--on-dark-soft);
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .psteps__right { flex: 0 0 48%; }
+  .psteps__board {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 100 / 70;
+  }
+  .psteps__curve {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .psteps__track,
+  .psteps__line {
+    fill: none;
+    stroke-linecap: round;
+  }
+  .psteps__track {
+    stroke: var(--rule-dark);
+    stroke-width: 0.35;
+    stroke-dasharray: 1.2 1.2;
+  }
+  .psteps__line {
+    stroke: var(--c-soft);
+    stroke-width: 0.45;
+    stroke-dasharray: 1;
+    stroke-dashoffset: calc(1 - var(--draw));
+  }
+
+  .ppill {
+    position: absolute;
+    z-index: 2;
+    padding: clamp(10px, 1vw, 14px) clamp(16px, 1.6vw, 22px);
+    border: 1px solid var(--c-pale);
+    border-radius: 50px;
+    background: var(--c-deep);
+    color: var(--c-white);
+    font-size: clamp(14px, 1.25vw, 18px);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0.85);
+    transition: opacity 0.4s, transform 0.5s var(--ease-out), background-color 0.3s, color 0.3s, visibility 0s 0.4s;
+  }
+  .ppill.is-reached {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%);
+    transition-delay: 0s;
+  }
+  .ppill:hover,
+  .ppill.is-active {
+    background: var(--c-pale);
+    border-color: var(--c-pale);
+    color: var(--c-deep);
+  }
+
+  /* ---------- Mobile: vertical rail ---------- */
+  @media (min-width: 1025px) {
+    .prail {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .psteps__scroller { display: none; }
+    .psteps { padding: clamp(60px, 10vh, 100px) 0; }
+    .prail {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 34px;
+    }
+    .prail::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 10px;
+      bottom: 10px;
+      border-left: 1px dashed var(--rule-dark);
+    }
+    .prail__step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+    }
+    .prail__node {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--c-soft);
+      border-radius: 50%;
+      background: var(--c-deep);
+      color: var(--c-soft);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .prail__body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 8px;
+    }
+    .prail .pstep__title { font-size: clamp(22px, 5.5vw, 30px); }
+    .prail .pstep__text { font-size: 15px; line-height: 1.7; }
+  }
+</style>

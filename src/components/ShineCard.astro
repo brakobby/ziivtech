@@ -1,0 +1,85 @@
+---
+// The reference's floating feature card: a large rounded photograph that
+// drifts slightly and catches a soft highlight under the pointer
+// (scripts/main.ts sets --mx/--my on fine pointers only).
+import { Image } from 'astro:assets';
+import { SITE } from '../data/site';
+import { SERVICES_PHOTO } from '../data/content';
+---
+<section class="shine-section on-light" aria-label={SITE.tagline}>
+  <div class="shine-card" data-shine>
+    <div class="shine-card__art">
+      <Image
+        class="shine-card__img"
+        src={SERVICES_PHOTO.src}
+        alt={SERVICES_PHOTO.alt}
+        widths={[640, 1024, 1440, 1920]}
+        sizes="(max-width: 1024px) 92vw, 70vw"
+      />
+    </div>
+    <span class="shine-card__shine" aria-hidden="true"></span>
+    <span class="shine-card__vignette" aria-hidden="true"></span>
+    <p class="shine-card__tagline">{SITE.tagline}</p>
+  </div>
+</section>
+
+<style>
+  .shine-section {
+    display: grid;
+    place-items: center;
+    padding: clamp(20px, 3vh, 40px) 0 var(--section-y);
+    background: var(--bg-light);
+  }
+  .shine-card {
+    --mx: 50;
+    --my: 50;
+    position: relative;
+    width: min(1300px, 76vw);
+    height: clamp(440px, 64vh, 800px);
+    overflow: hidden;
+    border-radius: clamp(14px, 1.4vw, 20px);
+    background: var(--c-deep);
+    box-shadow: 0 40px 120px rgba(5, 31, 32, 0.22), 0 10px 30px rgba(5, 31, 32, 0.14);
+  }
+  .shine-card__art {
+    position: absolute;
+    inset: -4%;
+    transform: translate(calc((var(--mx) - 50) * -0.08%), calc((var(--my) - 50) * -0.08%));
+    transition: transform 0.6s var(--ease-out);
+  }
+  .shine-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+  }
+  .shine-card__shine {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(460px 340px at calc(var(--mx) * 1%) calc(var(--my) * 1%), rgba(218, 241, 222, 0.22), rgba(218, 241, 222, 0.06) 40%, transparent 70%);
+    mix-blend-mode: screen;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .shine-card.is-lit .shine-card__shine { opacity: 1; }
+  .shine-card__vignette {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5, 31, 32, 0.05) 30%, rgba(5, 31, 32, 0.75) 100%);
+    pointer-events: none;
+  }
+  .shine-card__tagline {
+    position: absolute;
+    left: clamp(24px, 3vw, 48px);
+    bottom: clamp(24px, 3vw, 44px);
+    color: var(--c-white);
+    font-size: clamp(22px, 2.4vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  @media (max-width: 1024px) {
+    .shine-card { width: min(92vw, 900px); height: clamp(360px, 56vh, 600px); }
+  }
+</style>

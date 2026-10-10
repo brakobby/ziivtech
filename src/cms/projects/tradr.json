@@ -1,0 +1,44 @@
+{
+  "name": "TRADR",
+  "order": 50,
+  "title": "Connecting buyers, sellers and delivery",
+  "status": "Client project",
+  "statusNote": "",
+  "category": "client",
+  "featured": true,
+  "url": null,
+  "page": "",
+  "illustration": "tradr",
+  "shots": {},
+  "description": "A marketplace built for a client, bringing buyers, sellers, payments and delivery coordination together, with AI capabilities built in.",
+  "areas": [
+    "Marketplace",
+    "AI",
+    "Logistics"
+  ],
+  "summary": "A client marketplace connecting buyers, sellers, payments and delivery.",
+  "overview": [
+    "TRADR is a marketplace project we worked on for a client. It brings the people and steps of a transaction into one place: buyers, sellers, payments and the coordination of delivery.",
+    "AI capabilities are part of the platform, alongside the core marketplace flows."
+  ],
+  "scope": [
+    {
+      "name": "Buyers and sellers",
+      "text": "A marketplace where both sides of a sale meet."
+    },
+    {
+      "name": "Payments",
+      "text": "Handling payment as part of the purchase flow."
+    },
+    {
+      "name": "Delivery coordination",
+      "text": "Organising how orders reach buyers."
+    },
+    {
+      "name": "AI capabilities",
+      "text": "Intelligent features built into the platform."
+    }
+  ],
+  "standing": "Delivered as client work.",
+  "ownership": "A client project. TRADR belongs to our client."
+}

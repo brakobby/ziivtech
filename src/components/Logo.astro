@@ -1,0 +1,50 @@
+---
+import ZMark from './ZMark.astro';
+
+interface Props {
+  class?: string;
+  compact?: boolean;
+  /** `mono` for dark backgrounds, where the darker logo pieces would vanish. */
+  variant?: 'color' | 'mono';
+}
+const { class: className, compact = false, variant = 'color' } = Astro.props;
+---
+<a href="/" class:list={['logo', className, { 'logo--compact': compact }]} aria-label="ZIIV Technologies home">
+  <ZMark size="1.9em" class="logo__mark" variant={variant} />
+  <span class="logo__word" aria-hidden="true">
+    <span class="logo__ziiv">ZIIV</span>
+    <span class="logo__tech">Technologies</span>
+  </span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    color: inherit;
+    font-size: clamp(17px, 1.3vw, 22px);
+    line-height: 1;
+    text-decoration: none;
+  }
+  .logo__word {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45em;
+  }
+  .logo__ziiv {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .logo__tech {
+    font-size: 0.62em;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .logo--compact .logo__tech { display: none; }
+
+  @media (max-width: 420px) {
+    .logo__tech { display: none; }
+  }
+</style>

@@ -1,0 +1,95 @@
+---
+// Opening block for inner pages, as on the reference's Work, Process and
+// About pages: small uppercase label over a large statement. Anything in the
+// default slot (e.g. filter buttons) sits underneath. An optional image runs
+// wide beneath the text.
+import { Image } from 'astro:assets';
+
+interface Props {
+  label: string;
+  title: string;
+  align?: 'left' | 'center';
+  image?: ImageMetadata;
+  imageAlt?: string;
+}
+const { label, title, align = 'left', image, imageAlt = '' } = Astro.props;
+---
+<section class:list={['intro on-light', `intro--${align}`, { 'intro--image': image }]} aria-labelledby="page-title">
+  <div class="intro__inner wrap">
+    <p class="label intro__label">{label}</p>
+    <h1 class="intro__title" id="page-title">{title}</h1>
+    <slot />
+  </div>
+  {image && (
+    <div class="intro__media">
+      <Image
+        class="intro__img"
+        src={image}
+        alt={imageAlt}
+        widths={[640, 1024, 1440, 1920, 2400]}
+        sizes="95vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  )}
+</section>
+
+<style>
+  .intro {
+    padding: calc(var(--header-h) + clamp(60px, 11vh, 140px)) 0 clamp(50px, 8vh, 100px);
+    background: var(--bg-light);
+    color: var(--ink);
+  }
+  .intro__inner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 2.4vh, 28px);
+  }
+  .intro--center .intro__inner {
+    align-items: center;
+    text-align: center;
+  }
+  .intro__label { color: var(--ink-soft); }
+  .intro__title {
+    max-width: 20ch;
+    font-size: clamp(36px, 4.4vw, 80px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    text-wrap: balance;
+  }
+
+  .intro__media {
+    position: relative;
+    width: min(1800px, 100% - 2 * clamp(16px, 2.5vw, 48px));
+    margin: clamp(60px, 10vh, 120px) auto 0;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    border-radius: var(--radius-media);
+    background: var(--c-dark);
+  }
+  .intro__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: settle 1.6s var(--ease-out) both;
+  }
+  /* A quiet green grade keeps photography in the brand palette */
+  .intro__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5, 31, 32, 0) 50%, rgba(5, 31, 32, 0.35));
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  @keyframes settle {
+    from { transform: scale(1.06); }
+    to { transform: none; }
+  }
+
+  @media (max-width: 768px) {
+    .intro__media { aspect-ratio: 4 / 3; }
+  }
+</style>

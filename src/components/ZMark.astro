@@ -1,0 +1,31 @@
+---
+// The ZIIV brand mark. `color` uses the logo's own greens (for light
+// backgrounds); `mono` draws every piece in currentColor, for dark
+// backgrounds where the darker pieces would disappear.
+import { MARK_PARTS, MARK_TRANSFORM, MARK_COLORS } from '../data/brand';
+
+interface Props {
+  size?: number | string;
+  class?: string;
+  title?: string;
+  variant?: 'color' | 'mono';
+}
+const { size = 28, class: className, title, variant = 'color' } = Astro.props;
+---
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 100 100"
+  fill="currentColor"
+  role={title ? 'img' : undefined}
+  aria-label={title}
+  aria-hidden={title ? undefined : 'true'}
+  focusable="false"
+>
+  <g transform={MARK_TRANSFORM}>
+    {MARK_PARTS.map((part) => (
+      <path d={part.d} fill={variant === 'color' ? MARK_COLORS[part.tone] : undefined} />
+    ))}
+  </g>
+</svg>

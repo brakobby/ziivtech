@@ -1,0 +1,56 @@
+---
+// Outlined-type ticker that bridges the white hero into the dark sections.
+import ZMark from './ZMark.astro';
+import { MARQUEE } from '../data/content';
+---
+<section class="marquee section-dark" aria-label={`What we do: ${MARQUEE.join(', ')}`}>
+  <div class="marquee__track" aria-hidden="true">
+    {[0, 1].map(() => (
+      <div class="marquee__copy">
+        {MARQUEE.map((word) => (
+          <>
+            <span class="marquee__word">{word}</span>
+            <ZMark size="0.6em" class="marquee__sep" variant="mono" />
+          </>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .marquee {
+    display: flex;
+    align-items: center;
+    height: clamp(90px, 16vh, 200px);
+    overflow: hidden;
+  }
+  .marquee__track {
+    display: flex;
+    width: max-content;
+  }
+  .marquee__copy {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    animation: marquee 34s linear infinite;
+  }
+  .marquee__word {
+    padding-right: clamp(0.6rem, 2vw, 1.6rem);
+    color: transparent;
+    -webkit-text-stroke: 1px var(--c-soft);
+    font-size: clamp(1.8rem, 4.4vw, 4.6rem);
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  :global(.marquee__sep) {
+    margin-right: clamp(0.6rem, 2vw, 1.6rem);
+    color: var(--c-mid);
+    font-size: clamp(1.8rem, 4.4vw, 4.6rem);
+  }
+  @keyframes marquee {
+    to { transform: translateX(-100%); }
+  }
+</style>

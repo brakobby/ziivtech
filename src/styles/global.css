@@ -1,0 +1,181 @@
+/* ==========================================================================
+   ZIIV Technologies: design tokens and global styles
+   Layout language follows the reference: large tight-tracked Montserrat
+   headlines, small uppercase labels, deep full-bleed sections, hairline rules.
+   ========================================================================== */
+
+:root {
+  /* Brand palette */
+  --c-deep: #051f20;
+  --c-dark: #0b2b26;
+  --c-forest: #163832;
+  --c-mid: #235347;
+  --c-soft: #8eb69b;
+  --c-pale: #daf1de;
+  --c-white: #ffffff;
+  --c-off: #f4f8f4;
+
+  /* Semantic roles */
+  --bg-dark: var(--c-deep);
+  --bg-light: var(--c-white);
+  --bg-muted: var(--c-off);
+  --ink: var(--c-deep);
+  --ink-soft: #3c5a52;          /* body copy on light, 7.3:1 on white */
+  --ink-accent: var(--c-mid);   /* highlighted words on light */
+  --on-dark: var(--c-white);
+  --on-dark-soft: rgba(255, 255, 255, 0.72);
+  --on-dark-accent: var(--c-soft);
+  --rule-light: rgba(5, 31, 32, 0.9);
+  --rule-dark: rgba(218, 241, 222, 0.14);
+
+  /* Type */
+  --font: 'Montserrat Variable', 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-label: clamp(11px, 0.8vw, 15px);
+  --fs-body: clamp(15px, 1.1vw, 18px);
+  --fs-display: clamp(30px, 3.5vw, 72px);
+  --fs-hero: clamp(42px, 7vw, 124px);
+
+  /* Space */
+  --gutter: clamp(20px, 3vw, 80px);
+  --wrap: min(85vw, 1600px);
+  --section-y: clamp(110px, 16vh, 220px);
+  --header-h: clamp(70px, 8vh, 97px);
+  --radius-pill: 19px;
+  --radius-media: clamp(14px, 1.6vw, 20px);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 80px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg-light);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img, svg { display: block; max-width: 100%; }
+h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; }
+button, input, textarea, select { font: inherit; color: inherit; }
+
+::selection { background: var(--c-soft); color: var(--c-deep); }
+
+:focus-visible {
+  outline: 2px solid var(--c-soft);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.on-light :focus-visible,
+.on-light:focus-visible { outline-color: var(--c-mid); }
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px; left: 12px;
+  z-index: 10000;
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--c-deep);
+  color: var(--c-white);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 0.25s var(--ease-out);
+}
+.skip-link:focus-visible { transform: none; }
+
+/* ---------- Layout primitives ---------- */
+.wrap {
+  width: var(--wrap);
+  margin-inline: auto;
+}
+
+.section-dark {
+  background: var(--bg-dark);
+  color: var(--on-dark);
+}
+
+.label {
+  display: block;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.display {
+  font-size: var(--fs-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.accent { color: var(--ink-accent); }
+.section-dark .accent { color: var(--on-dark-accent); }
+
+/* Backdrop for project illustrations: a quiet blueprint grid that extends
+   to whatever shape the frame is. */
+.visual-frame {
+  background-color: var(--c-dark);
+  background-image:
+    linear-gradient(rgba(35, 83, 71, 0.32) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(35, 83, 71, 0.32) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: center;
+}
+
+/* ---------- Reveal on scroll (enabled only when JS runs) ---------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0s);
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  :root { --wrap: calc(100vw - 32px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js [data-reveal] { opacity: 1; transform: none; }
+}

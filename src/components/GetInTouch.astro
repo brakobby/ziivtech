@@ -1,0 +1,40 @@
+---
+// Closing call to action used at the foot of every page except Contact,
+// matching the reference's "Ready to create greatness together?" block.
+import Button from './Button.astro';
+import PhotoBackdrop from './PhotoBackdrop.astro';
+import glow from '../assets/photos/laptop-glow.jpg';
+import { GET_IN_TOUCH } from '../data/content';
+import { CONTACT_HREF } from '../data/site';
+---
+<section class="git section-dark" aria-labelledby="git-title">
+  <PhotoBackdrop src={glow} strength={0.45} />
+  <div class="wrap git__inner">
+    <h2 class="git__title" id="git-title" data-reveal>{GET_IN_TOUCH.title}</h2>
+    <Button href={CONTACT_HREF} variant="light" class="git__btn">{GET_IN_TOUCH.cta}</Button>
+  </div>
+</section>
+
+<style>
+  .git {
+    position: relative;
+    isolation: isolate;
+    margin-top: -1px;
+    padding: clamp(110px, 16vw, 200px) 0 clamp(70px, 10vh, 120px);
+  }
+  .git__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(40px, 7vw, 80px);
+  }
+  .git__title {
+    max-width: 14ch;
+    font-size: clamp(42px, 7.4vw, 110px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    text-align: center;
+  }
+  :global(.git__btn) { min-width: min(320px, 80vw); }
+</style>

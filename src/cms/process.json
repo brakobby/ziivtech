@@ -1,0 +1,68 @@
+{
+  "label": "Our process",
+  "title": "From the first conversation to long after launch.",
+  "intro": "How we move from a business problem to working software, and keep it working.",
+  "image": "/src/assets/cms/process/image.jpg",
+  "imageAlt": "A team mapping out a project on a wall of sticky notes",
+  "steps": [
+    {
+      "name": "Discover",
+      "text": "We start with the business problem: the people, the workflow and what success should look like. Nothing gets built until we understand why it matters."
+    },
+    {
+      "name": "Define",
+      "text": "We agree on scope, priorities and the architecture that fits your scale and budget, so everyone knows what is being built and in what order."
+    },
+    {
+      "name": "Design",
+      "text": "We shape interfaces and flows that feel obvious to the people who will use them every day."
+    },
+    {
+      "name": "Build",
+      "text": "We engineer in focused iterations, so you see working software early and often, and can steer as we go."
+    },
+    {
+      "name": "Test",
+      "text": "We check functionality, performance and security before anything reaches your users."
+    },
+    {
+      "name": "Launch & support",
+      "text": "We deploy, monitor and keep improving, so your system stays healthy as you grow."
+    }
+  ],
+  "foundations": {
+    "label": "Engineering foundations",
+    "title": "The disciplines behind every build.",
+    "intro": "Each project draws on the same core disciplines, combined for what your business needs.",
+    "rows": [
+      {
+        "type": "Interfaces",
+        "text": "Web, mobile and desktop applications designed for everyday use."
+      },
+      {
+        "type": "APIs & integrations",
+        "text": "Connections to payment providers, third-party services and the systems you already run."
+      },
+      {
+        "type": "Data",
+        "text": "Database design, reporting and analysis that turn records into decisions."
+      },
+      {
+        "type": "Cloud",
+        "text": "Cloud deployment, SaaS and multi-tenant architecture, and system integrations."
+      },
+      {
+        "type": "AI & automation",
+        "text": "Intelligent assistants, AI-powered workflows and automated processes."
+      },
+      {
+        "type": "Quality",
+        "text": "Testing for functionality, performance and security before release."
+      },
+      {
+        "type": "Support",
+        "text": "Maintenance, monitoring and technical support after launch."
+      }
+    ]
+  }
+}

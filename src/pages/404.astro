@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+---
+<BaseLayout title="Page not found" description="The page you are looking for does not exist.">
+  <section class="nf on-light" aria-labelledby="page-title">
+    <div class="wrap nf__inner">
+      <p class="label nf__label">Error 404</p>
+      <h1 class="nf__title" id="page-title">This page doesn’t exist.</h1>
+      <p class="nf__text">The link may be broken, or the page may have moved.</p>
+      <div class="nf__actions">
+        <Button href="/" variant="dark">Back to Home</Button>
+        <Button href="/contact/" variant="dark">Contact Us</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    display: flex;
+    align-items: center;
+    min-height: 80vh;
+    padding: calc(var(--header-h) + 60px) 0 80px;
+  }
+  .nf__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .nf__label { color: var(--ink-soft); }
+  .nf__title {
+    font-size: clamp(40px, 6vw, 96px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+  .nf__text { color: var(--ink-soft); }
+  .nf__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+</style>

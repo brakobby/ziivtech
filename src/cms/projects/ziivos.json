@@ -1,0 +1,63 @@
+{
+  "name": "ZIIVOS",
+  "order": 40,
+  "title": "Run the whole business from one dashboard",
+  "status": "Company product",
+  "statusNote": "",
+  "category": "products",
+  "featured": true,
+  "url": null,
+  "page": "/ziivos/",
+  "illustration": "none",
+  "shots": {
+    "desktop": "/src/assets/work/ziivos/shots/desktop.png",
+    "mobile": "/src/assets/work/ziivos/shots/mobile.png"
+  },
+  "description": "Our business management platform: point of sale, invoicing, payments, stock and purchasing in one place, with AI insights from DEDE, its built-in assistant.",
+  "areas": [
+    "Point of sale",
+    "Invoicing",
+    "AI insights"
+  ],
+  "summary": "Invoices, payments, customers and insights for growing businesses, in one place.",
+  "overview": [
+    "ZIIVOS is ZIIV’s own business management platform. It brings sales, money, marketing and insights together, so a business can see how it is doing at a glance and act on it.",
+    "DEDE, the built-in AI assistant, reads the numbers and recommends next steps, such as which customers to follow up with. ZIIVOS runs on desktop and mobile."
+  ],
+  "scope": [
+    {
+      "name": "Point of sale",
+      "text": "Quick sales, sales history and till summaries."
+    },
+    {
+      "name": "Sales",
+      "text": "Customers, products, invoices, quotations and recurring billing."
+    },
+    {
+      "name": "Money",
+      "text": "Payments, receipts and expenses, with outstanding and overdue amounts tracked."
+    },
+    {
+      "name": "Purchasing",
+      "text": "Suppliers and purchase orders."
+    },
+    {
+      "name": "Marketing",
+      "text": "SMS and email to customers, from the same place."
+    },
+    {
+      "name": "Insights",
+      "text": "Reports, activity and AI recommendations from DEDE."
+    },
+    {
+      "name": "Operations",
+      "text": "Stock levels, team members and staff performance."
+    },
+    {
+      "name": "Multi-tenant",
+      "text": "Many businesses on one platform, each with its own data."
+    }
+  ],
+  "standing": "In use at ZIIV Technologies, on desktop and mobile.",
+  "ownership": "A ZIIV Technologies product."
+}

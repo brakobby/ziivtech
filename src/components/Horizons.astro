@@ -1,0 +1,72 @@
+---
+// Where ZIIV is headed, taken from the brief: an initial focus on Ghana,
+// with opportunities across Africa and in international markets.
+import { HORIZONS } from '../data/content';
+---
+<section class="horizons section-dark" aria-labelledby="horizons-title">
+  <div class="wrap">
+    <header class="horizons__head" data-reveal>
+      <p class="label">{HORIZONS.label}</p>
+      <h2 class="display" id="horizons-title">{HORIZONS.title}</h2>
+    </header>
+    <ol class="horizons__list">
+      {HORIZONS.items.map((h, i) => (
+        <li class="horizon" data-reveal style={`--reveal-delay: ${i * 0.1}s`}>
+          <span class="horizon__ring" aria-hidden="true" style={`--rings: ${i + 1}`}></span>
+          <h3 class="horizon__name">{h.name}</h3>
+          <p class="horizon__text">{h.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .horizons {
+    padding: var(--section-y) 0;
+  }
+  .horizons__head {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+    margin-bottom: clamp(40px, 7vh, 90px);
+  }
+  .horizons__head .display { max-width: 18ch; }
+  .horizons__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 3vw, 56px);
+  }
+  .horizon {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: clamp(20px, 3vh, 30px);
+    border-top: 1px solid var(--rule-dark);
+  }
+  /* Widening circles: home, continent, world */
+  .horizon__ring {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, var(--c-soft) 0 5px, transparent 6px),
+      repeating-radial-gradient(circle, transparent 0 calc(28px / var(--rings) - 1px), var(--c-mid) calc(28px / var(--rings) - 1px) calc(28px / var(--rings)));
+  }
+  .horizon__name {
+    font-size: clamp(26px, 2.4vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .horizon__text {
+    max-width: 34ch;
+    color: var(--on-dark-soft);
+    font-size: clamp(14px, 1.05vw, 17px);
+  }
+
+  @media (max-width: 768px) {
+    .horizons__list { grid-template-columns: 1fr; }
+  }
+</style>

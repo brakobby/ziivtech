@@ -1,0 +1,267 @@
+---
+// Selected work, modelled on the reference: a pinned 100vh stage where the
+// numbered project list advances with scroll and the visual crossfades.
+// Below 1025px it becomes a simple stack of cards (no pinning).
+// Each project links through to its case study at /work/[slug].
+import ProjectMedia from './ProjectMedia.astro';
+import Button from './Button.astro';
+import { WORK, projectHref } from '../data/content';
+
+const projects = WORK.projects.filter((p) => p.featured);
+const count = projects.length;
+---
+<section class="work section-dark" id="work" aria-labelledby="work-title">
+  <header class="work__head wrap" data-reveal>
+    <span class="label">{WORK.label}</span>
+    <h2 class="display" id="work-title">{WORK.title}</h2>
+  </header>
+
+  <div class="work__scroller" style={`--count: ${count}`} data-work>
+    <div class="work__stage">
+      <ol class="work__list">
+        {projects.map((p, i) => (
+          <li class:list={['work__item', { 'is-active': i === 0 }]} data-work-item={i}>
+            <span class="work__num">{String(i + 1).padStart(2, '0')}</span>
+            <div class="work__info">
+              <div class="work__mobile-visual">
+                <ProjectMedia project={p} sizes="92vw" />
+              </div>
+              <p class="work__meta">
+                <span class:list={['work__status', { 'work__status--own': p.status === 'Company product' }]}>{p.status}</span>
+                {p.statusNote && <span class="work__note">{p.statusNote}</span>}
+              </p>
+              <h3 class="work__title" data-text={p.title}>{p.title}</h3>
+              <div class="work__more">
+                <div>
+                  <p class="work__desc">{p.description}</p>
+                </div>
+              </div>
+            </div>
+            <a class="work__hit" href={projectHref(p)} data-cursor="pill" data-cursor-label="View case">
+              <span class="sr-only">View the {p.name} case study</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+
+      <div class="work__media" aria-hidden="true">
+        <div class="work__frame">
+          {projects.map((p, i) => (
+            <div class:list={['work__slide', { 'is-active': i === 0 }]} data-work-slide={i}>
+              <ProjectMedia project={p} sizes="55vw" eager={i === 0} />
+            </div>
+          ))}
+          <span class="work__counter"><span data-work-counter>01</span> / {String(count).padStart(2, '0')}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="work__cta">
+    <Button href="/work/" variant="light">See More Work</Button>
+  </div>
+</section>
+
+<style>
+  .work {
+    position: relative;
+    margin-top: -1px;
+    padding-top: clamp(40px, 6vh, 80px);
+  }
+  .work__head {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+    padding-bottom: clamp(20px, 4vh, 48px);
+  }
+  .work__head .display { max-width: 22ch; }
+
+  /* ---------- Pinned stage (desktop) ---------- */
+  .work__scroller {
+    --step: 75vh;
+    position: relative;
+    height: calc(100vh + var(--count) * var(--step));
+  }
+  .work__stage {
+    position: sticky;
+    top: 0;
+    display: flex;
+    gap: clamp(30px, 5vw, 110px);
+    height: 100vh;
+    padding: clamp(80px, 11vh, 110px) clamp(20px, 5vw, 80px) clamp(28px, 5vh, 60px);
+    overflow: hidden;
+  }
+  .work__list {
+    flex: 0.85;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 34%;
+  }
+  .work__item {
+    position: relative;
+    display: flex;
+    gap: clamp(20px, 3vw, 48px);
+    padding: clamp(10px, 1.7vh, 22px) 0;
+    border-bottom: 1px solid var(--rule-dark);
+    opacity: 0.35;
+    transition: opacity 0.8s var(--ease-soft);
+  }
+  .work__item:hover { opacity: 0.65; }
+  .work__item.is-active { opacity: 1; }
+  .work__num {
+    padding-top: 0.35em;
+    color: var(--on-dark-soft);
+    font-size: clamp(14px, 1.2vw, 18px);
+    font-weight: 300;
+    font-variant-numeric: tabular-nums;
+  }
+  .work__item.is-active .work__num { color: var(--c-white); font-weight: 500; }
+  .work__info { flex: 1; min-width: 0; }
+  .work__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    margin-bottom: 8px;
+  }
+  .work__status {
+    padding: 4px 10px;
+    border: 1px solid var(--c-soft);
+    border-radius: 999px;
+    color: var(--c-soft);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .work__status--own { background: var(--c-pale); border-color: var(--c-pale); color: var(--c-deep); }
+  .work__note {
+    color: var(--on-dark-soft);
+    font-size: 12px;
+  }
+  .work__title {
+    position: relative;
+    font-size: clamp(1.1rem, 1.75vw, 1.9rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    transition: transform 0.8s var(--ease-soft), color 0.8s;
+  }
+  .work__item.is-active .work__title {
+    color: var(--c-pale);
+    transform: translateX(10px);
+  }
+  /* The reference's slow light sweep across the active title */
+  .work__item.is-active .work__title::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0%, transparent 44%, rgba(255, 255, 255, 0.95) 50%, transparent 56%, transparent 100%) 0 0 / 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    pointer-events: none;
+    animation: sheen 6s linear infinite;
+  }
+  @keyframes sheen {
+    from { background-position: 200% 0; }
+    to { background-position: -20% 0; }
+  }
+
+  /* Description expands only for the active project */
+  .work__more {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.7s var(--ease-soft);
+  }
+  .work__more > div { min-height: 0; overflow: hidden; }
+  .work__item.is-active .work__more { grid-template-rows: 1fr; }
+  .work__desc {
+    max-width: 48ch;
+    padding-top: 12px;
+    color: var(--on-dark-soft);
+    font-size: clamp(14px, 1.05vw, 17px);
+    line-height: 1.6;
+  }
+  .work__hit {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: 6px;
+  }
+
+  .work__media {
+    flex: 1.3;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+  .work__frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 800 / 560;
+    max-height: 76vh;
+    overflow: hidden;
+    border-radius: var(--radius-media);
+  }
+  .work__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity 1.1s var(--ease-soft), transform 1.4s var(--ease-soft);
+  }
+  .work__slide.is-active { opacity: 1; transform: none; }
+  .work__counter {
+    position: absolute;
+    z-index: 2;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(5, 31, 32, 0.72);
+    color: var(--c-pale);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  .work__counter { top: 16px; left: 16px; font-variant-numeric: tabular-nums; }
+
+  .work__mobile-visual { display: none; }
+
+  .work__cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: clamp(30px, 6vh, 80px) 20px clamp(80px, 12vh, 150px);
+  }
+
+  /* ---------- Stacked cards (tablet & mobile) ---------- */
+  @media (max-width: 1024px) {
+    .work__scroller { height: auto; }
+    .work__media { display: none; }
+    .work__stage {
+      position: static;
+      height: auto;
+      padding: 0;
+      width: var(--wrap);
+      margin: 0 auto;
+    }
+    .work__list { flex: 1; gap: clamp(36px, 6vw, 56px); }
+    .work__item,
+    .work__item:hover { opacity: 1; border-bottom: none; padding: 0; }
+    .work__num { display: none; }
+    .work__item .work__title,
+    .work__item.is-active .work__title { transform: none; color: var(--c-white); }
+    .work__item.is-active .work__title::after { content: none; }
+    .work__more { grid-template-rows: 1fr; }
+    .work__mobile-visual {
+      position: relative;
+      display: block;
+      aspect-ratio: 10 / 7;
+      margin-bottom: 18px;
+      overflow: hidden;
+      border-radius: var(--radius-media);
+    }
+  }
+</style>

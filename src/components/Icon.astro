@@ -1,0 +1,26 @@
+---
+// Minimal line icon. Paths live in data/icons.ts.
+import { PATHS, type IconName } from '../data/icons';
+
+interface Props {
+  name: IconName;
+  size?: number | string;
+  class?: string;
+}
+const { name, size = 22, class: className } = Astro.props;
+---
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d={PATHS[name]} />
+</svg>

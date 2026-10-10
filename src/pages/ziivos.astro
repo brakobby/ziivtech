@@ -1,0 +1,348 @@
+---
+// ZIIVOS product page: what it is, what's inside, DEDE, desktop and mobile,
+// then a demo request. Screenshots have customer details blurred.
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import type { IconName } from '../data/icons';
+import PhotoBackdrop from '../components/PhotoBackdrop.astro';
+import { ZIIVOS } from '../data/content';
+import { SITE, whatsappHref } from '../data/site';
+import dedeShot from '../assets/ziivos/ziivos-dede.png';
+import laptopMockup from '../assets/ziivos/ziivos-laptop-mockup.png';
+import phoneMockup from '../assets/ziivos/ziivos-phone-mockup.png';
+import glow from '../assets/photos/laptop-glow.jpg';
+
+const wa = whatsappHref('Hello ZIIV, I’d like a demo of ZIIVOS.');
+---
+<BaseLayout title="ZIIVOS" description={ZIIVOS.intro}>
+  <section class="zh on-light" aria-labelledby="page-title">
+    <div class="zh__text wrap">
+      <p class="label zh__label">{ZIIVOS.label} · A ZIIV product</p>
+      <h1 class="zh__title" id="page-title">{ZIIVOS.title}</h1>
+      <p class="zh__intro">{ZIIVOS.intro}</p>
+      <div class="zh__actions">
+        <Button href={ZIIVOS.demoHref} variant="dark">Request a Demo</Button>
+        {SITE.bookingUrl && (
+          <Button href={SITE.bookingUrl} variant="dark" target="_blank" rel="noopener noreferrer">
+            Book a Call<span class="sr-only"> (opens in a new tab)</span>
+          </Button>
+        )}
+      </div>
+    </div>
+    <figure class="zh__media">
+      <Image
+        class="zh__img"
+        src={laptopMockup}
+        alt="The ZIIVOS dashboard on a laptop, showing invoicing totals, payment trend and invoice status"
+        widths={[640, 960, 1280]}
+        sizes="(max-width: 768px) 92vw, 90vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+  </section>
+
+  <section class="zmods on-light" aria-labelledby="mods-title">
+    <div class="wrap">
+      <header class="zmods__head" data-reveal>
+        <p class="label zmods__label">{ZIIVOS.modules.label}</p>
+        <h2 class="display" id="mods-title">{ZIIVOS.modules.title}</h2>
+      </header>
+      <ul class="zmods__grid">
+        {ZIIVOS.modules.items.map((m, i) => (
+          <li class="zmod" data-reveal style={`--reveal-delay: ${(i % 3) * 0.08}s`}>
+            <span class="zmod__icon"><Icon name={m.icon as IconName} size={22} /></span>
+            <h3 class="zmod__name">{m.name}</h3>
+            <p class="zmod__text">{m.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="zdede section-dark" aria-labelledby="dede-title">
+    <div class="zdede__inner wrap">
+      <div class="zdede__text" data-reveal>
+        <p class="label zdede__label"><Icon name="sparkle" size={16} /> {ZIIVOS.dede.label}</p>
+        <h2 class="display" id="dede-title">{ZIIVOS.dede.title}</h2>
+        <p class="zdede__copy">{ZIIVOS.dede.text}</p>
+        <p class="zdede__asks-label">{ZIIVOS.dede.asksLabel}</p>
+        <ul class="zdede__asks">
+          {ZIIVOS.dede.asks.map((q) => <li>{q}</li>)}
+        </ul>
+      </div>
+      <div class="zdede__phone" data-reveal>
+        <Image
+          src={dedeShot}
+          alt="DEDE in ZIIVOS on mobile: 'Hi, I'm DEDE', with suggested questions about revenue, best-selling products, receivables and staff"
+          widths={[400, 800]}
+          sizes="(max-width: 1024px) 70vw, 340px"
+          class="zdede__img"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="zany on-light" aria-labelledby="any-title">
+    <div class="zany__inner wrap">
+      <figure class="zany__media" data-reveal>
+        <Image
+          class="zany__img"
+          src={phoneMockup}
+          alt="The ZIIVOS home screen on a phone, with DEDE's recommendations and the business summary"
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 1024px) 92vw, 50vw"
+        />
+      </figure>
+      <div class="zany__text" data-reveal>
+        <p class="label zany__label"><Icon name="devices" size={16} /> {ZIIVOS.anywhere.label}</p>
+        <h2 class="display" id="any-title">{ZIIVOS.anywhere.title}</h2>
+        <p class="zany__copy">{ZIIVOS.anywhere.text}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="zcta section-dark" aria-labelledby="zcta-title">
+    <PhotoBackdrop src={glow} strength={0.45} />
+    <div class="zcta__inner wrap">
+      <h2 class="zcta__title" id="zcta-title" data-reveal>{ZIIVOS.cta.title}</h2>
+      <p class="zcta__text">{ZIIVOS.cta.text}</p>
+      <div class="zcta__actions">
+        <Button href={ZIIVOS.demoHref} variant="light">Request a Demo</Button>
+        {wa && (
+          <Button href={wa} variant="light" target="_blank" rel="noopener noreferrer">
+            Ask on WhatsApp<span class="sr-only"> (opens in a new tab)</span>
+          </Button>
+        )}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- Hero ---------- */
+  .zh {
+    padding: calc(var(--header-h) + clamp(60px, 11vh, 140px)) 0 clamp(16px, 2.5vw, 48px);
+    background: var(--bg-light);
+  }
+  .zh__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(18px, 2.6vh, 28px);
+    text-align: center;
+  }
+  .zh__label { color: var(--ink-accent); }
+  .zh__title {
+    max-width: 18ch;
+    font-size: clamp(40px, 5.4vw, 96px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+  .zh__intro {
+    max-width: 52ch;
+    color: var(--ink-soft);
+    font-size: clamp(16px, 1.35vw, 21px);
+  }
+  .zh__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .zh__media {
+    width: min(1500px, 100% - 2 * clamp(16px, 2.5vw, 48px));
+    margin: clamp(60px, 10vh, 120px) auto 0;
+    overflow: hidden;
+    border-radius: var(--radius-media);
+    background: #1c1d1f;
+    box-shadow: 0 40px 120px rgba(5, 31, 32, 0.22);
+  }
+  .zh__img { width: 100%; height: auto; }
+
+  /* ---------- Modules ---------- */
+  .zmods {
+    padding: var(--section-y) 0;
+    background: var(--bg-light);
+  }
+  .zmods__head {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+    margin-bottom: clamp(50px, 8vh, 100px);
+  }
+  .zmods__head .display { max-width: 18ch; }
+  .zmods__label { color: var(--ink-soft); }
+  .zmods__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(48px, 7vh, 80px) clamp(28px, 4vw, 72px);
+  }
+  .zmod {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .zmod__icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    background: var(--c-pale);
+    color: var(--c-deep);
+  }
+  .zmod__name {
+    font-size: clamp(20px, 1.7vw, 26px);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .zmod__text {
+    max-width: 34ch;
+    color: var(--ink-soft);
+    font-size: clamp(15px, 1.1vw, 17px);
+  }
+
+  /* ---------- DEDE ---------- */
+  .zdede { padding: var(--section-y) 0; overflow: hidden; }
+  .zdede__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(40px, 7vw, 140px);
+    align-items: center;
+  }
+  .zdede__text {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+  }
+  .zdede__label,
+  .zany__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .zdede__label { color: var(--c-soft); }
+  .zdede__copy {
+    max-width: 46ch;
+    color: var(--on-dark-soft);
+    font-size: clamp(16px, 1.25vw, 19px);
+    line-height: 1.75;
+  }
+  .zdede__asks-label {
+    margin-top: clamp(10px, 2vh, 20px);
+    color: var(--c-soft);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .zdede__asks {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--rule-dark);
+  }
+  .zdede__asks li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule-dark);
+    color: var(--c-white);
+    font-size: clamp(15px, 1.15vw, 18px);
+  }
+  /* Full DEDE screen in a phone frame */
+  .zdede__phone {
+    justify-self: center;
+    width: min(340px, 78%);
+    aspect-ratio: 851 / 1849;
+    overflow: hidden;
+    border: 8px solid #0a0f0e;
+    border-radius: 34px;
+    background: #fff;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(218, 241, 222, 0.1);
+  }
+  .zdede__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  /* ---------- Anywhere ---------- */
+  .zany {
+    padding: var(--section-y) 0;
+    background: var(--bg-muted);
+  }
+  .zany__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(40px, 7vw, 140px);
+    align-items: center;
+  }
+  .zany__media {
+    overflow: hidden;
+    border-radius: var(--radius-media);
+    background: #fff;
+    box-shadow: 0 30px 90px rgba(5, 31, 32, 0.12);
+  }
+  .zany__img { width: 100%; height: auto; }
+  .zany__text {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+  }
+  .zany__label { color: var(--ink-soft); }
+  .zany__copy {
+    max-width: 46ch;
+    color: var(--ink-soft);
+    font-size: clamp(16px, 1.25vw, 19px);
+  }
+
+  /* ---------- CTA ---------- */
+  .zcta {
+    position: relative;
+    isolation: isolate;
+    padding: clamp(110px, 16vw, 200px) 0;
+  }
+  .zcta__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(20px, 3vh, 30px);
+    text-align: center;
+  }
+  .zcta__title {
+    max-width: 14ch;
+    font-size: clamp(40px, 6vw, 96px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+  .zcta__text {
+    max-width: 44ch;
+    color: var(--on-dark-soft);
+    font-size: clamp(16px, 1.25vw, 19px);
+  }
+  .zcta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: clamp(16px, 3vh, 30px);
+  }
+
+  @media (max-width: 1200px) {
+    .zmods__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 1024px) {
+    .zdede__inner,
+    .zany__inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .zmods__grid { grid-template-columns: 1fr; }
+  }
+</style>

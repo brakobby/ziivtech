@@ -1,0 +1,63 @@
+---
+// Between-page curtain from the reference: a deep-green panel with the Z mark
+// rises over the page on internal navigation, and lifts away on arrival.
+// Driven by html classes set in BaseLayout (is-entering) and main.ts (is-leaving).
+// The arrival reveal is CSS-timed, so the page is never left covered.
+import ZMark from './ZMark.astro';
+---
+<div class="transition" aria-hidden="true">
+  <ZMark size="84" class="transition__mark" variant="mono" />
+</div>
+
+<style>
+  .transition {
+    position: fixed;
+    inset: 0;
+    z-index: 9500;
+    display: grid;
+    place-items: center;
+    background: var(--c-deep);
+    color: var(--c-pale);
+    pointer-events: none;
+    clip-path: inset(100% 0 0 0);
+  }
+  :global(.transition__mark) {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  /* Leaving: the panel wipes up to cover the page */
+  :global(html.is-leaving) .transition {
+    pointer-events: all;
+    animation: cover 0.5s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  }
+  :global(html.is-leaving) .transition :global(.transition__mark) {
+    animation: mark-in 0.4s var(--ease-out) 0.2s forwards;
+  }
+
+  /* Entering: starts covered, then lifts off the top */
+  :global(html.is-entering) .transition {
+    clip-path: inset(0 0 0 0);
+    animation: reveal 0.6s cubic-bezier(0.76, 0, 0.24, 1) 0.2s forwards;
+  }
+  :global(html.is-entering) .transition :global(.transition__mark) {
+    opacity: 1;
+    transform: none;
+    animation: mark-out 0.3s ease 0.05s forwards;
+  }
+
+  @keyframes cover {
+    from { clip-path: inset(100% 0 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes reveal {
+    from { clip-path: inset(0 0 0 0); }
+    to { clip-path: inset(0 0 100% 0); }
+  }
+  @keyframes mark-in {
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes mark-out {
+    to { opacity: 0; transform: translateY(-16px); }
+  }
+</style>

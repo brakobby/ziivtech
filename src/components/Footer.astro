@@ -1,0 +1,130 @@
+---
+import Logo from './Logo.astro';
+import Arrow from './Arrow.astro';
+import { SITE, NAV, CONTACT_HREF } from '../data/site';
+
+const social = SITE.social.filter((s) => s.url);
+const year = new Date().getFullYear();
+---
+<footer class="footer section-dark">
+  <div class="footer__inner wrap">
+    <div class="footer__brand">
+      <Logo variant="mono" />
+      <p class="footer__desc">{SITE.description}</p>
+    </div>
+
+    <div class="footer__col">
+      <h2 class="footer__title">Explore</h2>
+      <ul class="footer__list">
+        {NAV.map((item) => <li><a class="footer__link" href={item.href}>{item.label}</a></li>)}
+        <li><a class="footer__link" href={CONTACT_HREF}>Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h2 class="footer__title">Contact</h2>
+      <ul class="footer__list">
+        <li><a class="footer__link" href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+        <li class="footer__text">{SITE.locationLine}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer__bar wrap">
+    <p class="footer__text">©{year} {SITE.name}. All rights reserved.</p>
+    <ul class="footer__social">
+      {social.map((s) => (
+        <li>
+          <a class="footer__social-link" href={s.url} target="_blank" rel="noopener noreferrer">
+            {s.label}<Arrow direction="up-right" class="footer__social-arrow" />
+            <span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </li>
+      ))}
+      <li>
+        <a class="footer__social-link" href="#top">Back to top<Arrow direction="up-right" class="footer__social-arrow" /></a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: -1px;
+    padding: clamp(20px, 4vh, 50px) 0 clamp(20px, 3vh, 32px);
+  }
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.3fr;
+    gap: clamp(32px, 5vw, 80px);
+    padding-bottom: clamp(48px, 8vh, 90px);
+    border-top: 1px solid var(--rule-dark);
+    padding-top: clamp(40px, 6vh, 70px);
+  }
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .footer__desc {
+    max-width: 44ch;
+    color: var(--on-dark-soft);
+    font-size: 14px;
+  }
+  .footer__title {
+    margin-bottom: 16px;
+    color: var(--c-soft);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer__link {
+    font-size: 15px;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .footer__link:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .footer__text {
+    color: var(--on-dark-soft);
+    font-size: 13px;
+  }
+  .footer__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(14px, 2vw, 24px);
+  }
+  .footer__social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .footer__social-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+  :global(.footer__social-arrow) { transition: transform 0.3s var(--ease-out); }
+  .footer__social-link:hover :global(.footer__social-arrow) { transform: rotate(-90deg) !important; }
+
+  @media (max-width: 900px) {
+    .footer__inner { grid-template-columns: 1fr 1fr; }
+    .footer__brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .footer__inner { grid-template-columns: 1fr; }
+  }
+</style>

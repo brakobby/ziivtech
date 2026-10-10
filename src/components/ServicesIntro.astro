@@ -1,0 +1,47 @@
+---
+// Services page opener from the reference: a centred statement whose key
+// phrases carry a slowly drifting gradient fill.
+import { SERVICES_INTRO } from '../data/content';
+---
+<section class="sintro on-light" aria-labelledby="page-title">
+  <div class="sintro__inner wrap">
+    <p class="label sintro__label">{SERVICES_INTRO.label}</p>
+    <h1 class="sintro__statement" id="page-title">
+      {SERVICES_INTRO.statement.map((seg) => (seg.mark ? <mark>{seg.text}</mark> : seg.text))}
+    </h1>
+  </div>
+</section>
+
+<style>
+  .sintro {
+    padding: calc(var(--header-h) + clamp(50px, 9vh, 110px)) 0 clamp(50px, 8vh, 100px);
+    background: var(--bg-light);
+    color: var(--ink);
+  }
+  .sintro__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(18px, 3vh, 30px);
+    text-align: center;
+  }
+  .sintro__label { color: var(--ink-soft); }
+  .sintro__statement {
+    max-width: 24ch;
+    font-size: clamp(30px, 3.8vw, 68px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  .sintro__statement mark {
+    background: linear-gradient(100deg, var(--c-mid) 0%, #3f8a6f 25%, var(--c-deep) 50%, #3f8a6f 75%, var(--c-mid) 100%) 0 0 / 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: drift 14s linear infinite;
+  }
+  @keyframes drift {
+    to { background-position: 300% 0; }
+  }
+</style>

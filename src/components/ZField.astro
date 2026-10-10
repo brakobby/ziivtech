@@ -1,0 +1,54 @@
+---
+// A field of ZIIV marks in graded greens: the brand's stand-in for
+// photography. Fills its parent; `seed` varies the arrangement.
+import { MARK_PARTS, MARK_TRANSFORM } from '../data/brand';
+
+interface Props {
+  cols?: number;
+  rows?: number;
+  seed?: number;
+  class?: string;
+}
+const { cols = 24, rows = 7, seed = 0, class: className } = Astro.props;
+const cell = 80;
+
+const cells = Array.from({ length: cols * rows }, (_, n) => {
+  const c = n % cols;
+  const r = Math.floor(n / cols);
+  // Deterministic pseudo-random tone per cell, so every build looks the same.
+  const h = Math.abs(Math.sin((c + seed * 31) * 12.9898 + r * 78.233) * 43758.5453) % 1;
+  const tone = h < 0.38 ? null : h < 0.66 ? 'a' : h < 0.86 ? 'b' : h < 0.96 ? 'c' : 'd';
+  return { x: c * cell + 16, y: r * cell + 16, tone };
+});
+---
+<svg
+  class:list={['zfield', className]}
+  viewBox={`0 0 ${cols * cell} ${rows * cell}`}
+  preserveAspectRatio="xMidYMid slice"
+  aria-hidden="true"
+  focusable="false"
+>
+  {cells.map((c) =>
+    c.tone && (
+      <g transform={`translate(${c.x - 8} ${c.y - 8}) scale(0.64)`} class={`zfield__z zfield__z--${c.tone}`}>
+        <g transform={MARK_TRANSFORM}>{MARK_PARTS.map((part) => <path d={part.d} />)}</g>
+      </g>
+    )
+  )}
+</svg>
+
+<style>
+  .zfield {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--c-deep);
+  }
+  .zfield__z--a { fill: var(--c-dark); }
+  .zfield__z--b { fill: var(--c-forest); }
+  .zfield__z--c { fill: var(--c-mid); }
+  .zfield__z--d { fill: var(--c-soft); animation: zfield-pulse 5s ease-in-out infinite; }
+  @keyframes zfield-pulse {
+    50% { fill: var(--c-pale); }
+  }
+</style>

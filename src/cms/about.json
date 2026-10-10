@@ -1,0 +1,67 @@
+{
+  "intro": {
+    "label": "About us",
+    "title": "We turn complex processes into technology that simply works.",
+    "image": "/src/assets/cms/about/intro/image.jpg",
+    "imageAlt": "A team meeting around a conference table"
+  },
+  "statement": {
+    "label": "Who we are",
+    "text": "ZIIV stands for Zero-Interface Intelligence & Vision. We build software that *disappears into the work*, so teams spend less time fighting their systems and *more time moving the business forward*."
+  },
+  "values": {
+    "label": "Our values",
+    "title": "The principles behind every build.",
+    "text": "We want ZIIV to feel intelligent without being complicated, ambitious without losing sight of the people who use what we make. These values guide the decisions we make on every project, from the first conversation to long after launch.",
+    "items": [
+      "Simplicity",
+      "Precision",
+      "Trust",
+      "Practical innovation",
+      "Reliability",
+      "Human-centred",
+      "Partnership",
+      "Long-term thinking"
+    ]
+  },
+  "principles": {
+    "label": "Why ZIIV",
+    "title": "What you can expect from us.",
+    "items": [
+      {
+        "name": "Outcomes first",
+        "text": "Every feature has to earn its place by solving a real business problem."
+      },
+      {
+        "name": "Built to last",
+        "text": "Clean architecture and maintainable code, so your system can grow with you."
+      },
+      {
+        "name": "Practical AI",
+        "text": "We use intelligence where it removes friction, never just for show."
+      },
+      {
+        "name": "Partners, not vendors",
+        "text": "Plain-language updates, honest trade-offs and support after launch."
+      }
+    ]
+  },
+  "horizons": {
+    "label": "Where we’re headed",
+    "title": "Starting at home, building for further.",
+    "items": [
+      {
+        "name": "Ghana",
+        "text": "Our starting point and initial focus: helping local businesses and institutions work better."
+      },
+      {
+        "name": "Africa",
+        "text": "Opportunities across the continent for software that fits how businesses here operate."
+      },
+      {
+        "name": "International",
+        "text": "Partnerships and clients beyond Africa who want a dependable engineering team."
+      }
+    ]
+  }
+}

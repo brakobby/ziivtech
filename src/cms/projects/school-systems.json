@@ -1,0 +1,40 @@
+{
+  "name": "School systems",
+  "order": 60,
+  "title": "Running schools with less paperwork",
+  "status": "Experience",
+  "statusNote": "",
+  "category": "experience",
+  "featured": false,
+  "url": null,
+  "page": "",
+  "illustration": "schools",
+  "shots": {},
+  "description": "Hands-on work on school administration, attendance and financial tracking workflows for educational institutions.",
+  "areas": [
+    "Administration",
+    "Attendance",
+    "Finance"
+  ],
+  "summary": "Administration, attendance and financial tracking for educational institutions.",
+  "overview": [
+    "Schools run on a steady flow of administrative work: keeping records, tracking who is present and following the money.",
+    "We have hands-on experience with these school and institutional workflows, and it informs how we approach management systems for education."
+  ],
+  "scope": [
+    {
+      "name": "School administration",
+      "text": "Day-to-day administrative workflows."
+    },
+    {
+      "name": "Attendance",
+      "text": "Recording and tracking attendance."
+    },
+    {
+      "name": "Financial tracking",
+      "text": "Keeping track of school finances."
+    }
+  ],
+  "standing": "Experience we bring to new school and institutional management projects.",
+  "ownership": "Our experience in the education sector, rather than a single named product."
+}

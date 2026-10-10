@@ -1,0 +1,48 @@
+{
+  "name": "wiremee",
+  "order": 10,
+  "title": "Banking and beyond, in one app",
+  "status": "Client project",
+  "statusNote": "Pre-launch",
+  "category": "client",
+  "featured": true,
+  "url": "https://www.wiremee.com",
+  "page": "",
+  "illustration": "none",
+  "shots": {
+    "desktop": "/src/assets/work/wiremee/shots/desktop.png",
+    "tall": "/src/assets/work/wiremee/shots/tall.png",
+    "mobile": "/src/assets/work/wiremee/shots/mobile.png"
+  },
+  "description": "A fintech building banking and cross-border payments in one app, for people and businesses across Africa.",
+  "areas": [
+    "Fintech",
+    "Cross-border payments",
+    "Mobile banking"
+  ],
+  "summary": "Money and more in one app: banking and cross-border payments for Africa.",
+  "overview": [
+    "wiremee is building a cross-border payment platform to accelerate financial inclusion in Africa. Its app brings banking, payments and more into one place for individuals, businesses and a younger generation of users.",
+    "ZIIV worked with the wiremee team on the project. wiremee is in pre-launch, with a waitlist open on its website."
+  ],
+  "scope": [
+    {
+      "name": "Personal",
+      "text": "Mobile banking, freelancer accounts, investments and international transfers."
+    },
+    {
+      "name": "Business",
+      "text": "Cross-border and bulk payments, invoicing and currency exchange."
+    },
+    {
+      "name": "GenZ",
+      "text": "Savings, group contributions and peer-to-peer transfers."
+    },
+    {
+      "name": "Security",
+      "text": "Tiered identity verification and biometric login."
+    }
+  ],
+  "standing": "In pre-launch. The waitlist is open at wiremee.com.",
+  "ownership": "A client project. wiremee belongs to WIREMEE LTD."
+}

@@ -1,0 +1,121 @@
+---
+// Product status board. Status labels are deliberate: nothing here is
+// presented as generally available unless it is.
+import { ECOSYSTEM } from '../data/content';
+---
+<section class="eco on-light" id="ecosystem" aria-labelledby="eco-title">
+  <div class="wrap eco__inner">
+    <header class="eco__head" data-reveal>
+      <span class="label">{ECOSYSTEM.label}</span>
+      <h2 class="display" id="eco-title">{ECOSYSTEM.title}</h2>
+      <p class="eco__intro">{ECOSYSTEM.intro}</p>
+    </header>
+
+    <div>
+      <div class="eco__table" role="table" aria-label="ZIIV products and their status">
+        <div class="eco__row eco__row--head" role="row">
+          <span role="columnheader">Product</span>
+          <span role="columnheader">What it is</span>
+          <span role="columnheader">Status</span>
+        </div>
+        {ECOSYSTEM.products.map((p, i) => (
+          <div class="eco__row" role="row" data-reveal style={`--reveal-delay: ${i * 0.08}s`}>
+            <span class="eco__name" role="cell">{p.name}</span>
+            <span class="eco__what" role="cell">{p.what}</span>
+            <span class="eco__status" role="cell">
+              <span class="eco__pill">{p.status}</span>
+              <span class="eco__note">{p.note}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+      <p class="eco__footnote">{ECOSYSTEM.footnote}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .eco {
+    padding: var(--section-y) 0;
+    background: var(--bg-light);
+    color: var(--ink);
+  }
+  .eco__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+    gap: clamp(30px, 5vw, 100px);
+    align-items: start;
+  }
+  .eco__head {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+  }
+  .eco__head .label { color: var(--ink-soft); }
+  .eco__intro {
+    max-width: 40ch;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+  .eco__table { border-bottom: 1px solid var(--rule-light); }
+  .eco__row {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr 1fr;
+    gap: 20px;
+    align-items: baseline;
+    padding: clamp(20px, 3vh, 34px) 0;
+    border-top: 1px solid var(--rule-light);
+  }
+  .eco__row--head {
+    padding: 0 0 12px;
+    border-top: none;
+    color: var(--ink-soft);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .eco__name {
+    font-size: clamp(24px, 2.4vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .eco__what {
+    color: var(--ink-soft);
+    font-size: clamp(14px, 1.1vw, 17px);
+  }
+  .eco__status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .eco__pill {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--c-pale);
+    color: var(--c-deep);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .eco__note {
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+  .eco__footnote {
+    margin-top: 18px;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  @media (max-width: 1024px) {
+    .eco__inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .eco__row { grid-template-columns: 1fr; gap: 8px; }
+    .eco__row--head { display: none; }
+  }
+</style>
