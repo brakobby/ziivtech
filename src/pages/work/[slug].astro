@@ -41,7 +41,7 @@ const cs = p.caseStudy;
         <p class="cs__summary">{cs.summary}</p>
         {p.url && (
           <Button href={p.url} variant="dark" target="_blank" rel="noopener noreferrer" class="cs__visit">
-            Visit {new URL(p.url).hostname.replace(/^www\./, '')}
+            Visit Live Site
             <span class="sr-only">(opens in a new tab)</span>
           </Button>
         )}

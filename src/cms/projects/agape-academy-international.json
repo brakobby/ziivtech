@@ -1,0 +1,47 @@
+{
+  "name": "Agape Academy International",
+  "order": 35,
+  "title": "A school’s story, told online",
+  "status": "Client project",
+  "statusNote": "Live",
+  "category": "client",
+  "featured": true,
+  "url": "https://www.agapeacademyinternational.edu.gh",
+  "shots": {
+    "desktop": "/src/assets/work/agape-academy-international/shots/desktop.png",
+    "tall": "/src/assets/work/agape-academy-international/shots/tall.png",
+    "mobile": "/src/assets/work/agape-academy-international/shots/mobile.png"
+  },
+  "illustration": "schools",
+  "description": "A Christian school in Pantang West, Ghana, for ages 3 to 18, with its academics, student life and admissions in one place.",
+  "areas": [
+    "Education",
+    "Admissions",
+    "School website"
+  ],
+  "summary": "Academic excellence. Christian character. Global purpose.",
+  "overview": [
+    "Agape Academy International is a Christian school in Pantang West, Ghana, educating young people from age 3 to 18. It combines academic study with character development and a global outlook.",
+    "Its site brings the school together for families: the philosophy behind it, programmes for every stage, student life, a gallery, and a clear path to apply, book a visit or request information. ZIIV worked with the school on the project."
+  ],
+  "scope": [
+    {
+      "name": "Every stage of school",
+      "text": "Early Years, Primary, Middle School and High School, from age 3 to 18."
+    },
+    {
+      "name": "Admissions",
+      "text": "How to apply, fees, scholarships and international students."
+    },
+    {
+      "name": "Visits and enquiries",
+      "text": "Families can book a visit or request information directly."
+    },
+    {
+      "name": "Student life",
+      "text": "Sports, clubs, leadership, community service and a photo gallery."
+    }
+  ],
+  "standing": "Live at agapeacademyinternational.edu.gh.",
+  "ownership": "A client project. Agape Academy International owns its brand and content."
+}
