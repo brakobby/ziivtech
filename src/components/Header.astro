@@ -97,6 +97,7 @@ const current = (href: string) => {
     font-weight: 500;
     letter-spacing: -0.01em;
     text-decoration: none;
+    white-space: nowrap;
     transition: color 0.3s;
   }
   .header__link::after {
@@ -156,7 +157,10 @@ const current = (href: string) => {
     align-items: center;
     gap: clamp(18px, 2vw, 28px);
     height: 52px;
-    padding: 0 8px 0 20px;
+    padding: 0 7px 0 20px;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    white-space: nowrap;
     border-radius: 26px;
     background: rgba(255, 255, 255, 0.92);
     color: var(--ink);
@@ -170,7 +174,15 @@ const current = (href: string) => {
   .pill-header.is-visible { opacity: 1; transform: translate(-50%, 0); }
   .pill-header__nav {
     display: flex;
-    gap: clamp(16px, 1.8vw, 26px);
+    align-items: center;
+    gap: clamp(14px, 1.6vw, 26px);
+  }
+  /* Every item stays on one line so the pill keeps its shape */
+  .pill-header__link,
+  .pill-header__cta {
+    flex: none;
+    white-space: nowrap;
+    line-height: 1;
   }
   .pill-header__link {
     font-size: 14px;
@@ -181,7 +193,7 @@ const current = (href: string) => {
   .pill-header__link:hover,
   .pill-header__link[aria-current='page'] { color: var(--c-mid); }
   .pill-header__cta {
-    padding: 10px 16px;
+    padding: 12px 18px;
     border-radius: var(--radius-pill);
     background: var(--c-deep);
     color: var(--c-white);
@@ -247,6 +259,13 @@ const current = (href: string) => {
   .mobile-menu.is-open li:nth-child(3) .mobile-menu__link { transition-delay: 0.29s; }
   .mobile-menu.is-open li:nth-child(4) .mobile-menu__link { transition-delay: 0.36s; }
   .mobile-menu.is-open li:nth-child(5) .mobile-menu__link { transition-delay: 0.43s; }
+
+  @media (max-width: 1280px) {
+    .pill-header { gap: 16px; padding-left: 16px; }
+    .pill-header__nav { gap: 14px; }
+    .pill-header__link,
+    .pill-header__cta { font-size: 13.5px; }
+  }
 
   @media (max-width: 1024px) {
     .header__nav,
