@@ -1,0 +1,43 @@
+{
+  "name": "ZIIV Assess",
+  "order": 45,
+  "title": "Create once. Assess online.",
+  "status": "Company product",
+  "statusNote": "Live",
+  "category": "products",
+  "featured": true,
+  "url": "https://ziiv-assess.vercel.app",
+  "page": "/ziiv-assess/",
+  "shots": {
+    "desktop": "/src/assets/work/ziiv-assess/shots/desktop.png",
+    "mobile": "/src/assets/work/ziiv-assess/shots/mobile.png"
+  },
+  "illustration": "schools",
+  "description": "Our assessment and learning platform for schools: question banks, online and paper exams, automatic grading, lessons, homework and analytics.",
+  "areas": [
+    "EdTech",
+    "Assessment",
+    "Learning"
+  ],
+  "summary": "Assessment and learning for schools, in one place.",
+  "overview": [
+    "ZIIV Assess is ZIIV’s assessment and learning platform for schools. Teachers build question banks, run exams online or on paper and publish accurate results.",
+    "Around assessment it brings lessons, homework, live classes, practice and a browser-based Code Lab together, on desktop and mobile."
+  ],
+  "scope": [
+    {
+      "name": "Assessment",
+      "text": "Question banks, online and paper exams, automatic grading."
+    },
+    {
+      "name": "Learning",
+      "text": "Lessons, homework, practice sets and live classes."
+    },
+    {
+      "name": "Insight",
+      "text": "Class and question analytics after every assessment."
+    }
+  ],
+  "standing": "Live at ziiv-assess.vercel.app.",
+  "ownership": "A ZIIV Technologies product."
+}

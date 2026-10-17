@@ -1,0 +1,73 @@
+{
+  "label": "ZIIV Assess",
+  "title": "Create once. Assess online.",
+  "intro": "Build question banks, run exams online or on paper, grade objective answers automatically and publish accurate results, all in one place for schools.",
+  "appUrl": "https://ziiv-assess.vercel.app",
+  "modules": {
+    "label": "What’s inside",
+    "title": "Everything a school needs to teach, test and track progress.",
+    "items": [
+      {
+        "icon": "layers",
+        "name": "Question bank",
+        "text": "Reusable questions for every quiz, test and exam. Edits create new versions, so published exams never change."
+      },
+      {
+        "icon": "devices",
+        "name": "Online or on paper",
+        "text": "Deliver the same assessment in the browser with autosave and server-side timing, or print branded papers with separate marking schemes."
+      },
+      {
+        "icon": "check",
+        "name": "Automatic grading",
+        "text": "Objective answers are marked instantly, with an auditable correction trail for every change."
+      },
+      {
+        "icon": "chart",
+        "name": "Results & analytics",
+        "text": "Class and question analytics after every assessment, with exportable results."
+      },
+      {
+        "icon": "book",
+        "name": "Lessons & homework",
+        "text": "Notes, maths, videos and files students can read on any phone, plus homework with due dates."
+      },
+      {
+        "icon": "video",
+        "name": "Live classes & quizzes",
+        "text": "Teach on Google Meet, Zoom or Teams with attendance recorded, or play a live quiz students join with a PIN."
+      },
+      {
+        "icon": "sparkle",
+        "name": "Practice sets",
+        "text": "Self-paced practice with instant feedback. Missed questions come back until they are mastered."
+      },
+      {
+        "icon": "chat",
+        "name": "Chat & class groups",
+        "text": "Class groups are created automatically, alongside private chats between staff and students."
+      }
+    ]
+  },
+  "codeLab": {
+    "label": "Code Lab",
+    "title": "Teach programming without installing anything.",
+    "text": "Students write and run code right in the browser, and coding questions can be set and marked inside assessments.",
+    "pointsLabel": "Works with",
+    "points": [
+      "Python 3, running in the browser",
+      "HTML, CSS and JavaScript",
+      "Django",
+      "Coding questions in tests and homework"
+    ]
+  },
+  "anywhere": {
+    "label": "Desktop and mobile",
+    "title": "Built for every phone in the classroom.",
+    "text": "Teachers manage everything from a laptop. Students read lessons, hand in homework and sit assessments from any phone."
+  },
+  "cta": {
+    "title": "Bring ZIIV Assess to your school.",
+    "text": "Book a walkthrough and we’ll set it up around your classes, subjects and terms."
+  }
+}

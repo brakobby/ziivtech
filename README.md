@@ -24,6 +24,7 @@ Built with [Astro](https://astro.build): static HTML output, no UI framework, an
 | `/work/<project>/` | Case study (one per project in `WORK.projects`) |
 | `/services/` | Services |
 | `/ziivos/` | ZIIVOS product page with demo requests |
+| `/ziiv-assess/` | ZIIV Assess product page with demo requests |
 | `/process/` | Process and engineering foundations |
 | `/about/` | About, values, principles, where we are headed |
 | `/contact/` | Four-step project brief, plus WhatsApp and call booking |
@@ -38,7 +39,7 @@ All page copy, projects, photos and site settings are managed in **Keystatic**.
 
 | In the CMS | Controls |
 | --- | --- |
-| Pages: Home, Services, ZIIVOS, Process, About, Contact | The copy and photos on each page |
+| Pages: Home, Services, ZIIVOS, ZIIV Assess, Process, About, Contact | The copy and photos on each page |
 | Portfolio: Work page | Work page heading and the product ecosystem table |
 | Portfolio: Projects | Every project, case study and screenshot. Adding a project creates its case study page. |
 | Settings: Site settings | Email, WhatsApp number, booking link, social links, tagline |

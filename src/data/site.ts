@@ -30,6 +30,7 @@ export const NAV = [
   { label: 'Work', href: '/work/' },
   { label: 'Services', href: '/services/' },
   { label: 'ZIIVOS', href: '/ziivos/' },
+  { label: 'ZIIV Assess', href: '/ziiv-assess/' },
   { label: 'Process', href: '/process/' },
   { label: 'About', href: '/about/' },
 ] as const;

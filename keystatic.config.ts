@@ -47,7 +47,7 @@ const shot = (label: string, description: string) =>
 
 const HIGHLIGHT_HINT = 'Wrap words in *asterisks* to highlight them in green.';
 
-const ICONS = ['till', 'invoice', 'wallet', 'truck', 'box', 'megaphone', 'chart', 'users', 'sparkle', 'layers', 'devices', 'calendar', 'chat', 'mail'];
+const ICONS = ['till', 'invoice', 'wallet', 'truck', 'box', 'megaphone', 'chart', 'users', 'sparkle', 'layers', 'devices', 'calendar', 'chat', 'mail', 'check', 'book', 'video', 'code'];
 
 /* ---------- Config ---------- */
 
@@ -57,7 +57,7 @@ export default config({
   ui: {
     brand: { name: 'ZIIV Technologies' },
     navigation: {
-      Pages: ['home', 'services', 'ziivos', 'process', 'about', 'contact'],
+      Pages: ['home', 'services', 'ziivos', 'assess', 'process', 'about', 'contact'],
       Portfolio: ['work', 'projects'],
       Settings: ['settings'],
     },
@@ -216,6 +216,53 @@ export default config({
             asks: textList('Example questions', 'Question'),
           },
           { label: 'Meet DEDE' }
+        ),
+        anywhere: fields.object(
+          { ...section('Desktop and mobile'), text: longText('Description') },
+          { label: 'Desktop and mobile' }
+        ),
+        cta: fields.object(
+          { title: required('Heading'), text: longText('Text') },
+          { label: 'Demo request section' }
+        ),
+      },
+    }),
+
+    assess: singleton({
+      label: 'ZIIV Assess product page',
+      path: 'src/cms/assess',
+      format: { data: 'json' },
+      schema: {
+        label: text('Small label'),
+        title: required('Headline'),
+        intro: longText('Introduction'),
+        appUrl: text('App link', 'Where the "Open ZIIV Assess" button goes.'),
+        modules: fields.object(
+          {
+            ...section('features'),
+            items: fields.array(
+              fields.object({
+                icon: fields.select({
+                  label: 'Icon',
+                  options: ICONS.map((i) => ({ label: i, value: i })),
+                  defaultValue: 'check',
+                }),
+                name: required('Feature'),
+                text: longText('Description'),
+              }),
+              { label: 'Features', itemLabel: (props) => props.fields.name.value || 'Feature' }
+            ),
+          },
+          { label: 'Features' }
+        ),
+        codeLab: fields.object(
+          {
+            ...section('Code Lab'),
+            text: longText('Description'),
+            pointsLabel: text('List label'),
+            points: textList('Points', 'Point'),
+          },
+          { label: 'Code Lab' }
         ),
         anywhere: fields.object(
           { ...section('Desktop and mobile'), text: longText('Description') },

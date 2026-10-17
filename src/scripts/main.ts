@@ -334,9 +334,11 @@ function initContactForm() {
   const checked = (name: string) =>
     [...form.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`)].map((i) => i.value);
 
-  // Arriving from the ZIIVOS page pre-selects a demo request
-  if (new URLSearchParams(location.search).get('interest') === 'ziivos') {
-    const demo = form.querySelector<HTMLInputElement>('input[name="needs"][value="ZIIVOS demo"]');
+  // Arriving from a product page pre-selects that product's demo request
+  const DEMOS: Record<string, string> = { ziivos: 'ZIIVOS demo', assess: 'ZIIV Assess demo' };
+  const interest = DEMOS[new URLSearchParams(location.search).get('interest') ?? ''];
+  if (interest) {
+    const demo = form.querySelector<HTMLInputElement>(`input[name="needs"][value="${interest}"]`);
     if (demo) demo.checked = true;
   }
 

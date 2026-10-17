@@ -1,0 +1,355 @@
+---
+// ZIIV Assess product page: what it is, what's inside, Code Lab, mobile,
+// then a demo request. Copy comes from the CMS (src/cms/assess.json).
+// Screenshots have the client school's name blurred; keep it that way.
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import type { IconName } from '../data/icons';
+import PhotoBackdrop from '../components/PhotoBackdrop.astro';
+import { ASSESS } from '../data/content';
+import { SITE, whatsappHref } from '../data/site';
+import dashboard from '../assets/assess/dashboard.png';
+import codeLab from '../assets/assess/code-lab.png';
+import mobileLessons from '../assets/assess/mobile-lessons.png';
+import glow from '../assets/photos/laptop-glow.jpg';
+
+const wa = whatsappHref('Hello ZIIV, I’d like a demo of ZIIV Assess.');
+---
+<BaseLayout title="ZIIV Assess" description={ASSESS.intro}>
+  <section class="ah on-light" aria-labelledby="page-title">
+    <div class="ah__text wrap">
+      <p class="label ah__label">{ASSESS.label} · A ZIIV product</p>
+      <h1 class="ah__title" id="page-title">{ASSESS.title}</h1>
+      <p class="ah__intro">{ASSESS.intro}</p>
+      <div class="ah__actions">
+        <Button href={ASSESS.demoHref} variant="dark">Request a Demo</Button>
+        {ASSESS.appUrl && (
+          <Button href={ASSESS.appUrl} variant="dark" target="_blank" rel="noopener noreferrer">
+            Open ZIIV Assess<span class="sr-only"> (opens in a new tab)</span>
+          </Button>
+        )}
+        {SITE.bookingUrl && (
+          <Button href={SITE.bookingUrl} variant="dark" target="_blank" rel="noopener noreferrer">
+            Book a Call<span class="sr-only"> (opens in a new tab)</span>
+          </Button>
+        )}
+      </div>
+    </div>
+    <figure class="ah__media">
+      <Image
+        class="ah__img"
+        src={dashboard}
+        alt="The ZIIV Assess dashboard: average score, pass rate, submissions, homework completion and score charts"
+        widths={[640, 960, 1280, 1600]}
+        sizes="(max-width: 768px) 92vw, 90vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+  </section>
+
+  <section class="amods on-light" aria-labelledby="mods-title">
+    <div class="wrap">
+      <header class="amods__head" data-reveal>
+        <p class="label amods__label">{ASSESS.modules.label}</p>
+        <h2 class="display" id="mods-title">{ASSESS.modules.title}</h2>
+      </header>
+      <ul class="amods__grid">
+        {ASSESS.modules.items.map((m, i) => (
+          <li class="amod" data-reveal style={`--reveal-delay: ${(i % 4) * 0.08}s`}>
+            <span class="amod__icon"><Icon name={m.icon as IconName} size={22} /></span>
+            <h3 class="amod__name">{m.name}</h3>
+            <p class="amod__text">{m.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="acode section-dark" aria-labelledby="code-title">
+    <div class="acode__inner wrap">
+      <div class="acode__text" data-reveal>
+        <p class="label acode__label"><Icon name="code" size={16} /> {ASSESS.codeLab.label}</p>
+        <h2 class="display" id="code-title">{ASSESS.codeLab.title}</h2>
+        <p class="acode__copy">{ASSESS.codeLab.text}</p>
+        <p class="acode__list-label">{ASSESS.codeLab.pointsLabel}</p>
+        <ul class="acode__list">
+          {ASSESS.codeLab.points.map((pt) => <li>{pt}</li>)}
+        </ul>
+      </div>
+      <figure class="acode__media" data-reveal>
+        <Image
+          class="acode__img"
+          src={codeLab}
+          alt="Code Lab in ZIIV Assess: a Python editor with a Run button and an output panel"
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 1024px) 92vw, 50vw"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="aany on-light" aria-labelledby="any-title">
+    <div class="aany__inner wrap">
+      <div class="aany__phone" data-reveal>
+        <Image
+          class="aany__img"
+          src={mobileLessons}
+          alt="Lessons and notes in ZIIV Assess on a phone, with published lessons and progress bars"
+          widths={[400, 800]}
+          sizes="(max-width: 1024px) 70vw, 340px"
+        />
+      </div>
+      <div class="aany__text" data-reveal>
+        <p class="label aany__label"><Icon name="devices" size={16} /> {ASSESS.anywhere.label}</p>
+        <h2 class="display" id="any-title">{ASSESS.anywhere.title}</h2>
+        <p class="aany__copy">{ASSESS.anywhere.text}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="acta section-dark" aria-labelledby="acta-title">
+    <PhotoBackdrop src={glow} strength={0.45} />
+    <div class="acta__inner wrap">
+      <h2 class="acta__title" id="acta-title" data-reveal>{ASSESS.cta.title}</h2>
+      <p class="acta__text">{ASSESS.cta.text}</p>
+      <div class="acta__actions">
+        <Button href={ASSESS.demoHref} variant="light">Request a Demo</Button>
+        {wa && (
+          <Button href={wa} variant="light" target="_blank" rel="noopener noreferrer">
+            Ask on WhatsApp<span class="sr-only"> (opens in a new tab)</span>
+          </Button>
+        )}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- Hero ---------- */
+  .ah {
+    padding: calc(var(--header-h) + clamp(60px, 11vh, 140px)) 0 clamp(16px, 2.5vw, 48px);
+    background: var(--bg-light);
+  }
+  .ah__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(18px, 2.6vh, 28px);
+    text-align: center;
+  }
+  .ah__label { color: var(--ink-accent); }
+  .ah__title {
+    max-width: 18ch;
+    font-size: clamp(40px, 5.4vw, 96px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+  .ah__intro {
+    max-width: 54ch;
+    color: var(--ink-soft);
+    font-size: clamp(16px, 1.35vw, 21px);
+  }
+  .ah__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .ah__media {
+    width: min(1500px, 100% - 2 * clamp(16px, 2.5vw, 48px));
+    margin: clamp(60px, 10vh, 120px) auto 0;
+    overflow: hidden;
+    border: 1px solid rgba(5, 31, 32, 0.08);
+    border-radius: var(--radius-media);
+    background: #fff;
+    box-shadow: 0 40px 120px rgba(5, 31, 32, 0.16);
+  }
+  .ah__img { width: 100%; height: auto; }
+
+  /* ---------- Features ---------- */
+  .amods {
+    padding: var(--section-y) 0;
+    background: var(--bg-light);
+  }
+  .amods__head {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+    margin-bottom: clamp(50px, 8vh, 100px);
+  }
+  .amods__head .display { max-width: 20ch; }
+  .amods__label { color: var(--ink-soft); }
+  .amods__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(48px, 7vh, 80px) clamp(28px, 4vw, 72px);
+  }
+  .amod {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .amod__icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    background: var(--c-pale);
+    color: var(--c-deep);
+  }
+  .amod__name {
+    font-size: clamp(20px, 1.7vw, 26px);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .amod__text {
+    max-width: 34ch;
+    color: var(--ink-soft);
+    font-size: clamp(15px, 1.1vw, 17px);
+  }
+
+  /* ---------- Code Lab ---------- */
+  .acode { padding: var(--section-y) 0; overflow: hidden; }
+  .acode__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(40px, 6vw, 120px);
+    align-items: center;
+  }
+  .acode__text {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+  }
+  .acode__label,
+  .aany__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .acode__label { color: var(--c-soft); }
+  .acode__copy {
+    max-width: 44ch;
+    color: var(--on-dark-soft);
+    font-size: clamp(16px, 1.25vw, 19px);
+    line-height: 1.75;
+  }
+  .acode__list-label {
+    margin-top: clamp(10px, 2vh, 20px);
+    color: var(--c-soft);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .acode__list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--rule-dark);
+  }
+  .acode__list li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule-dark);
+    color: var(--c-white);
+    font-size: clamp(15px, 1.15vw, 18px);
+  }
+  .acode__media {
+    overflow: hidden;
+    border-radius: var(--radius-media);
+    background: #fff;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(218, 241, 222, 0.1);
+  }
+  .acode__img { width: 100%; height: auto; }
+
+  /* ---------- Desktop and mobile ---------- */
+  .aany {
+    padding: var(--section-y) 0;
+    background: var(--bg-muted);
+  }
+  .aany__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(40px, 7vw, 140px);
+    align-items: center;
+  }
+  .aany__phone {
+    justify-self: center;
+    width: min(340px, 78%);
+    aspect-ratio: 780 / 1500;
+    overflow: hidden;
+    border: 8px solid #0a0f0e;
+    border-radius: 34px;
+    background: #fff;
+    box-shadow: 0 40px 100px rgba(5, 31, 32, 0.22);
+  }
+  .aany__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .aany__text {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+  }
+  .aany__label { color: var(--ink-soft); }
+  .aany__copy {
+    max-width: 46ch;
+    color: var(--ink-soft);
+    font-size: clamp(16px, 1.25vw, 19px);
+  }
+
+  /* ---------- CTA ---------- */
+  .acta {
+    position: relative;
+    isolation: isolate;
+    padding: clamp(110px, 16vw, 200px) 0;
+  }
+  .acta__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(20px, 3vh, 30px);
+    text-align: center;
+  }
+  .acta__title {
+    max-width: 14ch;
+    font-size: clamp(40px, 6vw, 96px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+  .acta__text {
+    max-width: 44ch;
+    color: var(--on-dark-soft);
+    font-size: clamp(16px, 1.25vw, 19px);
+  }
+  .acta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: clamp(16px, 3vh, 30px);
+  }
+
+  @media (max-width: 1200px) {
+    .amods__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 1024px) {
+    .acode__inner,
+    .aany__inner { grid-template-columns: 1fr; }
+    .aany__phone { order: 2; }
+  }
+  @media (max-width: 600px) {
+    .amods__grid { grid-template-columns: 1fr; }
+  }
+</style>
