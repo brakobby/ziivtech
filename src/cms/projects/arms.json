@@ -1,0 +1,48 @@
+{
+  "name": "ARMS",
+  "order": 36,
+  "title": "A staff portal for Agape Academy International",
+  "status": "Client project",
+  "statusNote": "Live",
+  "category": "client",
+  "featured": false,
+  "url": "https://arms-henna.vercel.app",
+  "page": "",
+  "shots": {
+    "desktop": "/src/assets/work/arms/shots/desktop.png",
+    "tall": "/src/assets/work/arms/shots/tall.png",
+    "mobile": "/src/assets/work/arms/shots/mobile.png"
+  },
+  "illustration": "schools",
+  "description": "A secure staff system for Agape Academy International, with staff sign-in, teacher account requests and an app that installs on phones and desktops.",
+  "areas": [
+    "Education",
+    "Staff portal",
+    "Installable app"
+  ],
+  "summary": "A secure staff system for Agape Academy International, in the school’s own colours.",
+  "overview": [
+    "ARMS is the staff system ZIIV designed and built for Agape Academy International, the Christian school in Pantang West, Ghana, whose website we also delivered.",
+    "Staff sign in with their staff ID or email, new teachers can request an account, and the whole system can be installed as an app that opens full screen from a phone’s home screen."
+  ],
+  "scope": [
+    {
+      "name": "Staff sign-in",
+      "text": "Secure access with a staff ID or email, and password recovery."
+    },
+    {
+      "name": "Account requests",
+      "text": "New teachers request an account instead of being set up by hand."
+    },
+    {
+      "name": "Installable app",
+      "text": "Opens full screen from the home screen on phones and desktops."
+    },
+    {
+      "name": "School branding",
+      "text": "Designed in Agape Academy’s own colours and identity."
+    }
+  ],
+  "standing": "Live and in use by the school’s staff.",
+  "ownership": "A client project. ARMS was built for Agape Academy International, which owns its brand and content."
+}
