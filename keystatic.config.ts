@@ -94,15 +94,14 @@ export default config({
         hero: fields.object(
           {
             eyebrow: text('Small line above the headline'),
-            lead: required('Headline start', 'Before the changing word, e.g. "We build".'),
-            morphWords: textList('Changing words', 'Word', 'These cycle in the middle of the headline. The first one is shown when animation is off.'),
-            tail: required('Headline end', 'After the changing word, e.g. "software for business."'),
+            title: required('Headline', HIGHLIGHT_HINT),
+            intro: longText('Line under the headline'),
             image: photo('Photo below the headline', 'home'),
             imageAlt: text('Photo description', 'Describe the photo for people using screen readers.'),
           },
           { label: 'Opening section' }
         ),
-        marquee: textList('Scrolling banner words', 'Word'),
+        capabilities: textList('Capabilities', 'Capability', 'Short names shown in a row under the opening photo.'),
         work: fields.object(section('Selected work'), { label: 'Selected work section' }),
         getInTouch: fields.object(
           {
@@ -154,10 +153,10 @@ export default config({
         ),
         card: fields.object(
           {
-            image: photo('Feature photo', 'services'),
+            image: photo('Opening photo', 'services'),
             imageAlt: text('Photo description'),
           },
-          { label: 'Feature photo card' }
+          { label: 'Opening photo' }
         ),
         audiences: fields.object(
           {
@@ -172,8 +171,8 @@ export default config({
         list: fields.object(section('services list'), { label: 'Services list heading' }),
         items: fields.array(
           fields.object({
-            headline: required('Headline', 'For example "Putting intelligence to work".'),
-            category: required('Service name', 'For example "Artificial Intelligence & Automation".'),
+            headline: required('Headline', 'For example "Building systems that carry the business".'),
+            category: required('Service name', 'For example "Software Engineering".'),
             description: longText('Description'),
             details: textList('What it includes', 'Item'),
           }),
@@ -208,14 +207,14 @@ export default config({
           },
           { label: 'Features' }
         ),
-        dede: fields.object(
+        glance: fields.object(
           {
-            ...section('DEDE'),
+            ...section('at a glance'),
             text: longText('Description'),
-            asksLabel: text('Questions label'),
-            asks: textList('Example questions', 'Question'),
+            pointsLabel: text('List label'),
+            points: textList('What you can see', 'Point'),
           },
-          { label: 'Meet DEDE' }
+          { label: 'At a glance' }
         ),
         anywhere: fields.object(
           { ...section('Desktop and mobile'), text: longText('Description') },

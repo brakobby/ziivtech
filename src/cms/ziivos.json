@@ -1,7 +1,7 @@
 {
   "label": "ZIIVOS",
   "title": "Run your whole business from one dashboard.",
-  "intro": "Point of sale, invoices, payments, stock and purchasing in one place, with DEDE, an AI assistant that tells you what needs attention.",
+  "intro": "Point of sale, invoices, payments, stock and purchasing in one place, with clear reports that show how the business is doing.",
   "modules": {
     "label": "What’s inside",
     "title": "Everything a growing business runs on.",
@@ -48,16 +48,16 @@
       }
     ]
   },
-  "dede": {
-    "label": "Meet DEDE",
-    "title": "An AI assistant that reads the numbers for you.",
-    "text": "DEDE is your AI business analyst. It looks up your real numbers, calls out what stands out and recommends what to do next, so you spend less time digging through reports.",
-    "asksLabel": "Ask things like",
-    "asks": [
-      "How has revenue trended over the last 6 months?",
-      "What’s my best-selling product this month?",
-      "How healthy are my receivables right now?",
-      "Who are my top-performing staff this month?"
+  "glance": {
+    "label": "At a glance",
+    "title": "Know where the business stands, every day.",
+    "text": "The dashboard brings the numbers that matter onto one screen, so you can see what has been invoiced, what has been paid and what needs chasing without digging through reports.",
+    "pointsLabel": "On the dashboard",
+    "points": [
+      "Total invoiced, paid, outstanding and overdue",
+      "Payment trends over time",
+      "Invoice status and top outstanding customers",
+      "Low-stock alerts and quotation conversion"
     ]
   },
   "anywhere": {

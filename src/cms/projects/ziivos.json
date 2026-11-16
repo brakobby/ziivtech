@@ -13,16 +13,16 @@
     "desktop": "/src/assets/work/ziivos/shots/desktop.png",
     "mobile": "/src/assets/work/ziivos/shots/mobile.png"
   },
-  "description": "Our business management platform: point of sale, invoicing, payments, stock and purchasing in one place, with AI insights from DEDE, its built-in assistant.",
+  "description": "Our business management platform: point of sale, invoicing, payments, stock and purchasing in one place.",
   "areas": [
     "Point of sale",
     "Invoicing",
-    "AI insights"
+    "Reporting"
   ],
   "summary": "Invoices, payments, customers and insights for growing businesses, in one place.",
   "overview": [
     "ZIIVOS is ZIIV’s own business management platform. It brings sales, money, marketing and insights together, so a business can see how it is doing at a glance and act on it.",
-    "DEDE, the built-in AI assistant, reads the numbers and recommends next steps, such as which customers to follow up with. ZIIVOS runs on desktop and mobile."
+    "Reports, payment trends and alerts show what needs attention, such as overdue invoices and low stock. ZIIVOS runs on desktop and mobile."
   ],
   "scope": [
     {
@@ -47,7 +47,7 @@
     },
     {
       "name": "Insights",
-      "text": "Reports, activity and AI recommendations from DEDE."
+      "text": "Reports, payment trends and activity."
     },
     {
       "name": "Operations",

@@ -1,18 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ServicesIntro from '../components/ServicesIntro.astro';
-import ShineCard from '../components/ShineCard.astro';
-import Audiences from '../components/Audiences.astro';
+import PageIntro from '../components/PageIntro.astro';
 import Services from '../components/Services.astro';
+import Audiences from '../components/Audiences.astro';
 import GetInTouch from '../components/GetInTouch.astro';
+import { SERVICES_INTRO, SERVICES_PHOTO } from '../data/content';
 ---
 <BaseLayout
   title="Services"
-  description="Software engineering, AI and automation, business management solutions, digital platforms and cloud infrastructure from ZIIV Technologies."
+  description="Software engineering, automation and integrations, business management solutions, digital platforms and cloud infrastructure from ZIIV Technologies."
 >
-  <ServicesIntro />
-  <ShineCard />
-  <Audiences />
+  <PageIntro
+    label={SERVICES_INTRO.label}
+    title={SERVICES_INTRO.statement}
+    image={SERVICES_PHOTO.src}
+    imageAlt={SERVICES_PHOTO.alt}
+  />
   <Services expanded />
+  <Audiences />
   <GetInTouch />
 </BaseLayout>

@@ -1,104 +1,88 @@
 ---
-// Home hero: one centred headline with a single morphing word (from the
-// reference), the two calls to action, then a wide photograph.
+// Home opener: headline and calls to action on the left, the supporting
+// line on the right, then a wide photograph and a row of capabilities.
 import { Image } from 'astro:assets';
 import Button from './Button.astro';
-import { HERO } from '../data/content';
-
-const fullHeadline = `${HERO.lead} ${HERO.morphWords[0]} ${HERO.tail}`;
-const cycle = HERO.morphWords.length * 3; // seconds per full cycle
+import { HERO, CAPABILITIES } from '../data/content';
 ---
-<section class="hero on-light" id="top" aria-labelledby="hero-title">
-  <div class="hero__text">
-    <p class="label hero__eyebrow">{HERO.eyebrow}</p>
-    <h1 class="hero__title" id="hero-title">
-      <span class="sr-only">{fullHeadline}</span>
-      <span aria-hidden="true">
-        {HERO.lead}
-        <span class="morph" style={`--cycle: ${cycle}s`}>
-          {HERO.morphWords.map((word, i) => (
-            <span class="morph__word" style={`--i: ${i}`}>{word}</span>
-          ))}
-        </span>
-        {HERO.tail}
-      </span>
-    </h1>
-    <div class="hero__actions">
-      <Button href="/contact/" variant="dark">Start a Project</Button>
-      <Button href="/work/" variant="dark">View Our Work</Button>
+<section class="hero on-light" aria-labelledby="hero-title">
+  <div class="hero__text wrap">
+    <div class="hero__main">
+      {HERO.eyebrow && <p class="label">{HERO.eyebrow}</p>}
+      <h1 class="hero__title" id="hero-title">
+        {HERO.title.map((seg) => (seg.mark ? <span class="accent">{seg.text}</span> : seg.text))}
+      </h1>
+    </div>
+    <div class="hero__side">
+      {HERO.intro && <p class="lead">{HERO.intro}</p>}
+      <div class="hero__actions">
+        <Button href="/contact/" variant="dark">Start a Project</Button>
+        <Button href="/work/" variant="outline">View Our Work</Button>
+      </div>
     </div>
   </div>
 
-  <div class="hero__media">
+  <div class="hero__media wrap">
     <Image
       class="hero__img"
       src={HERO.photo.src}
       alt={HERO.photo.alt}
-      widths={[640, 1024, 1440, 1920, 2400]}
-      sizes="95vw"
+      widths={[640, 1024, 1440, 1920, 2560]}
+      sizes="(max-width: 1360px) 92vw, 1280px"
       loading="eager"
       fetchpriority="high"
     />
   </div>
+
+  {CAPABILITIES.length > 0 && (
+    <div class="hero__caps wrap">
+      <h2 class="sr-only">What we do</h2>
+      <ul class="hero__caps-list">
+        {CAPABILITIES.map((c) => <li>{c}</li>)}
+      </ul>
+    </div>
+  )}
 </section>
 
 <style>
   .hero {
+    padding: calc(var(--header-h) + clamp(48px, 8vw, 112px)) 0 clamp(56px, 7vw, 96px);
     background: var(--bg-light);
-    padding: calc(var(--header-h) + clamp(70px, 14vh, 170px)) 0 clamp(16px, 2.5vw, 48px);
   }
   .hero__text {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+    gap: clamp(32px, 5vw, 96px);
+    align-items: end;
+  }
+  .hero__main {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: clamp(22px, 3vh, 36px);
-    padding: 0 16px;
-    text-align: center;
+    gap: 24px;
   }
-  .hero__eyebrow { color: var(--ink-accent); }
   .hero__title {
-    max-width: 16ch;
-    font-size: var(--fs-hero);
+    max-width: 15ch;
+    font-size: var(--fs-h1);
     font-weight: 600;
-    letter-spacing: -0.05em;
-    line-height: 1.06;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
   }
-
-  /* Morphing word: all words share one grid cell, so the slot is as wide as
-     the longest word and the headline never reflows mid-animation. */
-  .morph {
-    display: inline-grid;
-    vertical-align: bottom;
-    color: var(--ink-accent);
-    font-weight: 400;
-    font-style: italic;
+  .hero__side {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding-bottom: 6px;
   }
-  .morph__word {
-    grid-area: 1 / 1;
-    opacity: 0;
-    padding-right: 0.08em; /* room for the italic overhang */
-    animation: morph var(--cycle) ease-in-out infinite;
-    animation-delay: calc(var(--i) * 3s);
-  }
-  @keyframes morph {
-    0% { opacity: 0; filter: blur(14px); transform: translateY(0.12em); }
-    5%, 20% { opacity: 1; filter: blur(0); transform: none; }
-    25%, 100% { opacity: 0; filter: blur(14px); transform: translateY(-0.12em); }
-  }
-
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 14px;
-    margin-top: clamp(10px, 2vh, 24px);
+    gap: 12px;
   }
 
   .hero__media {
     position: relative;
-    width: min(1800px, 100% - 2 * clamp(16px, 2.5vw, 48px));
-    margin: clamp(70px, 12vh, 140px) auto 0;
-    aspect-ratio: 21 / 9;
+    margin-top: clamp(48px, 6vw, 88px);
+    aspect-ratio: 16 / 7;
     overflow: hidden;
     border-radius: var(--radius-media);
     background: var(--c-dark);
@@ -108,28 +92,38 @@ const cycle = HERO.morphWords.length * 3; // seconds per full cycle
     height: 100%;
     object-fit: cover;
     object-position: 50% 35%;
-    animation: settle 1.8s var(--ease-out) both;
   }
-  .hero__media::after {
+
+  .hero__caps-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px 28px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero__caps-list li {
+    white-space: nowrap;
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .hero__caps-list li::before {
     content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(5, 31, 32, 0) 45%, rgba(5, 31, 32, 0.4));
-    mix-blend-mode: multiply;
-    pointer-events: none;
-  }
-  @keyframes settle {
-    from { transform: scale(1.06); }
-    to { transform: none; }
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: var(--c-soft);
+    vertical-align: 2px;
   }
 
+  @media (max-width: 900px) {
+    .hero__text { grid-template-columns: 1fr; align-items: start; }
+    .hero__caps-list { justify-content: flex-start; }
+  }
   @media (max-width: 600px) {
-    .hero__title { max-width: 11ch; font-size: clamp(40px, 12vw, 60px); }
     .hero__media { aspect-ratio: 4 / 3; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .morph__word { animation: none !important; opacity: 0; }
-    .morph__word:first-child { opacity: 1; }
   }
 </style>

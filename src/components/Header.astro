@@ -1,7 +1,8 @@
 ---
-// Two headers, as in the reference: an in-flow header over the hero, and a
-// compact floating pill that slides down once the hero is scrolled past.
-// Both share one full-screen mobile menu.
+// One fixed header for every page. Transparent over the opening section,
+// it takes a white background and a hairline once the page scrolls
+// (scripts/main.ts toggles .is-scrolled). Below 1100px the links move into
+// a full-screen menu.
 import Logo from './Logo.astro';
 import Button from './Button.astro';
 import { NAV, CONTACT_HREF } from '../data/site';
@@ -13,128 +14,121 @@ const current = (href: string) => {
   return path === base || path.startsWith(`${base}/`) ? 'page' : undefined;
 };
 ---
-<header class="header on-light">
-  <div class="header__inner">
+<header class="header on-light" id="top" data-header>
+  <div class="header__inner wrap">
     <Logo />
     <nav class="header__nav" aria-label="Primary">
       <ul class="header__links">
         {NAV.map((item) => (
-          <li><a class="header__link" href={item.href} aria-current={current(item.href)} data-cursor="hover">{item.label}</a></li>
+          <li><a class="header__link" href={item.href} aria-current={current(item.href)}>{item.label}</a></li>
         ))}
       </ul>
-      <Button href={CONTACT_HREF} variant="dark" class="header__cta">Let’s Talk</Button>
     </nav>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
-      <span class="sr-only">Open menu</span>
-      <span class="menu-toggle__bars" aria-hidden="true"></span>
-    </button>
+    <div class="header__end">
+      <Button href={CONTACT_HREF} variant="dark" size="sm" arrow={false} class="header__cta">Let’s Talk</Button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span class="sr-only">Open menu</span>
+        <span class="menu-toggle__bars" aria-hidden="true"></span>
+      </button>
+    </div>
   </div>
 </header>
 
-<div class="pill-header on-light" data-pill-header>
-  <Logo compact />
-  <nav class="pill-header__nav" aria-label="Quick">
-    {NAV.map((item) => (
-      <a class="pill-header__link" href={item.href} aria-current={current(item.href)} data-cursor="hover" tabindex="-1">{item.label}</a>
-    ))}
-  </nav>
-  <a class="pill-header__cta" href={CONTACT_HREF} data-cursor="hover" tabindex="-1">Let’s Talk</a>
-  <button class="menu-toggle menu-toggle--pill" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle tabindex="-1">
-    <span class="sr-only">Open menu</span>
-    <span class="menu-toggle__bars" aria-hidden="true"></span>
-  </button>
-</div>
-
 <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
-  <button class="mobile-menu__close" type="button" data-menu-close>
-    <span class="sr-only">Close menu</span>
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg>
-  </button>
-  <nav aria-label="Mobile">
+  <div class="mobile-menu__top wrap">
+    <Logo />
+    <button class="mobile-menu__close" type="button" data-menu-close>
+      <span class="sr-only">Close menu</span>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+  </div>
+  <nav class="wrap" aria-label="Mobile">
     <ul class="mobile-menu__links">
       {NAV.map((item) => (
         <li><a class="mobile-menu__link" href={item.href} aria-current={current(item.href)}>{item.label}</a></li>
       ))}
-      <li><a class="mobile-menu__link mobile-menu__link--accent" href={CONTACT_HREF}>Let’s Talk</a></li>
     </ul>
+    <Button href={CONTACT_HREF} variant="dark" class="mobile-menu__cta">Let’s Talk</Button>
   </nav>
 </div>
 
 <style>
-  /* ---------- In-flow header ---------- */
   .header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 50;
+    z-index: 60;
     height: var(--header-h);
     display: flex;
     align-items: center;
     color: var(--ink);
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.25s, border-color 0.25s, backdrop-filter 0.25s;
+  }
+  .header.is-scrolled {
+    background: rgba(255, 255, 255, 0.88);
+    border-bottom-color: var(--line);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    backdrop-filter: saturate(1.4) blur(14px);
   }
   .header__inner {
-    width: min(90%, 1800px);
-    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
-  }
-  .header__nav {
-    display: flex;
-    align-items: center;
-    gap: clamp(20px, 2.5vw, 30px);
+    gap: 32px;
   }
   .header__links {
     display: flex;
     align-items: center;
-    gap: clamp(28px, 3.6vw, 50px);
+    gap: clamp(20px, 2.4vw, 36px);
   }
   .header__link {
     position: relative;
-    font-size: clamp(15px, 1.15vw, 18px);
+    display: block;
+    padding: 8px 0;
+    color: var(--ink-soft);
+    font-size: 15px;
     font-weight: 500;
-    letter-spacing: -0.01em;
     text-decoration: none;
     white-space: nowrap;
-    transition: color 0.3s;
+    transition: color 0.2s;
   }
-  .header__link::after {
+  .header__link:hover,
+  .header__link[aria-current='page'] { color: var(--ink); }
+  .header__link[aria-current='page']::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -6px;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.4s var(--ease-out);
+    bottom: 0;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--c-mid);
   }
-  .header__link:hover { color: var(--c-mid); }
-  .header__link:hover::after,
-  .header__link[aria-current='page']::after { transform: scaleX(1); transform-origin: left; }
+  .header__end {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
   /* ---------- Menu toggle ---------- */
   .menu-toggle {
     display: none;
-    width: 46px;
-    height: 46px;
-    border: none;
-    border-radius: 50%;
-    background: var(--c-deep);
-    color: var(--c-white);
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--ink);
     cursor: pointer;
     place-items: center;
-    transition: transform 0.3s var(--ease-out);
   }
-  .menu-toggle:hover { transform: scale(1.06); }
   .menu-toggle__bars,
   .menu-toggle__bars::before {
     display: block;
-    width: 18px;
-    height: 1.6px;
+    width: 16px;
+    height: 1.5px;
     background: currentColor;
     border-radius: 2px;
   }
@@ -143,67 +137,7 @@ const current = (href: string) => {
     content: '';
     position: absolute;
     top: 6px;
-    width: 12px;
-    right: 0;
   }
-
-  /* ---------- Floating pill header ---------- */
-  .pill-header {
-    position: fixed;
-    top: 12px;
-    left: 50%;
-    z-index: 60;
-    display: flex;
-    align-items: center;
-    gap: clamp(18px, 2vw, 28px);
-    height: 52px;
-    padding: 0 7px 0 20px;
-    width: max-content;
-    max-width: calc(100vw - 32px);
-    white-space: nowrap;
-    border-radius: 26px;
-    background: rgba(255, 255, 255, 0.92);
-    color: var(--ink);
-    box-shadow: 0 2px 4px rgba(5, 31, 32, 0.08), 0 14px 40px rgba(5, 31, 32, 0.12);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    opacity: 0;
-    transform: translate(-50%, -160%);
-    transition: transform 0.5s var(--ease-out), opacity 0.3s;
-  }
-  .pill-header.is-visible { opacity: 1; transform: translate(-50%, 0); }
-  .pill-header__nav {
-    display: flex;
-    align-items: center;
-    gap: clamp(14px, 1.6vw, 26px);
-  }
-  /* Every item stays on one line so the pill keeps its shape */
-  .pill-header__link,
-  .pill-header__cta {
-    flex: none;
-    white-space: nowrap;
-    line-height: 1;
-  }
-  .pill-header__link {
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  .pill-header__link:hover,
-  .pill-header__link[aria-current='page'] { color: var(--c-mid); }
-  .pill-header__cta {
-    padding: 12px 18px;
-    border-radius: var(--radius-pill);
-    background: var(--c-deep);
-    color: var(--c-white);
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: background-color 0.3s;
-  }
-  .pill-header__cta:hover { background: var(--c-mid); }
-  .menu-toggle--pill { width: 38px; height: 38px; }
 
   /* ---------- Mobile menu ---------- */
   .mobile-menu {
@@ -211,73 +145,56 @@ const current = (href: string) => {
     inset: 0;
     z-index: 8000;
     display: flex;
-    align-items: center;
-    padding: 0 clamp(24px, 7vw, 48px);
-    background: var(--c-deep);
-    color: var(--c-white);
-    transform: translateY(-100%);
-    transition: transform 0.55s var(--ease-out);
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--bg-light);
+    color: var(--ink);
+    opacity: 0;
+    transition: opacity 0.25s;
   }
   .mobile-menu[hidden] { display: none; }
-  .mobile-menu.is-open { transform: none; }
+  .mobile-menu.is-open { opacity: 1; }
+  .mobile-menu__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--header-h);
+  }
   .mobile-menu__close {
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    width: 46px;
-    height: 46px;
     display: grid;
     place-items: center;
-    border: none;
-    border-radius: 50%;
-    background: var(--c-white);
-    color: var(--c-deep);
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--ink);
     cursor: pointer;
   }
   .mobile-menu__links {
     display: flex;
     flex-direction: column;
-    gap: clamp(22px, 5vw, 36px);
+    margin-top: 16px;
+    border-top: 1px solid var(--line);
   }
   .mobile-menu__link {
-    display: inline-block;
-    font-size: clamp(30px, 8vw, 46px);
-    font-weight: 500;
+    display: block;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-size: clamp(22px, 6vw, 30px);
+    font-weight: 600;
     letter-spacing: -0.02em;
-    line-height: 1.1;
     text-decoration: none;
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.4s, transform 0.4s var(--ease-out), color 0.3s;
   }
-  .mobile-menu__link:hover,
-  .mobile-menu__link[aria-current='page'] { color: var(--c-soft); }
-  .mobile-menu__link--accent { color: var(--c-soft); }
-  .mobile-menu.is-open .mobile-menu__link { opacity: 1; transform: none; }
-  .mobile-menu.is-open li:nth-child(1) .mobile-menu__link { transition-delay: 0.15s; }
-  .mobile-menu.is-open li:nth-child(2) .mobile-menu__link { transition-delay: 0.22s; }
-  .mobile-menu.is-open li:nth-child(3) .mobile-menu__link { transition-delay: 0.29s; }
-  .mobile-menu.is-open li:nth-child(4) .mobile-menu__link { transition-delay: 0.36s; }
-  .mobile-menu.is-open li:nth-child(5) .mobile-menu__link { transition-delay: 0.43s; }
+  .mobile-menu__link[aria-current='page'] { color: var(--c-mid); }
+  :global(.mobile-menu__cta) { width: 100%; margin: 28px 0 40px; }
 
-  @media (max-width: 1280px) {
-    .pill-header { gap: 16px; padding-left: 16px; }
-    .pill-header__nav { gap: 14px; }
-    .pill-header__link,
-    .pill-header__cta { font-size: 13.5px; }
-  }
-
-  @media (max-width: 1024px) {
-    .header__nav,
-    .pill-header__nav,
-    .pill-header__cta { display: none; }
+  @media (max-width: 1100px) {
+    .header__nav { display: none; }
     .menu-toggle { display: grid; }
-    .pill-header {
-      left: auto;
-      right: 16px;
-      padding: 0 7px 0 16px;
-      transform: translateY(-160%);
-    }
-    .pill-header.is-visible { transform: none; }
+  }
+  @media (max-width: 520px) {
+    :global(.header__cta) { display: none !important; }
   }
 </style>

@@ -1,7 +1,7 @@
 // The ZIIV mark: five flat pieces (three rounded bars, a rounded square and
 // a circle) set in a square turned 45°. Pieces are drawn on an upright
 // 100 × 100 grid, then MARK_TRANSFORM rotates and fits them into a
-// 100 × 100 viewBox. Shared by the logo, preloader, page transition,
+// 100 × 100 viewBox. Shared by the logo,
 // services illustration and pattern fields so the mark is always identical.
 
 type Radii = [tl: number, tr: number, br: number, bl: number];

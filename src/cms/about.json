@@ -12,7 +12,7 @@
   "values": {
     "label": "Our values",
     "title": "The principles behind every build.",
-    "text": "We want ZIIV to feel intelligent without being complicated, ambitious without losing sight of the people who use what we make. These values guide the decisions we make on every project, from the first conversation to long after launch.",
+    "text": "We want ZIIV to be ambitious without being complicated, and never to lose sight of the people who use what we make. These values guide the decisions we make on every project, from the first conversation to long after launch.",
     "items": [
       "Simplicity",
       "Precision",
@@ -37,8 +37,8 @@
         "text": "Clean architecture and maintainable code, so your system can grow with you."
       },
       {
-        "name": "Practical AI",
-        "text": "We use intelligence where it removes friction, never just for show."
+        "name": "Secure by default",
+        "text": "Access control, data protection and backups are planned from day one, not added later."
       },
       {
         "name": "Partners, not vendors",

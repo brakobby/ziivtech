@@ -16,6 +16,7 @@ const TOTAL = 4;
 <section class="cform on-light" aria-labelledby="page-title">
   <div class="cform__inner wrap">
     <header class="cform__head">
+      <p class="label">Contact</p>
       <h1 class="cform__title" id="page-title">{CONTACT.title}</h1>
       <p class="cform__intro">{CONTACT.intro}</p>
     </header>
@@ -147,21 +148,21 @@ const TOTAL = 4;
 
 <style>
   .cform {
-    padding: calc(var(--header-h) + clamp(60px, 11vh, 140px)) 0 var(--section-y);
+    padding: calc(var(--header-h) + clamp(48px, 7vw, 104px)) 0 var(--section-y);
     background: var(--bg-light);
     color: var(--ink);
   }
   .cform__inner {
     display: flex;
     flex-direction: column;
-    gap: clamp(50px, 8vh, 100px);
+    gap: clamp(48px, 6vw, 80px);
   }
-  .cform__head { display: flex; flex-direction: column; gap: 18px; }
+  .cform__head { display: flex; flex-direction: column; gap: 22px; }
   .cform__title {
     max-width: 20ch;
-    font-size: clamp(36px, 4.6vw, 80px);
+    font-size: clamp(34px, 4vw, 60px);
     font-weight: 600;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.035em;
     line-height: 1.06;
     text-wrap: balance;
   }
@@ -225,7 +226,8 @@ const TOTAL = 4;
   .wiz__legend {
     padding: 0;
     margin-bottom: 4px;
-    font-size: clamp(22px, 2vw, 32px);
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2vw, 28px);
     font-weight: 600;
     letter-spacing: -0.02em;
     outline: none;
@@ -252,9 +254,9 @@ const TOTAL = 4;
   }
   .chip__label {
     display: inline-block;
-    padding: 13px 20px;
-    border: 1px solid rgba(5, 31, 32, 0.12);
-    border-radius: 24px;
+    padding: 12px 18px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
     background: var(--bg-light);
     font-size: clamp(14px, 1.1vw, 16px);
     font-weight: 500;
@@ -329,13 +331,14 @@ const TOTAL = 4;
     flex-direction: column;
     gap: 22px;
     padding-top: clamp(20px, 3vh, 30px);
-    border-top: 1px solid var(--rule-light);
+    border-top: 1px solid var(--line);
   }
   .cform__aside-title {
-    color: var(--ink-soft);
+    color: var(--ink-accent);
+    font-family: var(--font);
     font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
+    font-weight: 600;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
   .ways { display: flex; flex-direction: column; gap: 8px; }

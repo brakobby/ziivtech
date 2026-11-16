@@ -45,19 +45,18 @@ export const AUDIENCES = services.audiences;
 
 export const HERO = {
   eyebrow: home.hero.eyebrow,
-  lead: home.hero.lead,
-  morphWords: home.hero.morphWords.length ? home.hero.morphWords : ['intelligent'],
-  tail: home.hero.tail,
+  title: highlights(home.hero.title),
+  intro: home.hero.intro,
   photo: photo(home.hero.image, home.hero.imageAlt, teamEngineering),
 };
 
-export const MARQUEE = home.marquee;
+export const CAPABILITIES = home.capabilities ?? [];
 
 /* ---------- Services ---------- */
 
 export const SERVICES_INTRO = {
   label: services.intro.label,
-  statement: highlights(services.intro.statement),
+  statement: services.intro.statement,
 };
 
 export const SERVICES_PHOTO = photo(services.card.image, services.card.imageAlt, serverRoom);

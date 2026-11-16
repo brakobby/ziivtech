@@ -1,40 +1,100 @@
 ---
-// Closing call to action used at the foot of every page except Contact,
-// matching the reference's "Ready to create greatness together?" block.
+// Closing call to action at the foot of every page except Contact.
+// Product pages pass their own title, text and buttons (default slot).
 import Button from './Button.astro';
-import PhotoBackdrop from './PhotoBackdrop.astro';
-import glow from '../assets/photos/laptop-glow.jpg';
 import { GET_IN_TOUCH } from '../data/content';
-import { CONTACT_HREF } from '../data/site';
+import { CONTACT_HREF, SITE, whatsappHref } from '../data/site';
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = GET_IN_TOUCH.title,
+  text = 'Tell us what you need and we’ll come back with a clear next step. Every enquiry gets a reply.',
+} = Astro.props;
+const wa = whatsappHref();
+const hasSlot = Astro.slots.has('default');
 ---
-<section class="git section-dark" aria-labelledby="git-title">
-  <PhotoBackdrop src={glow} strength={0.45} />
-  <div class="wrap git__inner">
-    <h2 class="git__title" id="git-title" data-reveal>{GET_IN_TOUCH.title}</h2>
-    <Button href={CONTACT_HREF} variant="light" class="git__btn">{GET_IN_TOUCH.cta}</Button>
+<section class="git" aria-labelledby="git-title">
+  <div class="wrap">
+    <div class="git__panel section-dark">
+      <div class="git__text" data-reveal>
+        <h2 class="git__title" id="git-title">{title}</h2>
+        {text && <p class="lead">{text}</p>}
+      </div>
+      <div class="git__actions">
+        {hasSlot ? (
+          <slot />
+        ) : (
+          <>
+            <Button href={CONTACT_HREF} variant="light">{GET_IN_TOUCH.cta}</Button>
+            {wa ? (
+              <Button href={wa} variant="outline-light" target="_blank" rel="noopener noreferrer">
+                Chat on WhatsApp<span class="sr-only"> (opens in a new tab)</span>
+              </Button>
+            ) : (
+              <Button href={`mailto:${SITE.email}`} variant="outline-light">{SITE.email}</Button>
+            )}
+          </>
+        )}
+      </div>
+    </div>
   </div>
 </section>
 
 <style>
   .git {
-    position: relative;
-    isolation: isolate;
-    margin-top: -1px;
-    padding: clamp(110px, 16vw, 200px) 0 clamp(70px, 10vh, 120px);
+    padding: 0 0 var(--section-y);
+    background: var(--bg-light);
   }
-  .git__inner {
+  /* Pages that end on a dark section get breathing room above the panel */
+  :global(.section-dark + .git),
+  :global(main > section.section-dark + .git) { padding-top: var(--section-y); }
+  .git__panel {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) auto;
+    gap: 40px;
+    align-items: end;
+    padding: clamp(40px, 6vw, 88px);
+    overflow: hidden;
+    border-radius: var(--radius-media);
+  }
+  /* A faint brand-green glow in one corner, nothing more */
+  .git__panel::before {
+    content: '';
+    position: absolute;
+    right: -20%;
+    top: -60%;
+    width: 70%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(142, 182, 155, 0.16), transparent 65%);
+    pointer-events: none;
+  }
+  .git__text {
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: clamp(40px, 7vw, 80px);
+    gap: 18px;
   }
   .git__title {
-    max-width: 14ch;
-    font-size: clamp(42px, 7.4vw, 110px);
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    line-height: 1;
-    text-align: center;
+    max-width: 18ch;
+    font-size: clamp(30px, 3.4vw, 52px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
   }
-  :global(.git__btn) { min-width: min(320px, 80vw); }
+  .git__text .lead { max-width: 48ch; }
+  .git__actions {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .git__panel { grid-template-columns: 1fr; align-items: start; }
+  }
 </style>

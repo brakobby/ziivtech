@@ -3,9 +3,7 @@
 
 const root = document.documentElement;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const desktop = window.matchMedia('(min-width: 1025px)');
-const finePointer = window.matchMedia('(pointer: fine)').matches;
-const clamp = (v: number, min = 0, max = 1) => Math.min(max, Math.max(min, v));
+const desktop = window.matchMedia('(min-width: 1101px)');
 
 /* ---------- Reveal on scroll ---------- */
 function initReveal() {
@@ -28,27 +26,11 @@ function initReveal() {
   items.forEach((el) => io.observe(el));
 }
 
-/* ---------- Floating pill header ---------- */
-function initPillHeader() {
-  const pill = document.querySelector<HTMLElement>('[data-pill-header]');
-  if (!pill) return;
-  // Appear once the opening section is mostly scrolled past.
-  const opener = document.querySelector<HTMLElement>('main > section');
-  const focusables = pill.querySelectorAll<HTMLElement>('a, button');
-  let visible = false;
-
-  const set = (show: boolean) => {
-    if (show === visible) return;
-    visible = show;
-    pill.classList.toggle('is-visible', show);
-    pill.toggleAttribute('inert', !show);
-    focusables.forEach((el) => (el.tabIndex = show ? 0 : -1));
-  };
-  pill.toggleAttribute('inert', true);
-  return () => {
-    const threshold = Math.min((opener?.offsetHeight ?? 400) * 0.65, window.innerHeight * 0.8);
-    set(window.scrollY > Math.max(240, threshold));
-  };
+/* ---------- Header: solid background once the page scrolls ---------- */
+function initHeader() {
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (!header) return;
+  return () => header.classList.toggle('is-scrolled', window.scrollY > 8);
 }
 
 /* ---------- Mobile menu ---------- */
@@ -99,105 +81,6 @@ function initMenu() {
   desktop.addEventListener('change', (e) => e.matches && shut(false));
 }
 
-/* ---------- Custom cursor ---------- */
-function initCursor() {
-  const cursor = document.querySelector<HTMLElement>('.cursor');
-  if (!cursor || reducedMotion || !finePointer) return;
-  const label = cursor.querySelector<HTMLElement>('.cursor__label');
-  root.classList.add('has-cursor');
-
-  let x = 0;
-  let y = 0;
-  let queued = false;
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      if (e.pointerType !== 'mouse') return;
-      x = e.clientX;
-      y = e.clientY;
-      if (cursor.dataset.variant === 'hidden') cursor.dataset.variant = 'dot';
-      if (!queued) {
-        queued = true;
-        requestAnimationFrame(() => {
-          cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-          queued = false;
-        });
-      }
-    },
-    { passive: true }
-  );
-
-  document.addEventListener('pointerover', (e) => {
-    const target = e.target as Element;
-    if (target.closest('input[type="text"], input[type="email"], input[type="tel"], textarea')) {
-      cursor.dataset.variant = 'hidden';
-      return;
-    }
-    const hit = target.closest<HTMLElement>('[data-cursor], a, button, label');
-    if (hit?.dataset.cursor === 'pill' && label) {
-      label.textContent = hit.dataset.cursorLabel ?? 'View';
-      cursor.dataset.variant = 'pill';
-    } else {
-      cursor.dataset.variant = hit ? 'hover' : 'dot';
-    }
-  });
-  document.documentElement.addEventListener('pointerleave', () => (cursor.dataset.variant = 'hidden'));
-}
-
-/* ---------- Page transitions ---------- */
-// Internal links play the curtain, then navigate. The next page starts
-// covered (see BaseLayout) and the curtain lifts on a CSS timer.
-function initPageTransitions() {
-  if (reducedMotion) return;
-
-  document.addEventListener('click', (e) => {
-    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    const link = (e.target as Element).closest<HTMLAnchorElement>('a[href]');
-    if (!link || link.target || link.hasAttribute('download')) return;
-    const url = new URL(link.href, location.href);
-    if (url.origin !== location.origin || url.protocol.startsWith('mailto')) return;
-    // Same-page anchors scroll as normal
-    if (url.pathname === location.pathname && url.search === location.search) return;
-
-    e.preventDefault();
-    try {
-      sessionStorage.setItem('ziiv-transition', '1');
-    } catch {}
-    root.classList.add('is-leaving');
-    window.setTimeout(() => location.assign(url.href), 520);
-  });
-
-  // Returning via back/forward restores a cached page; drop the curtain.
-  window.addEventListener('pageshow', (e) => {
-    if (e.persisted) root.classList.remove('is-leaving', 'is-entering');
-  });
-}
-
-/* ---------- Home: selected work, scroll-driven active project ---------- */
-function initWork() {
-  const scroller = document.querySelector<HTMLElement>('[data-work]');
-  if (!scroller) return;
-  const items = [...scroller.querySelectorAll<HTMLElement>('[data-work-item]')];
-  const slides = [...scroller.querySelectorAll<HTMLElement>('[data-work-slide]')];
-  const counter = scroller.querySelector<HTMLElement>('[data-work-counter]');
-  let current = 0;
-
-  const activate = (index: number) => {
-    if (index === current) return;
-    current = index;
-    items.forEach((el, i) => el.classList.toggle('is-active', i === index));
-    slides.forEach((el, i) => el.classList.toggle('is-active', i === index));
-    if (counter) counter.textContent = String(index + 1).padStart(2, '0');
-  };
-
-  return () => {
-    if (!desktop.matches) return;
-    const step = window.innerHeight * 0.75;
-    const offset = -scroller.getBoundingClientRect().top;
-    activate(clamp(Math.floor(offset / step), 0, items.length - 1));
-  };
-}
-
 /* ---------- Work page: category filters ---------- */
 function initFilters() {
   const group = document.querySelector<HTMLElement>('[data-filters]');
@@ -210,13 +93,9 @@ function initFilters() {
     buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === filter)));
     let shown = 0;
     lists.forEach((list, li) => {
-      let firstVisible = true;
       list.querySelectorAll<HTMLElement>('[data-category]').forEach((item) => {
         const match = filter === 'all' || item.dataset.category === filter;
         item.hidden = !match;
-        // The first visible card in the grid spans the full width
-        item.classList.toggle('is-featured', match && firstVisible && item.classList.contains('card'));
-        if (match) firstVisible = false;
         if (match && li === 0) shown++;
       });
     });
@@ -224,95 +103,6 @@ function initFilters() {
   };
 
   buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter ?? 'all')));
-}
-
-/* ---------- Process page: pinned stepper ---------- */
-function initProcessSteps() {
-  const scroller = document.querySelector<HTMLElement>('[data-steps]');
-  const section = scroller?.closest<HTMLElement>('.psteps');
-  if (!scroller || !section) return;
-  const panels = [...scroller.querySelectorAll<HTMLElement>('[data-step-panel]')];
-  const pills = [...scroller.querySelectorAll<HTMLElement>('[data-step-pill]')];
-  const count = scroller.querySelector<HTMLElement>('[data-step-count]');
-  const n = panels.length;
-  let current = 0;
-
-  const travel = () => scroller.offsetHeight - window.innerHeight;
-
-  pills.forEach((pill, i) =>
-    pill.addEventListener('click', () => {
-      const top = scroller.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: top + ((i + 0.5) / n) * travel(), behavior: reducedMotion ? 'auto' : 'smooth' });
-    })
-  );
-
-  return () => {
-    if (!desktop.matches) return;
-    const progress = clamp(-scroller.getBoundingClientRect().top / travel());
-    const index = Math.min(n - 1, Math.floor(progress * n));
-    section.style.setProperty('--draw', clamp((progress * n - 0.5) / (n - 1)).toFixed(3));
-    pills.forEach((p, i) => {
-      p.classList.toggle('is-reached', i <= index);
-      p.classList.toggle('is-active', i === index);
-    });
-    if (index === current) return;
-    current = index;
-    panels.forEach((p, i) => p.classList.toggle('is-active', i === index));
-    if (count) count.textContent = String(index + 1).padStart(2, '0');
-  };
-}
-
-/* ---------- Services page: light-catching card ---------- */
-function initShine() {
-  const card = document.querySelector<HTMLElement>('[data-shine]');
-  if (!card || reducedMotion || !finePointer) return;
-  card.addEventListener('pointermove', (e) => {
-    const r = card.getBoundingClientRect();
-    card.style.setProperty('--mx', (((e.clientX - r.left) / r.width) * 100).toFixed(1));
-    card.style.setProperty('--my', (((e.clientY - r.top) / r.height) * 100).toFixed(1));
-    card.classList.add('is-lit');
-  });
-  card.addEventListener('pointerleave', () => {
-    card.classList.remove('is-lit');
-    card.style.setProperty('--mx', '50');
-    card.style.setProperty('--my', '50');
-  });
-}
-
-/* ---------- Services: draw the mark with scroll ---------- */
-function initServicesMark() {
-  const section = document.querySelector<HTMLElement>('[data-services]');
-  const mark = section?.querySelector<HTMLElement>('.services__mark');
-  if (!section || !mark || reducedMotion) return;
-  return () => {
-    const rect = mark.getBoundingClientRect();
-    const vh = window.innerHeight;
-    section.style.setProperty('--p', clamp((vh * 0.85 - rect.top) / (rect.height * 0.75)).toFixed(3));
-  };
-}
-
-/* ---------- About statement: fill word by word ---------- */
-function initAboutFill() {
-  const statement = document.querySelector<HTMLElement>('[data-fill]');
-  const section = statement?.closest<HTMLElement>('.about');
-  if (!statement || !section || reducedMotion) return;
-  return () => {
-    const rect = statement.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const progress = clamp((vh * 0.9 - rect.top) / (vh * 0.55 + rect.height * 0.5), 0, 1.1);
-    section.style.setProperty('--fill', progress.toFixed(3));
-  };
-}
-
-/* ---------- Services accordion (home) ---------- */
-function initAccordion() {
-  document.querySelectorAll<HTMLButtonElement>('[data-accordion]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const open = btn.getAttribute('aria-expanded') !== 'true';
-      btn.setAttribute('aria-expanded', String(open));
-      btn.closest('.service')?.classList.toggle('is-open', open);
-    });
-  });
 }
 
 /* ---------- Contact: project brief wizard ---------- */
@@ -446,27 +236,23 @@ function initContactForm() {
 /* ---------- Boot ---------- */
 initReveal();
 initMenu();
-initCursor();
-initPageTransitions();
 initFilters();
-initShine();
-initAccordion();
 initContactForm();
 
-const onScroll = [initPillHeader(), initWork(), initProcessSteps(), initServicesMark(), initAboutFill()].filter(
-  (fn): fn is () => void => typeof fn === 'function'
-);
-let ticking = false;
-const update = () => {
-  ticking = false;
-  onScroll.forEach((fn) => fn());
-};
-const requestUpdate = () => {
-  if (!ticking) {
-    ticking = true;
-    requestAnimationFrame(update);
-  }
-};
-window.addEventListener('scroll', requestUpdate, { passive: true });
-window.addEventListener('resize', requestUpdate);
-update();
+const onScroll = initHeader();
+if (onScroll) {
+  let ticking = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        onScroll();
+      });
+    },
+    { passive: true }
+  );
+  onScroll();
+}

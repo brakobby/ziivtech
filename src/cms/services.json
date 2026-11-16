@@ -1,7 +1,7 @@
 {
   "intro": {
     "label": "Our services",
-    "statement": "Turn complex operations into *software that simply works*, built around the way *your business* actually runs."
+    "statement": "We turn complex operations into *software that simply works*, built around the way *your business* actually runs."
   },
   "card": {
     "image": "/src/assets/cms/services/card/image.jpg",
@@ -28,8 +28,8 @@
         "note": "Payments, marketplaces and order flows."
       },
       {
-        "name": "Teams adopting AI",
-        "note": "Automation that removes repetitive work."
+        "name": "Growing operations",
+        "note": "Systems and automation that remove manual work."
       },
       {
         "name": "Partners & global clients",
@@ -38,7 +38,7 @@
     ]
   },
   "list": {
-    "label": "Our services",
+    "label": "What we do",
     "title": "Where business problems meet engineering that lasts."
   },
   "items": [
@@ -56,15 +56,14 @@
       ]
     },
     {
-      "headline": "Putting intelligence to work",
-      "category": "Artificial Intelligence & Automation",
-      "description": "Practical AI and automation that take repetitive work off your team and sharpen decisions.",
+      "headline": "Taking repetitive work off your team",
+      "category": "Automation & Integrations",
+      "description": "Automated workflows and connected systems that remove manual steps and keep information in one place.",
       "details": [
-        "AI-powered business workflows",
-        "Intelligent assistants",
+        "Workflow and process automation",
+        "Integrations between existing systems",
         "Data analysis and reporting",
-        "Process automation",
-        "AI features inside your software"
+        "Notifications, reminders and scheduled tasks"
       ]
     },
     {

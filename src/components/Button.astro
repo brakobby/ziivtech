@@ -1,115 +1,74 @@
 ---
-// Pill button with the reference's slowly rotating gradient border.
-// Renders an <a> when `href` is given, otherwise a <button>.
+// Button. Renders an <a> when `href` is given, otherwise a <button>.
+//   dark          : solid deep green, for light backgrounds (primary)
+//   light         : solid white, for dark backgrounds (primary)
+//   outline       : hairline border, for light backgrounds (secondary)
+//   outline-light : hairline border, for dark backgrounds (secondary)
 import Arrow from './Arrow.astro';
 
 interface Props {
   href?: string;
-  variant?: 'light' | 'dark';
+  variant?: 'light' | 'dark' | 'outline' | 'outline-light';
+  size?: 'md' | 'sm';
   type?: 'button' | 'submit';
   class?: string;
   arrow?: boolean;
   [key: string]: unknown;
 }
-const { href, variant = 'dark', type = 'button', class: className, arrow = true, ...rest } = Astro.props;
+const { href, variant = 'dark', size = 'md', type = 'button', class: className, arrow, ...rest } = Astro.props;
+const showArrow = arrow ?? (variant === 'dark' || variant === 'light');
 const Tag = href ? 'a' : 'button';
 ---
 <Tag
   href={href}
   type={href ? undefined : type}
-  class:list={['btn', `btn--${variant}`, className]}
-  data-cursor="hover"
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
   {...rest}
 >
-  <span class="btn__content">
-    <slot />
-    {arrow && <Arrow class="btn__arrow" />}
-  </span>
+  <slot />
+  {showArrow && <Arrow class="btn__arrow" />}
 </Tag>
 
 <style>
   .btn {
-    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    min-height: 44px;
-    padding: 11px 20px;
-    overflow: hidden;
-    border: none;
-    border-radius: var(--radius-pill);
-    font-size: clamp(15px, 1.1vw, 18px);
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    height: 50px;
+    padding: 0 24px;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
     line-height: 1;
     white-space: nowrap;
     text-decoration: none;
     cursor: pointer;
-    isolation: isolate;
-    transition: color 0.45s var(--ease-out), background-color 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
   }
+  .btn--sm {
+    height: 40px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+  :global(.btn__arrow) { transition: transform 0.25s var(--ease-out); }
+  .btn:hover :global(.btn__arrow),
+  .btn:focus-visible :global(.btn__arrow) { transform: translateX(3px); }
 
-  /* Rotating gradient sits behind an inset fill, leaving a 1.5px animated border. */
-  .btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: -2;
-    width: 200%;
-    aspect-ratio: 1;
-    animation: btn-spin 4s linear infinite;
-  }
-  .btn::after {
-    content: '';
-    position: absolute;
-    inset: 1.5px;
-    z-index: -1;
-    border-radius: calc(var(--radius-pill) - 2px);
-    transition: background-color 0.45s var(--ease-out);
-  }
+  .btn--dark { background: var(--c-deep); color: var(--c-white); }
+  .btn--dark:hover { background: var(--c-mid); }
 
-  .btn__content {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .btn__arrow { transition: transform 0.35s var(--ease-out); }
-  .btn:hover .btn__arrow,
-  .btn:focus-visible .btn__arrow { transform: translateX(4px); }
+  .btn--light { background: var(--c-white); color: var(--c-deep); }
+  .btn--light:hover { background: var(--c-pale); }
 
-  /* Light: white pill, used on dark backgrounds */
-  .btn--light { color: var(--c-deep); background: var(--c-white); }
-  .btn--light::before { background: linear-gradient(var(--c-deep), var(--c-soft), var(--c-white)); }
-  .btn--light::after { background: var(--c-white); }
-  .btn--light:hover,
-  .btn--light:focus-visible {
-    color: var(--c-deep);
-    box-shadow: 0 0 0 1px var(--c-pale), 0 0 28px rgba(142, 182, 155, 0.55);
-  }
-  .btn--light:hover::after,
-  .btn--light:focus-visible::after { background: var(--c-pale); }
+  .btn--outline { border-color: var(--line-strong); color: var(--ink); }
+  .btn--outline:hover { border-color: var(--ink); }
 
-  /* Dark: deep-green pill, used on light backgrounds */
-  .btn--dark { color: var(--c-white); background: var(--c-deep); }
-  .btn--dark::before { background: linear-gradient(var(--c-white), var(--c-soft), var(--c-deep)); }
-  .btn--dark::after { background: var(--c-deep); }
-  .btn--dark:hover,
-  .btn--dark:focus-visible {
-    color: var(--c-white);
-    box-shadow: 0 10px 30px rgba(5, 31, 32, 0.28);
-  }
-  .btn--dark:hover::after,
-  .btn--dark:focus-visible::after { background: var(--c-mid); }
-
-  .btn:hover::before,
-  .btn:focus-visible::before { animation-play-state: paused; opacity: 0; }
+  .btn--outline-light { border-color: rgba(255, 255, 255, 0.3); color: var(--c-white); }
+  .btn--outline-light:hover { border-color: var(--c-white); }
 
   .btn:disabled { opacity: 0.55; cursor: not-allowed; }
-
-  @keyframes btn-spin {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-  }
 </style>

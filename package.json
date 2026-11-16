@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^7.0.1",
+    "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/montserrat": "^5.3.0",
     "@keystatic/astro": "^6.0.0",
     "@keystatic/core": "^0.6.9",

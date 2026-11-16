@@ -1,0 +1,93 @@
+---
+// Portfolio card: project visual, then name, status and one line of
+// context. Used by the home page's selected work and the Work page grid.
+import ProjectMedia from './ProjectMedia.astro';
+import Arrow from './Arrow.astro';
+import { projectHref, type Project } from '../data/content';
+
+interface Props {
+  project: Project;
+  sizes?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { project: p, sizes = '(max-width: 768px) 92vw, 620px', headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
+---
+<a class="pcard" href={projectHref(p)}>
+  <div class="pcard__media">
+    <ProjectMedia project={p} sizes={sizes} />
+  </div>
+  <div class="pcard__text">
+    <div class="pcard__head">
+      <Heading class="pcard__name">{p.name}</Heading>
+      <span class:list={['pcard__tag', { 'pcard__tag--own': p.status === 'Company product' }]}>{p.status}</span>
+    </div>
+    <p class="pcard__title">{p.title}</p>
+    <span class="pcard__more" aria-hidden="true">View project <Arrow /></span>
+  </div>
+</a>
+
+<style>
+  .pcard {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+  .pcard__media {
+    position: relative;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+    border-radius: var(--radius-media);
+  }
+  .pcard__media :global(.pm__desktop),
+  .pcard__media :global(.visual) { transition: transform 0.8s var(--ease-out); }
+  .pcard:hover .pcard__media :global(.pm__desktop) { transform: translateY(-2%); }
+  .pcard:hover .pcard__media :global(.visual) { transform: scale(1.02); }
+
+  .pcard__text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .pcard__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+  }
+  .pcard__name {
+    font-size: clamp(20px, 1.7vw, 24px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .pcard__tag {
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    color: var(--ink-soft);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .pcard__tag--own { border-color: transparent; background: var(--c-pale); color: var(--c-deep); }
+  .pcard__title {
+    max-width: 48ch;
+    color: var(--ink-soft);
+  }
+  .pcard__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .pcard__more :global(.arrow) { transition: transform 0.25s var(--ease-out); }
+  .pcard:hover .pcard__more :global(.arrow) { transform: translateX(3px) !important; }
+</style>

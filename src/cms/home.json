@@ -1,31 +1,24 @@
 {
   "hero": {
-    "eyebrow": "Intelligence Without Friction.",
-    "lead": "We build",
-    "morphWords": [
-      "intelligent",
-      "reliable",
-      "scalable",
-      "automated"
-    ],
-    "tail": "software for business.",
+    "eyebrow": "Software engineering · Ghana",
+    "title": "We build *reliable software* for businesses that are ready to grow.",
+    "intro": "Custom applications, business management systems and digital platforms, engineered around the way your organisation actually works.",
     "image": "/src/assets/cms/home/hero/image.jpg",
     "imageAlt": "Two engineers reviewing code together at a workstation"
   },
-  "marquee": [
-    "Software",
-    "Artificial Intelligence",
-    "Automation",
-    "Platforms",
-    "Cloud",
-    "Business Systems"
+  "capabilities": [
+    "Software engineering",
+    "Business systems",
+    "Platforms & marketplaces",
+    "Automation & integrations",
+    "Cloud & infrastructure"
   ],
   "work": {
     "label": "Selected work",
     "title": "Products we own and work we’ve delivered for clients."
   },
   "getInTouch": {
-    "title": "Ready to build what’s next?",
-    "cta": "Get In Touch"
+    "title": "Have a project in mind? Let’s talk it through.",
+    "cta": "Start a Project"
   }
 }

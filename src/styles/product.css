@@ -1,0 +1,176 @@
+/* ==========================================================================
+   Shared layout for product pages (ZIIVOS, ZIIV Assess): hero with a
+   screenshot, feature grid, alternating split sections.
+   ========================================================================== */
+
+/* ---------- Hero ---------- */
+.prod-hero {
+  padding: calc(var(--header-h) + clamp(48px, 7vw, 104px)) 0 0;
+  background: linear-gradient(180deg, var(--bg-light) 55%, var(--bg-muted) 55%);
+}
+.prod-hero__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+}
+.prod-hero__title {
+  max-width: 18ch;
+  font-size: var(--fs-h1);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+.prod-hero__text .lead { max-width: 56ch; }
+.prod-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+.prod-hero__media {
+  margin-top: clamp(48px, 6vw, 80px);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-media);
+  background: var(--c-white);
+  box-shadow: 0 1px 2px rgba(5, 31, 32, 0.06), 0 24px 64px rgba(5, 31, 32, 0.12);
+}
+.prod-hero__media img { width: 100%; height: auto; }
+.prod-hero__media--dark { background: #1c1d1f; border-color: transparent; }
+
+/* ---------- Feature grid ---------- */
+.prod-mods {
+  padding: var(--section-y) 0;
+  background: var(--bg-muted);
+}
+.prod-mods .section-head { margin-bottom: clamp(48px, 6vw, 80px); }
+.prod-mods__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-media);
+  background: var(--line);
+}
+.prod-mod {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: clamp(24px, 2.4vw, 36px);
+  background: var(--c-white);
+}
+.prod-mod__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 10px;
+  border-radius: var(--radius);
+  background: var(--c-pale);
+  color: var(--c-deep);
+}
+.prod-mod__name {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+.prod-mod__text {
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+/* ---------- Split sections ---------- */
+.prod-split { padding: var(--section-y) 0; }
+.prod-split--light { background: var(--bg-light); }
+.prod-split__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(40px, 6vw, 112px);
+  align-items: center;
+}
+.prod-split--reverse .prod-split__inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
+.prod-split__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+.prod-split__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.prod-split__text .lead { max-width: 46ch; }
+.prod-split__list-label {
+  margin-top: 14px;
+  color: var(--on-dark-accent);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.prod-split__list {
+  align-self: stretch;
+  border-top: 1px solid var(--line-dark);
+}
+.prod-split__list li {
+  position: relative;
+  padding: 14px 0 14px 28px;
+  border-bottom: 1px solid var(--line-dark);
+}
+.prod-split__list li::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 1.25em;
+  width: 10px;
+  height: 6px;
+  border-left: 1.5px solid var(--c-soft);
+  border-bottom: 1.5px solid var(--c-soft);
+  transform: rotate(-45deg);
+}
+.prod-split__media {
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  background: var(--c-white);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
+}
+.prod-split--light .prod-split__media {
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(5, 31, 32, 0.06), 0 24px 64px rgba(5, 31, 32, 0.1);
+}
+.prod-split__media img { width: 100%; height: auto; }
+
+/* Phone screenshot in a slim device frame */
+.prod-phone {
+  justify-self: center;
+  width: min(320px, 78%);
+  overflow: hidden;
+  border: 8px solid #0a0f0e;
+  border-radius: 36px;
+  background: var(--c-white);
+  box-shadow: 0 24px 64px rgba(5, 31, 32, 0.2);
+}
+.prod-phone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+@media (max-width: 1200px) {
+  .prod-mods__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1024px) {
+  .prod-split__inner,
+  .prod-split--reverse .prod-split__inner { grid-template-columns: 1fr; }
+  .prod-split--reverse .prod-split__media,
+  .prod-split--reverse .prod-phone { order: 2; }
+}
+@media (max-width: 600px) {
+  .prod-mods__grid { grid-template-columns: 1fr; }
+}

@@ -74,7 +74,7 @@ src/
   styles/global.css   Design tokens (colours, type scale, spacing) and base styles
   layouts/            BaseLayout: head, header, footer, intro and page transition
   components/         One component per section, plus shared pieces
-  scripts/main.ts     Interactions: reveals, menu, cursor, transitions, filters, project brief
+  scripts/main.ts     Interactions: reveals, header, menu, filters, project brief
   pages/              One file per page; work/[slug].astro builds the case studies
 ```
 
