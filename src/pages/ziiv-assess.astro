@@ -2,12 +2,14 @@
 // ZIIV Assess product page: what it is, what's inside, Code Lab, mobile,
 // then a demo request. Copy comes from the CMS (src/cms/assess.json).
 // Screenshots have the client school's name blurred; keep it that way.
-// Shared layout lives in styles/product.css.
+// Shared layout lives in styles/product.css. The square pattern echoes the
+// school portals we build (see SchoolPattern.astro).
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import Icon from '../components/Icon.astro';
 import GetInTouch from '../components/GetInTouch.astro';
+import SchoolPattern from '../components/SchoolPattern.astro';
 import type { IconName } from '../data/icons';
 import { ASSESS } from '../data/content';
 import { SITE, whatsappHref } from '../data/site';
@@ -19,7 +21,8 @@ import '../styles/product.css';
 const wa = whatsappHref('Hello ZIIV, I’d like a demo of ZIIV Assess.');
 ---
 <BaseLayout title="ZIIV Assess" description={ASSESS.intro}>
-  <section class="prod-hero on-light" aria-labelledby="page-title">
+  <section class="prod-hero prod-hero--pattern on-light" aria-labelledby="page-title">
+    <SchoolPattern tone="light" />
     <div class="prod-hero__text wrap">
       <p class="label">{ASSESS.label} · A ZIIV product</p>
       <h1 class="prod-hero__title" id="page-title">{ASSESS.title}</h1>
@@ -68,7 +71,8 @@ const wa = whatsappHref('Hello ZIIV, I’d like a demo of ZIIV Assess.');
     </div>
   </section>
 
-  <section class="prod-split section-dark" aria-labelledby="code-title">
+  <section class="prod-split prod-split--pattern section-dark" aria-labelledby="code-title">
+    <SchoolPattern tone="ziiv" />
     <div class="prod-split__inner wrap">
       <div class="prod-split__text" data-reveal>
         <p class="label prod-split__label"><Icon name="code" size={16} /> {ASSESS.codeLab.label}</p>

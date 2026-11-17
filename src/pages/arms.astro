@@ -1,0 +1,177 @@
+---
+// ARMS: the staff portal ZIIV built for Agape Academy International School.
+// Uses the product page layout (styles/product.css) with the school's own
+// purple and interlocking-squares pattern. Copy comes from src/cms/arms.json
+// and covers only what the live portal shows.
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import GetInTouch from '../components/GetInTouch.astro';
+import SchoolPattern from '../components/SchoolPattern.astro';
+import type { IconName } from '../data/icons';
+import { ARMS } from '../data/content';
+import { whatsappHref } from '../data/site';
+import signin from '../assets/work/arms/shots/desktop.png';
+import tall from '../assets/work/arms/shots/tall.png';
+import phoneShot from '../assets/work/arms/shots/mobile.png';
+import '../styles/product.css';
+
+const wa = whatsappHref('Hello ZIIV, I’d like to talk about a staff system for our school.');
+---
+<BaseLayout title="ARMS · Agape Academy International School" description={ARMS.intro}>
+  <section class="arms-hero" aria-labelledby="page-title">
+    <SchoolPattern tone="school" />
+    <div class="prod-hero__text arms-hero__text wrap">
+      <p class="label">{ARMS.label} · Client project for Agape Academy International School</p>
+      <h1 class="prod-hero__title" id="page-title">{ARMS.title}</h1>
+      <p class="lead">{ARMS.intro}</p>
+      <div class="prod-hero__actions">
+        <Button href={ARMS.appUrl} variant="light" target="_blank" rel="noopener noreferrer">
+          Visit ARMS<span class="sr-only"> (opens in a new tab)</span>
+        </Button>
+        <Button href={ARMS.contactHref} variant="outline-light">Build One for Your School</Button>
+      </div>
+    </div>
+    <figure class="prod-hero__media arms-hero__media wrap">
+      <Image
+        src={signin}
+        alt="The ARMS sign-in screen: the Agape Academy crest on a patterned purple panel beside the staff sign-in form"
+        widths={[640, 960, 1280, 1600]}
+        sizes="(max-width: 1360px) 92vw, 1280px"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+  </section>
+
+  <section class="prod-mods on-light" aria-labelledby="mods-title">
+    <div class="wrap">
+      <header class="section-head" data-reveal>
+        <p class="label">{ARMS.modules.label}</p>
+        <h2 class="display" id="mods-title">{ARMS.modules.title}</h2>
+      </header>
+      <ul class="prod-mods__grid arms-mods">
+        {ARMS.modules.items.map((m) => (
+          <li class="prod-mod">
+            <span class="prod-mod__icon"><Icon name={m.icon as IconName} size={20} /></span>
+            <h3 class="prod-mod__name">{m.name}</h3>
+            <p class="prod-mod__text">{m.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="prod-split arms-split" aria-labelledby="design-title">
+    <SchoolPattern tone="school" class="arms-split__pattern" />
+    <div class="prod-split__inner wrap">
+      <div class="prod-split__text" data-reveal>
+        <p class="label prod-split__label"><Icon name="layers" size={16} /> {ARMS.signin.label}</p>
+        <h2 class="display" id="design-title">{ARMS.signin.title}</h2>
+        <p class="lead">{ARMS.signin.text}</p>
+        <p class="prod-split__list-label">{ARMS.signin.pointsLabel}</p>
+        <ul class="prod-split__list">
+          {ARMS.signin.points.map((pt) => <li>{pt}</li>)}
+        </ul>
+      </div>
+      <figure class="prod-split__media" data-reveal>
+        <Image
+          src={tall}
+          alt="The full ARMS sign-in page, with the school crest, motto and install prompt"
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 1024px) 92vw, 680px"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="prod-split prod-split--light prod-split--reverse on-light" aria-labelledby="any-title">
+    <div class="prod-split__inner wrap">
+      <div class="prod-phone" data-reveal>
+        <Image
+          src={phoneShot}
+          alt="ARMS on a phone: the school crest above the staff sign-in form"
+          widths={[400, 800]}
+          sizes="320px"
+        />
+      </div>
+      <div class="prod-split__text" data-reveal>
+        <p class="label prod-split__label arms-label"><Icon name="devices" size={16} /> {ARMS.anywhere.label}</p>
+        <h2 class="display" id="any-title">{ARMS.anywhere.title}</h2>
+        <p class="lead">{ARMS.anywhere.text}</p>
+      </div>
+    </div>
+  </section>
+
+  <GetInTouch title={ARMS.cta.title} text={ARMS.cta.text}>
+    <Button href={ARMS.contactHref} variant="light">Start a Project</Button>
+    {wa && (
+      <Button href={wa} variant="outline-light" target="_blank" rel="noopener noreferrer">
+        Ask on WhatsApp<span class="sr-only"> (opens in a new tab)</span>
+      </Button>
+    )}
+  </GetInTouch>
+</BaseLayout>
+
+<style>
+  /* Agape Academy's colours, sampled from the portal */
+  .arms-hero,
+  .arms-split {
+    --school: #4b075f;
+    --school-deep: #33033f;
+    --school-rose: #d9375a;
+    --school-lilac: #e3cdf5;
+  }
+
+  .arms-hero {
+    position: relative;
+    isolation: isolate;
+    padding: calc(var(--header-h) + clamp(48px, 7vw, 104px)) 0 0;
+    background: linear-gradient(180deg, var(--school) 0, var(--school) 62%, var(--bg-muted) 62%);
+    color: var(--c-white);
+  }
+  /* The header starts solid here, as its dark links can't sit on purple */
+  :global(.header) {
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom-color: var(--line);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    backdrop-filter: saturate(1.4) blur(14px);
+  }
+
+  .arms-hero :global(.school-pattern) {
+    height: 62%;
+    z-index: -1;
+    opacity: 0.6;
+    -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent);
+    mask-image: linear-gradient(180deg, #000 40%, transparent);
+  }
+  .arms-hero__text .label { color: var(--school-lilac); }
+  .arms-hero__text .lead { color: rgba(255, 255, 255, 0.78); }
+  .arms-hero__media {
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 1px 2px rgba(51, 3, 63, 0.1), 0 32px 80px rgba(51, 3, 63, 0.35);
+  }
+
+  .arms-mods :global(.prod-mod__icon) {
+    background: #f3e8f9;
+    color: var(--school, #4b075f);
+  }
+
+  .arms-split {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--school-deep);
+    color: var(--c-white);
+  }
+  .arms-split :global(.arms-split__pattern) { z-index: -1; opacity: 0.4; }
+  .arms-split .label,
+  .arms-split :global(.prod-split__list-label) { color: var(--school-lilac); }
+  .arms-split .lead { color: rgba(255, 255, 255, 0.75); }
+  .arms-split :global(.prod-split__list) { border-color: rgba(255, 255, 255, 0.14); }
+  .arms-split :global(.prod-split__list li) { border-color: rgba(255, 255, 255, 0.14); }
+  .arms-split :global(.prod-split__list li::before) { border-color: var(--school-rose); }
+
+  .arms-label { color: #6b1a85; }
+</style>

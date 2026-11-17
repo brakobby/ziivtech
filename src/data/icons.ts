@@ -19,7 +19,8 @@ export const PATHS = {
   video: 'M3.5 7A1.5 1.5 0 0 1 5 5.5h9A1.5 1.5 0 0 1 15.5 7v10a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 17Zm12 4 5-3v8l-5-3',
   code: 'M8.5 7 3.5 12l5 5m7-10 5 5-5 5M13.5 5l-3 14',
   chart: 'M4 20V4m0 16h16M8 16v-4m4 4V8m4 8v-6',
-  arrowUpRight: 'M7 17 17 7M8 7h9v9',
+  lock: 'M6 11h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1Zm2 0V7.5a4 4 0 0 1 8 0V11m-4 4v2.5',
+  arrowUpRight:'M7 17 17 7M8 7h9v9',
 } as const;
 
 export type IconName = keyof typeof PATHS;

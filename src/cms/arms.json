@@ -1,0 +1,53 @@
+{
+  "label": "ARMS",
+  "title": "A staff portal for our client, Agape Academy International School.",
+  "intro": "ARMS is a client project: the secure staff system ZIIV designed and built for Agape Academy International School, in the school’s own colours and installable on any phone or computer.",
+  "appUrl": "https://arms-henna.vercel.app",
+  "modules": {
+    "label": "What we built",
+    "title": "Secure access for every member of staff.",
+    "items": [
+      {
+        "icon": "lock",
+        "name": "Staff sign-in",
+        "text": "Staff sign in with their staff ID or email, with password recovery when they need it."
+      },
+      {
+        "icon": "users",
+        "name": "Account requests",
+        "text": "New teachers request an account themselves instead of being set up by hand."
+      },
+      {
+        "icon": "devices",
+        "name": "Installable app",
+        "text": "ARMS installs from the browser and opens full screen from a phone or desktop home screen."
+      },
+      {
+        "icon": "layers",
+        "name": "School branding",
+        "text": "Designed around Agape Academy’s crest, colours and pattern, so it feels like the school’s own."
+      }
+    ]
+  },
+  "signin": {
+    "label": "Designed for the school",
+    "title": "It looks and feels like Agape Academy.",
+    "text": "The crest, the motto and the school’s purple run through every screen, with a pattern drawn from its identity.",
+    "pointsLabel": "On the sign-in screen",
+    "points": [
+      "Staff ID or email sign-in",
+      "Password recovery",
+      "Account requests for new teachers",
+      "A prompt to install the app"
+    ]
+  },
+  "anywhere": {
+    "label": "Phone and desktop",
+    "title": "In every teacher’s pocket.",
+    "text": "Teachers can install ARMS on their phones and open it like any other app, while office staff use it from a computer."
+  },
+  "cta": {
+    "title": "Need a system like this for your school?",
+    "text": "Tell us how your school runs and we’ll design a staff system around it, in your own colours."
+  }
+}

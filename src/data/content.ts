@@ -9,6 +9,7 @@ import about from '../cms/about.json';
 import contact from '../cms/contact.json';
 import ziivos from '../cms/ziivos.json';
 import assess from '../cms/assess.json';
+import arms from '../cms/arms.json';
 import { imageOr } from './images';
 
 import teamEngineering from '../assets/photos/team-engineering.jpg';
@@ -124,4 +125,11 @@ export const ASSESS = {
   ...assess,
   // Pre-selects "ZIIV Assess demo" in the project brief
   demoHref: '/contact/?interest=assess',
+};
+
+/* ---------- ARMS page (client project for Agape Academy) ---------- */
+
+export const ARMS = {
+  ...arms,
+  contactHref: '/contact/',
 };

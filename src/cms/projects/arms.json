@@ -1,28 +1,28 @@
 {
   "name": "ARMS",
   "order": 36,
-  "title": "A staff portal for Agape Academy International",
+  "title": "A staff portal for Agape Academy International School",
   "status": "Client project",
   "statusNote": "Live",
   "category": "client",
-  "featured": false,
+  "featured": true,
   "url": "https://arms-henna.vercel.app",
-  "page": "",
+  "page": "/arms/",
   "shots": {
     "desktop": "/src/assets/work/arms/shots/desktop.png",
     "tall": "/src/assets/work/arms/shots/tall.png",
     "mobile": "/src/assets/work/arms/shots/mobile.png"
   },
   "illustration": "schools",
-  "description": "A secure staff system for Agape Academy International, with staff sign-in, teacher account requests and an app that installs on phones and desktops.",
+  "description": "A secure staff system for Agape Academy International School, with staff sign-in, teacher account requests and an app that installs on phones and desktops.",
   "areas": [
     "Education",
     "Staff portal",
     "Installable app"
   ],
-  "summary": "A secure staff system for Agape Academy International, in the school’s own colours.",
+  "summary": "A secure staff system for Agape Academy International School, in the school’s own colours.",
   "overview": [
-    "ARMS is the staff system ZIIV designed and built for Agape Academy International, the Christian school in Pantang West, Ghana, whose website we also delivered.",
+    "ARMS is the staff system ZIIV designed and built for Agape Academy International School, the Christian school in Pantang West, Ghana, whose website we also delivered.",
     "Staff sign in with their staff ID or email, new teachers can request an account, and the whole system can be installed as an app that opens full screen from a phone’s home screen."
   ],
   "scope": [
@@ -44,5 +44,5 @@
     }
   ],
   "standing": "Live and in use by the school’s staff.",
-  "ownership": "A client project. ARMS was built for Agape Academy International, which owns its brand and content."
+  "ownership": "A client project. ARMS was built for Agape Academy International School, which owns its brand and content."
 }
